@@ -1,0 +1,14 @@
+﻿
+@using MyNoddyStore.Entities
+@model MyNoddyStore.Models.ProductsListViewModel
+@{
+    ViewBag.Title = "Products";
+}
+@foreach (var pr in Model.Products)
+{
+    @Html.Partial("ProductSummary", pr)
+}
+<div class="btn-group pull-right">
+    @Html.PageLinks(Model.PagingInfo, x => Url.Action("List", new { category = Model.CurrentCategory, page = x }))
+</div>
+
