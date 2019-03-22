@@ -1,12 +1,12 @@
 ﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 
@@ -22,3 +22,16 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.myimg {
+    padding-right: 25px;
+    max-width: 120px;
+    min-width:120px;
+    max-height: 120px;
+    object-fit: cover;
+}
+
+/*div.myimgcontainer {
+    min-width: 120px;
+    padding:1px;
+}*/

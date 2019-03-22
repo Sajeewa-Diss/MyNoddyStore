@@ -9,8 +9,8 @@ using Moq;
 using MyNoddyStore.Abstract;
 using MyNoddyStore.Concrete;
 using MyNoddyStore.Entities;
-using Unity.Injection;
-using System.Configuration;
+//using Unity.Injection;
+//using System.Configuration;
 
 namespace MyNoddyStore
 {
@@ -58,6 +58,7 @@ namespace MyNoddyStore
 
 
             //Console.WriteLine("RegisterTypesCalled"); //todo remove me
+            System.Diagnostics.Debug.WriteLine("how often am i called");
 
             // TODO: Register your type's mappings here.
             var mock = new Mock<IProductRepository>();

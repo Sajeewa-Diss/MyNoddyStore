@@ -25,6 +25,7 @@ namespace MyNoddyStore.Controllers
                 Cart = cart
             });
         }
+
         public RedirectToRouteResult AddToCart(Cart cart, int productId, string returnUrl)
         {
             Product product = repository.Products
@@ -35,8 +36,8 @@ namespace MyNoddyStore.Controllers
             }
             return RedirectToAction("Index", new { returnUrl });
         }
-        public RedirectToRouteResult RemoveFromCart(Cart cart, int productId,
-        string returnUrl)
+
+        public RedirectToRouteResult RemoveFromCart(Cart cart, int productId, string returnUrl)
         {
             Product product = repository.Products
             .FirstOrDefault(p => p.ProductID == productId);

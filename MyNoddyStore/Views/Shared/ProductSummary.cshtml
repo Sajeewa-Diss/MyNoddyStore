@@ -1,5 +1,9 @@
 ﻿@model MyNoddyStore.Entities.Product
-<div class="well">
+<div class="well well-sm">
+    @*<div class="pull-left">*@
+        <img class="pull-left myimg" src="@Url.Content(String.Format("~/Images/{0}.png", Model.Name))" alt="No Image" />
+    @*</div>*@
+
     <h3>
         <strong>@Model.Name</strong>
         <span class="pull-right label label-primary">@Model.Price.ToString("c")</span>

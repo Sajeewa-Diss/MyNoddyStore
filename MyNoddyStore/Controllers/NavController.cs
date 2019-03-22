@@ -11,6 +11,7 @@ namespace MyNoddyStore.Controllers
         {
             repository = repo;
         }
+
         public PartialViewResult Menu(string category = null){
 
             ViewBag.SelectedCategory = category;
