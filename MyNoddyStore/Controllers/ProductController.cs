@@ -8,7 +8,7 @@ namespace MyNoddyStore.Controllers
     public class ProductController : Controller
     {
         private IProductRepository repository;        // a private object that implements IProductRepository 
-        public int PageSize = 4;
+        public int PageSize = 5;
 
         public ProductController(IProductRepository productRepository)
         {  // constructor supplying the product list

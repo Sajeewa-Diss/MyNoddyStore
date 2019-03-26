@@ -1,23 +1,54 @@
 ﻿@model MyNoddyStore.Entities.Product
+@Scripts.Render("~/Scripts/incrementing.js")
 <div class="well well-sm">
     @*<div class="pull-left">*@
-        <img class="pull-left myimg" src="@Url.Content(String.Format("~/Images/{0}.png", Model.Name))" alt="No Image" />
+    <img class="pull-left myimg" src="@Url.Content(String.Format("~/Images/{0}.png", Model.Name))" alt="No Image" />
     @*</div>*@
 
     <h3>
-        <strong>@Model.Name</strong>
+        <strong>@Model.Name</strong><span>Stock:@Model.StockCount.ToString()</span>
         <span class="pull-right label label-primary">@Model.Price.ToString("c")</span>
     </h3>
 
     @using (Html.BeginForm("AddToCart", "Cart"))
     {
         <div class="pull-right">
-            @Html.HiddenFor(x => x.ProductID)
-            @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
-            <input type="submit" class="btn btn-success" value="Add to cart" />
+            <div class="flex-grid">
+                <div class="flexcol3 quantity">
+                    <span>Quantity</span>
+                    <button class="minus-btn" type="button" name="button">
+                        <img src="Images/minus.svg" alt="" />
+                    </button>
+                    <input type="text" class="textclass" name="name" size="1" width="50" readonly="readonly" value="@Model.StockCount.ToString()">
+                    <button class="plus-btn" type="button" name="button">
+                        <img src="Images/plus.svg" alt="" />
+                    </button>
+                </div>
+                <div class="flexcol">
+                    <div>
+                        @Html.HiddenFor(x => x.ProductID)
+                        @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
+                        <input type="submit" class="btn btn-success" value="Update" />
+                    </div>
+                </div>
+                <div class="flexcol">
+                    @Html.HiddenFor(x => x.ProductID)
+                    @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
+                    <input type="submit" class="btn btn-success" value="View cart" />
+                </div>
+            </div>
         </div>
+
+
+
+
+        @*<div class="pull-right">
+                @Html.HiddenFor(x => x.ProductID)
+                @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
+                <input type="submit" class="btn btn-success" value="Add to cart" />
+            </div>*@
     }
 
-    <span class="lead"> @Model.Description</span>
+    <span class="lead">@Model.Description</span>
 </div>
 

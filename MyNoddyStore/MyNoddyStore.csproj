@@ -204,7 +204,7 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Content\site.css" />
+    <Content Include="Content\Site.css" />
     <Content Include="Images\item-1.png" />
     <Content Include="Images\item-2.png" />
     <Content Include="Images\item-3.png" />

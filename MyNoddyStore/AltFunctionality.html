@@ -8,6 +8,39 @@
     <script src="Scripts/jquery-3.3.1.js" charset="utf-8"></script>
     <script src="Scripts/incrementing.js"></script>
     <meta name="robots" content="noindex,follow" />
+    
+    <!--<script type="text/javascript">
+        $(function () {
+            $("#btnPrint").click(function () {
+                var contents = $("#dvContents").html();
+                var frame1 = $('<iframe />');
+                frame1[0].name = "frame1";
+                frame1.css({
+                    "position": "absolute",
+                    "top": "-1000000px"
+                });
+                $("body").append(frame1);
+                var frameDoc = frame1[0].contentWindow ? frame1[0].contentWindow : frame1[0].contentDocument.document ? frame1[0].contentDocument.document : frame1[0].contentDocument;
+                frameDoc.document.open();
+                //Create a new HTML document.
+                frameDoc.document.write('<html><head><title>DIV Contents</title>');
+                frameDoc.document.write('</head><body>');
+                //Append the external CSS file.
+                frameDoc.document.write('<link href="style.css" rel="stylesheet" type="text/css" />');
+                //Append the DIV contents.
+                frameDoc.document.write(contents);
+                frameDoc.document.write('</body></html>');
+                frameDoc.document.close();
+                setTimeout(function () {
+                    window.frames["frame1"].focus();
+                    window.frames["frame1"].print();
+                    frame1.remove();
+                }, 500);
+            });
+        });
+    </script>-->
+
+
 </head>
   <body>
     <div class="shopping-cart">
@@ -97,7 +130,7 @@
           <button class="plus-btn" type="button" name="button">
             <img src="Images/plus.svg" alt="" />
           </button>
-          <input type="text" name="name" value="1">
+          <input type="text" name="name" value="1" readonly="readonly" >
           <button class="minus-btn" type="button" name="button">
             <img src="Images/minus.svg" alt="" />
           </button>
@@ -108,6 +141,7 @@
     </div>
 
     <script type="text/javascript">
+
       $('.minus-btn').on('click', function(e) {
     		e.preventDefault();
     		var $this = $(this);

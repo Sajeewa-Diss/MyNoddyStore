@@ -74,7 +74,7 @@ namespace MyNoddyStore.Concrete
                 "New order submitted!", // Subject
                 body.ToString()); // Body
 
-            if (emailSettings.WriteAsFile)
+            if (emailSettings.WriteAsFile || !emailSettings.WriteAsFile) //if it is or it isn't. todo Review.
                 {
                     mailMessage.BodyEncoding = Encoding.ASCII;
                 }

@@ -35,3 +35,37 @@ textarea {
     min-width: 120px;
     padding:1px;
 }*/
+
+.flex-grid {
+    display: flex;
+}
+
+.flexcol {
+    flex: 1;
+}
+
+.flexcol3 {
+    /*flex: 3;*/
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+/*@media (max-width: 400px) {
+    .flex-grid {
+        display: block;
+    }
+}*/
+
+/*.flexrow {
+    flex-direction: row;
+}*/
+
+.quantity input {
+    -webkit-appearance: none;
+    border: none;
+    text-align: center;
+    width: 32px;
+    font-size: 16px;
+    color: #43484D;
+    font-weight: 300;
+}

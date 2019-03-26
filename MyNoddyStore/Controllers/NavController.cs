@@ -7,6 +7,7 @@ namespace MyNoddyStore.Controllers
     public class NavController : Controller
     {
         private IProductRepository repository;
+
         public NavController(IProductRepository repo)
         {
             repository = repo;
