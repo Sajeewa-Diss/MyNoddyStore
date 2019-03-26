@@ -1,6 +1,8 @@
 ﻿
 @using MyNoddyStore.Entities
 @model MyNoddyStore.Models.ProductsListViewModel
+@Scripts.Render("~/Scripts/jquery-3.3.1.js")
+@*@Scripts.Render("/Scripts/incrementing.js")*@
 @{
     ViewBag.Title = "Products";
 }
@@ -11,4 +13,42 @@
 <div class="btn-group pull-right">
     @Html.PageLinks(Model.PagingInfo, x => Url.Action("List", new { category = Model.CurrentCategory, page = x }))
 </div>
+
+@*TODO. Update this script to better choose the current calling element.*@
+<script type="text/javascript">
+        $('.minus-btn').on('click', function (e) {
+            e.preventDefault();
+            var $this = $(this);
+            var $input = $this.closest('div').find('input');
+            var value = parseInt($input.val());
+
+            if (value > 1) {
+                value = value - 1;
+            } else {
+                value = 0;
+            }
+
+            $input.val(value);
+
+        });
+
+        $('.plus-btn').on('click', function (e) {
+            e.preventDefault();
+            var $this = $(this);
+            var $input = $this.closest('div').find('input');
+            var value = parseInt($input.val());
+
+            if (value < 100) {
+                value = value + 1;
+            } else {
+                value = 100;
+            }
+
+            $input.val(value);
+        });
+
+        $('.like-btn').on('click', function () {
+            $(this).toggleClass('is-active');
+        });
+    </script>
 
