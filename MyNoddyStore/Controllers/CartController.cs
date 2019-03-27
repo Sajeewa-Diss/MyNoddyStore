@@ -10,6 +10,7 @@ namespace MyNoddyStore.Controllers
     {
         private IProductRepository repository;
         private IOrderProcessor orderProcessor;
+        private string messageString;
 
         public CartController(IProductRepository repo, IOrderProcessor proc)
         {
@@ -22,17 +23,22 @@ namespace MyNoddyStore.Controllers
             return View(new CartIndexViewModel
             {
                 ReturnUrl = returnUrl,
+                UpdateMessage = messageString,
                 Cart = cart
             });
         }
 
-        public RedirectToRouteResult AddToCart(Cart cart, int productId, string returnUrl)
+        public RedirectToRouteResult AddToCart(Cart cart, int productId, int myQuantity, string returnUrl)
         {
             Product product = repository.Products
             .FirstOrDefault(p => p.ProductID == productId);
             if (product != null)
             {
-                cart.AddItem(product, 1);
+                //cart.AddItem(product, 1);
+                cart.AddItem(product, myQuantity);
+
+                //todo decide how to correlate cart line and updated values.
+                messageString = "Update successful";
             }
             return RedirectToAction("Index", new { returnUrl });
         }
@@ -143,23 +149,13 @@ namespace MyNoddyStore.Controllers
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         public PartialViewResult Summary(Cart cart)
         {
+            //update product quantity using cartline
+            foreach(var line in cart.Lines)
+            {
+                line.Product.myQuantity = line.Quantity;
+            }
             return PartialView(cart);
         }
 

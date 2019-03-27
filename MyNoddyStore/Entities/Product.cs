@@ -14,5 +14,7 @@ namespace MyNoddyStore.Entities
         public decimal Price { get; set; }
         public string Category { get; set; }
         public int StockCount { get; set; }
+        public int myQuantity { get; set; }
+        public int otherQuantity { get; set; }
     }
 }
