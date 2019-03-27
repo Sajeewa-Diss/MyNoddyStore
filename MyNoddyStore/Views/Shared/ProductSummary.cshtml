@@ -15,11 +15,11 @@
             <div class="flex-grid">
                 <div class="flexcol3 quantity">
                     <span>Quantity</span>
-                    <button class="minus-btn" type="button" name="button">
+                    <button class="minus-btn" type="button" name="minusbutton">
                         <img src="Images/minus.svg" alt="" />
                     </button>
                     <input type="text" class="textclass" name="myQuantity" size="1" width="50" readonly="readonly" value="@Model.myQuantity.ToString()">
-                    <button class="plus-btn" type="button" name="button">
+                    <button class="plus-btn" type="button" name="plusbutton">
                         <img src="Images/plus.svg" alt="" />
                     </button>
                 </div>
@@ -33,16 +33,13 @@
                     </div>
                 </div>
                 <div class="flexcol">
-                    @Html.HiddenFor(x => x.ProductID)
-                    @Html.Hidden("quantity", 10)
-                    @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
+                    @*@Html.HiddenFor(x => x.ProductID)*@
+                    @*@Html.Hidden("quantity", 10)*@
+                    @*@Html.Hidden("returnUrl", Request.Url.PathAndQuery)*@
                     <input type="submit" name="submitCheckout" id="btnCheckout" class="btn btn-success" value="View cart" />
                 </div>
             </div>
         </div>
-
-
-
 
         @*<div class="pull-right">
                 @Html.HiddenFor(x => x.ProductID)

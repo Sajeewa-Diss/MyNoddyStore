@@ -16,21 +16,20 @@
 
 @*TODO. Update this script to better choose the current calling element.*@
 <script type="text/javascript">
-    $('.minus-btn').on('click', function (e) {
-        e.preventDefault();
-        var $this = $(this);
-        var $input = $this.closest('div').find('input');
-        var value = parseInt($input.val());
+    //$('.plus-btn').on('click', function (e) {
+    //    e.preventDefault();
+    //    var $this = $(this);
+    //    var $input = $this.closest('div').find('input');
+    //    var value = parseInt($input.val());
 
-        if (value > 1) {
-            value = value - 1;
-        } else {
-            value = 0;
-        }
+    //    if (value < 100) {
+    //        value = value + 1;
+    //    } else {
+    //        value = 100;
+    //    }
 
-        $input.val(value);
-
-    });
+    //    $input.val(value);
+    //});
 
     $('.plus-btn').on('click', function (e) {
         e.preventDefault();
@@ -47,9 +46,69 @@
         $input.val(value);
     });
 
-    $('.like-btn').on('click', function () {
-        $(this).toggleClass('is-active');
+
+    $('.minus-btn').on('click', function (e) {
+        e.preventDefault();
+        var $this = $(this);
+        var $input = $this.closest('div').find('input');
+        var value = parseInt($input.val());
+
+        if (value > 1) {
+            value = value - 1;
+        } else {
+            value = 0;
+        }
+
+        $input.val(value);
+
+        ResetLocalUpdateButton($this);
     });
+
+
+    //For each update button on screen, set the initial state to disabled.
+    function ResetLocalUpdateButton(localElement) {        //var lElement = localElement
+        //var v = lElement.closest('div').siblings().children().find("input[name='ProductID']").val();
+        var v = localElement.closest('div').siblings().children().find("input[name='ProductID']").val();
+
+        alert(v);    }
+
+    //Set local Update button to be enabled/disabled as necessary.
+    function DisableAllUpdateButtons() {        var buttons = document.getElementsByName("submitUpdate");
+        var i;
+        for (i = 0; i < buttons.length; i++) {
+            //if (x[i].type == "checkbox") {
+            //    x[i].checked = true;
+            //}
+            buttons[i].disabled = true;
+        }    }
+
+    //For each minus button, disable it if current quantity is zero. todo remove this call.
+    function SetAllMinusButtons() {        var buttons = document.getElementsByName("minusbutton");
+        var i;
+        for (i = 0; i < buttons.length; i++) {
+            //check current quantity
+            var $this = $(buttons[i]);
+            var $input = $this.closest('div').find('input');
+            var value = parseInt($input.val());
+            if (value == 0) {
+                buttons[i].disabled = true;
+            }
+        }    }
+
+
+    $(document).ready(function () {
+        @*var myObj =  @Html.Raw(Json.Encode(Model));
+        MyTestFunc('hello');*@
+
+        DisableAllUpdateButtons();
+        //SetAllPlusButtons();
+        //SetAllMinusButtons();
+
+    });
+
+    function MyTestFunc(string1) {        console.log(string1);    }
+
+
 </script>
 
 @*
