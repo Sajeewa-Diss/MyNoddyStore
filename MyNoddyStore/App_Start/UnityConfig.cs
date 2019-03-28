@@ -66,7 +66,7 @@ namespace MyNoddyStore
             mock.Setup(m => m.Products).Returns(new List<Product> { //a list automatically implements IEnumerable!.
                 new Product { ProductID = 1, Name = "Kayak", Description = "A boat for one person", Category = "Watersports", Price = 275M, StockCount = 9, myQuantity = 0, otherQuantity = 0 }, 
                 new Product { ProductID = 2, Name = "Lifejacket", Description = "Protective and fashionable", Category = "Watersports", Price = 48.95M, StockCount = 10, myQuantity = 0, otherQuantity = 0 }, 
-                new Product { ProductID = 3, Name = "Football", Description = "FIFA-approved", Category = "Football", Price = 19.5M, StockCount = 11, myQuantity = 0, otherQuantity = 0 }, 
+                new Product { ProductID = 3, Name = "Football", Description = "FIFA-approved", Category = "Football", Price = 19.5M, StockCount = 11, myQuantity = 3, otherQuantity = 0 }, 
                 new Product { ProductID = 4, Name = "Corner Flags", Description = "For the field", Category = "Football", Price = 34.95M, StockCount = 07, myQuantity = 01, otherQuantity = 0 }, 
                 new Product { ProductID = 5, Name = "Stadium", Description = "Flat-packed 35 K seater. One", Category = "Football", Price = 79500M, StockCount = 06, myQuantity = 0, otherQuantity = 0 }, 
                 new Product { ProductID = 6, Name = "Thinking Cap", Description = "Improve brain-power", Category = "Chess", Price = 16M, StockCount = 05, myQuantity = 0, otherQuantity = 0 }, 

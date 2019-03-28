@@ -14,8 +14,11 @@
     @Html.PageLinks(Model.PagingInfo, x => Url.Action("List", new { category = Model.CurrentCategory, page = x }))
 </div>
 
-@*TODO. Update this script to better choose the current calling element.*@
+@*This script manipulates items on the page. Whereas it may seem more pertinent to add this script per ProductSummary form, in practice this causes 
+    issues with multiple events being bound to the forms (one for each time a form is loaded) *@
 <script type="text/javascript">
+    var modelProducts; // initial products in cart                does this work ?? todo??
+
     //$('.plus-btn').on('click', function (e) {
     //    e.preventDefault();
     //    var $this = $(this);
@@ -65,25 +68,32 @@
     });
 
 
-    //For each update button on screen, set the initial state to disabled.
-    function ResetLocalUpdateButton(localElement) {        //var lElement = localElement
-        //var v = lElement.closest('div').siblings().children().find("input[name='ProductID']").val();
-        var v = localElement.closest('div').siblings().children().find("input[name='ProductID']").val();
-
-        alert(v);    }
-
     //Set local Update button to be enabled/disabled as necessary.
-    function DisableAllUpdateButtons() {        var buttons = document.getElementsByName("submitUpdate");
+    function ResetLocalUpdateButton(localElement) {
+        var thisProdId = localElement.closest('div').siblings().children().find("input[name='ProductID']").val();
+
+        //if current quantity differs from the original value, then the cart value needs to be updated
+        var currentQuantity = parseInt(localElement.closest('div').find('input').val());
+        var cartQuantity = modelProducts.filter(x => x.ProductID == thisProdId)[0].myQuantity;
+        
+        alert(cartQuantity);
+    }
+
+    //For each update button on screen, set the initial state to disabled.
+    function DisableAllUpdateButtons() {
+        var buttons = document.getElementsByName("submitUpdate");
         var i;
         for (i = 0; i < buttons.length; i++) {
             //if (x[i].type == "checkbox") {
             //    x[i].checked = true;
             //}
             buttons[i].disabled = true;
-        }    }
+        }
+    }
 
     //For each minus button, disable it if current quantity is zero. todo remove this call.
-    function SetAllMinusButtons() {        var buttons = document.getElementsByName("minusbutton");
+    function SetAllMinusButtons() {
+        var buttons = document.getElementsByName("minusbutton");
         var i;
         for (i = 0; i < buttons.length; i++) {
             //check current quantity
@@ -93,7 +103,8 @@
             if (value == 0) {
                 buttons[i].disabled = true;
             }
-        }    }
+        }
+    }
 
 
     $(document).ready(function () {
@@ -101,12 +112,16 @@
         MyTestFunc('hello');*@
 
         DisableAllUpdateButtons();
+        modelProducts =  @Html.Raw(Json.Encode(Model.Products));  //store the model cart product list.
+
         //SetAllPlusButtons();
         //SetAllMinusButtons();
 
     });
 
-    function MyTestFunc(string1) {        console.log(string1);    }
+    function MyTestFunc(string1) {
+        console.log(string1);
+    }
 
 
 </script>
