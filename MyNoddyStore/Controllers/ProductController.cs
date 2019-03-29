@@ -30,6 +30,9 @@ namespace MyNoddyStore.Controllers
 
         public ViewResult List(string category, int page = 1)
         {
+            //set counddown variable again
+            ViewBag.remainingTime = 909;
+
             ProductsListViewModel model = new ProductsListViewModel
             {
                 Products = repository.Products

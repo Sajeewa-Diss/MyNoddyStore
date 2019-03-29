@@ -18,6 +18,7 @@
     issues with multiple events being bound to the forms (one for each time a form is loaded) *@
 <script type="text/javascript">
     var modelProducts; // initial products in cart                does this work ?? todo??
+    var countdownVal;
 
     //$('.plus-btn').on('click', function (e) {
     //    e.preventDefault();
@@ -76,7 +77,7 @@
         var currentQuantity = parseInt(localElement.closest('div').find('input').val());
         var cartQuantity = modelProducts.filter(x => x.ProductID == thisProdId)[0].myQuantity;
         
-        alert(cartQuantity);
+        alert(countdownVal);
     }
 
     //For each update button on screen, set the initial state to disabled.
@@ -111,9 +112,13 @@
         @*var myObj =  @Html.Raw(Json.Encode(Model));
         MyTestFunc('hello');*@
 
-        DisableAllUpdateButtons();
+
         modelProducts =  @Html.Raw(Json.Encode(Model.Products));  //store the model cart product list.
 
+        countdownVal = '@ViewBag.remainingTime';
+
+
+        DisableAllUpdateButtons();
         //SetAllPlusButtons();
         //SetAllMinusButtons();
 

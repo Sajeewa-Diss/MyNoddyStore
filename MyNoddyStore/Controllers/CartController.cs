@@ -20,6 +20,8 @@ namespace MyNoddyStore.Controllers
 
         public ViewResult Index(Cart cart, string returnUrl)
         {
+            ViewBag.remainingTime = 908; //todo remove this??
+
             return View(new CartIndexViewModel
             {
                 ReturnUrl = returnUrl,
