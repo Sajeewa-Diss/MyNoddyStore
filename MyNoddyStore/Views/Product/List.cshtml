@@ -41,13 +41,15 @@
         var $input = $this.closest('div').find('input');
         var value = parseInt($input.val());
 
-        if (value < 100) {
+        if (value < 5) {        // max value allowed is 5
             value = value + 1;
         } else {
-            value = 100;
+            value = 5;
         }
 
         $input.val(value);
+
+        ResetLocalUpdateButton($this);
     });
 
 
@@ -57,7 +59,7 @@
         var $input = $this.closest('div').find('input');
         var value = parseInt($input.val());
 
-        if (value > 1) {
+        if (value > 1) {        // min value allowed is 0
             value = value - 1;
         } else {
             value = 0;
@@ -73,14 +75,22 @@
     function ResetLocalUpdateButton(localElement) {
         var thisProdId = localElement.closest('div').siblings().children().find("input[name='ProductID']").val();
 
-        //if current quantity differs from the original value, then the cart value needs to be updated
         var currentQuantity = parseInt(localElement.closest('div').find('input').val());
         var cartQuantity = modelProducts.filter(x => x.ProductID == thisProdId)[0].myQuantity;
-        
-        alert(countdownVal);
+
+        var thisUpdateButton = localElement.closest('div').siblings().children().find("input[name='submitUpdate']");
+
+        //if current quantity differs from the original value, then the cart value needs to be updated - otherwise the button should be disabled.
+        if (currentQuantity == cartQuantity) {
+            $(thisUpdateButton).attr('disabled', true);
+            //$(thisUpdateButton).prop('disabled', true);   //boolean attributes and properties are treated similarly in JQuery. So this code also works.
+        } else {
+            $(thisUpdateButton).removeAttr('disabled');
+            //thisUpdateButton.removeAttr('disabled');     //we could call the JQuery method on a Js element directly. This code also works
+        }
     }
 
-    //For each update button on screen, set the initial state to disabled.
+    //For each Update button on screen, set the initial state to disabled.
     function DisableAllUpdateButtons() {
         var buttons = document.getElementsByName("submitUpdate");
         var i;
@@ -92,7 +102,7 @@
         }
     }
 
-    //For each minus button, disable it if current quantity is zero. todo remove this call.
+    //For each minus button, disable it if current quantity is zero. todo remove this function maybe.
     function SetAllMinusButtons() {
         var buttons = document.getElementsByName("minusbutton");
         var i;
@@ -115,10 +125,12 @@
 
         modelProducts =  @Html.Raw(Json.Encode(Model.Products));  //store the model cart product list.
 
-        countdownVal = '@ViewBag.remainingTime';
+        countdownVal = '@ViewBag.remainingTime';                //get the latest countdown time.
 
 
         DisableAllUpdateButtons();
+
+
         //SetAllPlusButtons();
         //SetAllMinusButtons();
 
