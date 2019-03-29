@@ -45,21 +45,27 @@ namespace MyNoddyStore.Controllers
             return RedirectToAction("Index", new { returnUrl });
         }
 
-        public RedirectToRouteResult UpdateCart(Cart cart, int productId, int myQuantity, string returnUrl, string submitUpdate, string submitCheckout)
+        public RedirectToRouteResult UpdateCart(Cart cart, int productId, int myQuantity, string returnUrl, int pageNumber, string categoryString, string submitUpdate) //, string submitCheckout)
         {
-            if (submitUpdate == null) { }
+            var testVar = pageNumber;
+            var testVar2 = categoryString; //todo handle null
 
-            Product product = repository.Products
-            .FirstOrDefault(p => p.ProductID == productId);
-            if (product != null)
-            {
-                //cart.AddItem(product, 1);
-                cart.AddItem(product, myQuantity);
-
-                //todo decide how to correlate cart line and updated values.
-                messageString = "Update successful";
+            if (submitUpdate == null) { // User has selected "View Cart"
+                return RedirectToAction("Index", new { returnUrl });
             }
-            return RedirectToAction("Index", new { returnUrl });
+            else
+            {
+                Product product = repository.Products.FirstOrDefault(p => p.ProductID == productId);
+                if (product != null)
+                {
+                    //cart.AddItem(product, 1);
+                    cart.AddItem(product, myQuantity);
+
+                    //todo decide how to correlate cart line and updated values.
+                    messageString = "Update successful";
+                }
+                return RedirectToAction("Index", new { returnUrl }); //todo redirect to product list
+            }
         }
 
         public RedirectToRouteResult RemoveFromCart(Cart cart, int productId, string returnUrl)

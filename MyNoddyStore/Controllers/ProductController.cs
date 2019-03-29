@@ -28,6 +28,7 @@ namespace MyNoddyStore.Controllers
         //    .Take(PageSize));
         //}
 
+        //[HttpGet]
         public ViewResult List(string category, int page = 1)
         {
             //set counddown variable again

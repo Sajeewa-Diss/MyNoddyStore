@@ -8,32 +8,19 @@
 }
 @foreach (var pr in Model.Products)
 {
-    @Html.Partial("ProductSummary", pr)
+    //@Html.Partial("ProductSummary", pr)
+    @Html.Partial("ProductSummary", pr, new ViewDataDictionary { {"pageNumber", Model.PagingInfo.CurrentPage },
+                                                                 {"categoryString", Model.CurrentCategory }}      ) //we are adding the current page and category to each partial view
 }
-<div class="btn-group pull-right">
-    @Html.PageLinks(Model.PagingInfo, x => Url.Action("List", new { category = Model.CurrentCategory, page = x }))
-</div>
+    <div class="btn-group pull-right">
+        @Html.PageLinks(Model.PagingInfo, x => Url.Action("List", new { category = Model.CurrentCategory, page = x }))
+    </div>
 
-@*This script manipulates items on the page. Whereas it may seem more pertinent to add this script per ProductSummary form, in practice this causes 
-    issues with multiple events being bound to the forms (one for each time a form is loaded) *@
-<script type="text/javascript">
+    @*This script manipulates items on the page. Whereas it may seem more pertinent to add this script per ProductSummary form, in practice this causes
+        issues with multiple events being bound to the forms (one for each time a form is loaded) *@
+    <script type="text/javascript">
     var modelProducts; // initial products in cart                does this work ?? todo??
     var countdownVal;
-
-    //$('.plus-btn').on('click', function (e) {
-    //    e.preventDefault();
-    //    var $this = $(this);
-    //    var $input = $this.closest('div').find('input');
-    //    var value = parseInt($input.val());
-
-    //    if (value < 100) {
-    //        value = value + 1;
-    //    } else {
-    //        value = 100;
-    //    }
-
-    //    $input.val(value);
-    //});
 
     $('.plus-btn').on('click', function (e) {
         e.preventDefault();
@@ -41,7 +28,7 @@
         var $input = $this.closest('div').find('input');
         var value = parseInt($input.val());
 
-        if (value < 5) {        // max value allowed is 5
+        if (value < 5) {        // max quantity value allowed is 5
             value = value + 1;
         } else {
             value = 5;
@@ -59,7 +46,7 @@
         var $input = $this.closest('div').find('input');
         var value = parseInt($input.val());
 
-        if (value > 1) {        // min value allowed is 0
+        if (value > 1) {        // min quantity value allowed is 0
             value = value - 1;
         } else {
             value = 0;
@@ -141,24 +128,24 @@
     }
 
 
-</script>
-
-@*
-    <script>
-      $(document).ready(function () {
-        $("#btnSave").click(function () {
-            $("form").attr("action", "/Customer/Save");
-        });
-        $("#btnSaveForLatter").click(function () {
-            $("form").attr("action", "/Customer/SaveForLater");
-        });
-        $("#btnSaveAndPublish").click(function () {
-            $("form").attr("action", "/Customer/SaveAndPublish");
-        });
-      });
     </script>
 
+    @*
+        <script>
+          $(document).ready(function () {
+            $("#btnSave").click(function () {
+                $("form").attr("action", "/Customer/Save");
+            });
+            $("#btnSaveForLatter").click(function () {
+                $("form").attr("action", "/Customer/SaveForLater");
+            });
+            $("#btnSaveAndPublish").click(function () {
+                $("form").attr("action", "/Customer/SaveAndPublish");
+            });
+          });
+        </script>
 
-*@
+
+    *@
 
 
