@@ -32,14 +32,14 @@ namespace MyNoddyStore.Controllers
             });
         }
 
-        public RedirectToRouteResult AddToCart(Cart cart, int productId, int myQuantity, string returnUrl)
+        public RedirectToRouteResult AddToCart(Cart cart, int productId, int MyQuantity, string returnUrl)
         {
             Product product = repository.Products
             .FirstOrDefault(p => p.ProductID == productId);
             if (product != null)
             {
                 //cart.AddItem(product, 1);
-                cart.AddItem(product, myQuantity);
+                cart.AddItem(product, MyQuantity);
 
                 //todo decide how to correlate cart line and updated values.
                 messageString = "Update successful";
@@ -47,7 +47,9 @@ namespace MyNoddyStore.Controllers
             return RedirectToAction("Index", new { returnUrl });
         }
 
-        public RedirectToRouteResult UpdateCart(Cart cart, int productId, int myQuantity, string returnUrl, int pageNumber, string categoryString, string submitUpdate) //, string submitCheckout)
+        //This method can be called in two ways. If user simply wants to view the cart we construct a simple redirect. If user wants to add to cart, we reload the same page with the items updated.
+        //Although this second option is a candidate for an Ajax upload of the partial view, we in fact relaod the whole screen to refresh any updates to the stock of all displayed items.
+        public RedirectToRouteResult UpdateCart(Cart cart, int productId, int MyQuantity, string returnUrl, int pageNumber, string categoryString, string submitUpdate) //, string submitCheckout)
         {
             if (submitUpdate == null) { // User has selected "View Cart"
                 return RedirectToAction("Index", new { returnUrl });
@@ -64,7 +66,7 @@ namespace MyNoddyStore.Controllers
                 if (product != null)
                 {
                     //cart.AddItem(product, 1);
-                    cart.AddItem(product, myQuantity);
+                    cart.AddItem(product, MyQuantity);
 
                     //todo decide how to correlate cart line and updated values.
                     messageString = "Update successful";
@@ -184,7 +186,7 @@ namespace MyNoddyStore.Controllers
             //update product quantity using cartline
             foreach(var line in cart.Lines)
             {
-                line.Product.myQuantity = line.Quantity;
+                line.Product.MyQuantity = line.Quantity;
             }
             return PartialView(cart);
         }

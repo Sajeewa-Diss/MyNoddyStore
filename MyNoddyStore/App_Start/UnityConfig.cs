@@ -64,15 +64,15 @@ namespace MyNoddyStore
             var mock = new Mock<IProductRepository>();
 
             mock.Setup(m => m.Products).Returns(new List<Product> { //a list automatically implements IEnumerable!.
-                new Product { ProductID = 1, Name = "Kayak", Description = "A boat for one person", Category = "Watersports", Price = 275M, StockCount = 9, myQuantity = 0, otherQuantity = 0 }, 
-                new Product { ProductID = 2, Name = "Lifejacket", Description = "Protective and fashionable", Category = "Watersports", Price = 48.95M, StockCount = 10, myQuantity = 0, otherQuantity = 0 }, 
-                new Product { ProductID = 3, Name = "Football", Description = "FIFA-approved", Category = "Football", Price = 19.5M, StockCount = 11, myQuantity = 3, otherQuantity = 0 }, 
-                new Product { ProductID = 4, Name = "Corner Flags", Description = "For the field", Category = "Football", Price = 34.95M, StockCount = 07, myQuantity = 01, otherQuantity = 0 }, 
-                new Product { ProductID = 5, Name = "Stadium", Description = "Flat-packed 35 K seater. One", Category = "Football", Price = 79500M, StockCount = 06, myQuantity = 0, otherQuantity = 0 }, 
-                new Product { ProductID = 6, Name = "Thinking Cap", Description = "Improve brain-power", Category = "Chess", Price = 16M, StockCount = 05, myQuantity = 0, otherQuantity = 0 }, 
-                new Product { ProductID = 7, Name = "Unsteady Chair", Description = "Secret advantage", Category = "Chess", Price = 29.95M, StockCount = 01, myQuantity = 02, otherQuantity = 0 }, 
-                new Product { ProductID = 8, Name = "Human Chess Board", Description = "A fun family game", Category = "Chess", Price = 75M, StockCount = 01, myQuantity = 0, otherQuantity = 0 }, 
-                new Product { ProductID = 9, Name = "Bling-bling King", Description = "Diamond-studded", Category = "Chess", Price = 1200M, StockCount = 0, myQuantity = 0, otherQuantity = 0 }});
+                new Product { ProductID = 1, Name = "Kayak", Description = "A boat for one person", Category = "Watersports", Price = 275M, StockCount = 9, MyQuantity = 0, OtherQuantity = 0 }, 
+                new Product { ProductID = 2, Name = "Lifejacket", Description = "Protective and fashionable", Category = "Watersports", Price = 48.95M, StockCount = 10, MyQuantity = 0, OtherQuantity = 0 }, 
+                new Product { ProductID = 3, Name = "Football", Description = "FIFA-approved", Category = "Football", Price = 19.5M, StockCount = 11, MyQuantity = 3, OtherQuantity = 0 }, 
+                new Product { ProductID = 4, Name = "Corner Flags", Description = "For the field", Category = "Football", Price = 34.95M, StockCount = 07, MyQuantity = 01, OtherQuantity = 0 }, 
+                new Product { ProductID = 5, Name = "Stadium", Description = "Flat-packed 35 K seater. One", Category = "Football", Price = 79500M, StockCount = 06, MyQuantity = 0, OtherQuantity = 0 }, 
+                new Product { ProductID = 6, Name = "Thinking Cap", Description = "Improve brain-power", Category = "Chess", Price = 16M, StockCount = 05, MyQuantity = 0, OtherQuantity = 0 }, 
+                new Product { ProductID = 7, Name = "Unsteady Chair", Description = "Secret advantage", Category = "Chess", Price = 29.95M, StockCount = 01, MyQuantity = 02, OtherQuantity = 0 }, 
+                new Product { ProductID = 8, Name = "Human Chess Board", Description = "A fun family game", Category = "Chess", Price = 75M, StockCount = 01, MyQuantity = 0, OtherQuantity = 0 }, 
+                new Product { ProductID = 9, Name = "Bling-bling King", Description = "Diamond-studded", Category = "Chess", Price = 1200M, StockCount = 0, MyQuantity = 0, OtherQuantity = 0 }});
 
             container.RegisterInstance<IProductRepository>(mock.Object);
 

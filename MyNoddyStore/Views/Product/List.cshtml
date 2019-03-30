@@ -19,7 +19,7 @@
     @*This script manipulates items on the page. Whereas it may seem more pertinent to add this script per ProductSummary form, in practice this causes
         issues with multiple events being bound to the forms (one for each time a form is loaded) *@
     <script type="text/javascript">
-    var modelProducts; // initial products in cart                does this work ?? todo??
+    var modelProducts; // initial products in cart
     var countdownVal;
 
     $('.plus-btn').on('click', function (e) {
@@ -28,8 +28,16 @@
         var $input = $this.closest('div').find('input');
         var value = parseInt($input.val());
 
+        var thisProdId = GetProductId($this);
+
+        var currentStock = GetCurrentStock(thisProdId);
+        var myQuantity = GetMyQuantity(thisProdId);
+
         if (value < 5) {        // max quantity value allowed is 5
-            value = value + 1;
+            //add up to the available stock only
+            if (value - myQuantity < currentStock) {
+                value = value + 1;
+            }
         } else {
             value = 5;
         }
@@ -60,21 +68,33 @@
 
     //Set local Update button to be enabled/disabled as necessary.
     function ResetLocalUpdateButton(localElement) {
-        var thisProdId = localElement.closest('div').siblings().children().find("input[name='ProductID']").val();
 
-        var currentQuantity = parseInt(localElement.closest('div').find('input').val());
-        var cartQuantity = modelProducts.filter(x => x.ProductID == thisProdId)[0].myQuantity;
+        var currentQuantity = parseInt(localElement.closest('div').find('input').val()); //this is the number of items now selected. 
+        var thisProdId = GetProductId(localElement);
+        var cartQuantity = modelProducts.find(x => x.ProductID == thisProdId).MyQuantity; //this is the number of items in cart model originally.
 
         var thisUpdateButton = localElement.closest('div').siblings().children().find("input[name='submitUpdate']");
 
-        //if current quantity differs from the original value, then the cart value needs to be updated - otherwise the button should be disabled.
+        //if current quantity differs from the original value, then the cart value needs to be updated - otherwise the update button should be disabled.
         if (currentQuantity == cartQuantity) {
             $(thisUpdateButton).attr('disabled', true);
-            //$(thisUpdateButton).prop('disabled', true);   //boolean attributes and properties are treated similarly in JQuery. So this code also works.
+            //$(thisUpdateButton).prop('disabled', true);   //boolean [attr]ibutes and [prop]erties are treated similarly in JQuery. So this code also works.
         } else {
             $(thisUpdateButton).removeAttr('disabled');
             //thisUpdateButton.removeAttr('disabled');     //we could call the JQuery method on a Js element directly. This code also works
         }
+    }
+
+    function GetProductId(localElement) {
+        return localElement.closest('div').siblings().children().find("input[name='ProductID']").val();
+    }
+
+    function GetCurrentStock(ProductId) {
+        return modelProducts.find(x => x.ProductID == ProductId).StockCount;
+    }
+
+    function GetMyQuantity(ProductId) {
+        return modelProducts.find(x => x.ProductID == ProductId).MyQuantity;
     }
 
     //For each Update button on screen, set the initial state to disabled.
@@ -113,7 +133,6 @@
         modelProducts =  @Html.Raw(Json.Encode(Model.Products));  //store the model cart product list.
 
         countdownVal = '@ViewBag.remainingTime';                //get the latest countdown time.
-
 
         DisableAllUpdateButtons();
 
