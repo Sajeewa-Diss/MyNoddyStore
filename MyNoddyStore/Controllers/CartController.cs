@@ -1,8 +1,10 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
+using System.Collections.Generic;
 using MyNoddyStore.Abstract;
 using MyNoddyStore.Entities;
 using MyNoddyStore.Models;
+
 
 namespace MyNoddyStore.Controllers
 {
@@ -47,14 +49,17 @@ namespace MyNoddyStore.Controllers
 
         public RedirectToRouteResult UpdateCart(Cart cart, int productId, int myQuantity, string returnUrl, int pageNumber, string categoryString, string submitUpdate) //, string submitCheckout)
         {
-            var testVar = pageNumber;
-            var testVar2 = categoryString; //todo handle null
-
             if (submitUpdate == null) { // User has selected "View Cart"
                 return RedirectToAction("Index", new { returnUrl });
             }
-            else
+            else // User has selected "Update Cart"
             {
+                //store the pageNumber and categoryString params in temp data (this is a bodge)
+                Dictionary<string, object> dict = new Dictionary<string, object>();
+                dict.Add("page", pageNumber);
+                dict.Add("category", categoryString);  //todo handle null
+                TempData["myDictionary"] = dict; // Store it in the TempData
+
                 Product product = repository.Products.FirstOrDefault(p => p.ProductID == productId);
                 if (product != null)
                 {
@@ -64,7 +69,7 @@ namespace MyNoddyStore.Controllers
                     //todo decide how to correlate cart line and updated values.
                     messageString = "Update successful";
                 }
-                return RedirectToAction("Index", new { returnUrl }); //todo redirect to product list
+                return RedirectToAction("List", "Product"); //, new { returnUrl }); //todo redirect to product list
             }
         }
 

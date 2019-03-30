@@ -1,5 +1,6 @@
 ﻿using System.Web.Mvc;
 using System.Linq;
+using System.Collections.Generic;
 using MyNoddyStore.Abstract;
 using MyNoddyStore.Models;
 
@@ -33,6 +34,15 @@ namespace MyNoddyStore.Controllers
         {
             //set counddown variable again
             ViewBag.remainingTime = 909;
+
+            // Check if your key exists
+            if (TempData["myDictionary"] != null)
+            {
+                // Grab your activity
+                Dictionary<string, object> dict = TempData["myDictionary"] as Dictionary<string, object>;
+                category = ((string)dict["category"] == string.Empty ? null : (string)dict["category"]); //set this to null if empty string
+                page = (int)dict["page"];
+            }
 
             ProductsListViewModel model = new ProductsListViewModel
             {
