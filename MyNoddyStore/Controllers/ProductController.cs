@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using MyNoddyStore.Abstract;
 using MyNoddyStore.Models;
+using MyNoddyStore.HtmlHelpers;
 
 namespace MyNoddyStore.Controllers
 {
@@ -44,10 +45,33 @@ namespace MyNoddyStore.Controllers
                 page = (int)dict["page"];
             }
 
+            //ProductsListViewModel model = new ProductsListViewModel
+            //{
+            //    Products = repository.Products
+            //        .Where(p => category == null || p.Category == category)
+            //        .OrderBy(p => p.ProductID)
+            //        .Skip((page - 1) * PageSize)
+            //        .Take(PageSize),
+            //    PagingInfo = new PagingInfo
+            //    {
+            //        CurrentPage = page,
+            //        ItemsPerPage = PageSize,
+            //        TotalItems = category == null ? repository.Products.Count() : repository.Products.Where(e => e.Category == category).Count()
+            //    },
+            //    CurrentCategory = category
+            //};
+
+            //var filter = new[] { "Action", "Animation", "Comedy" };
+
+            //GetMovies()
+            //    .Where(movie => movie.GenreArray.Split('|')
+            //    .Select(arrayElement => arrayElement.Trim())
+            //           .Any(value => filter.Contains(value)))
+
             ProductsListViewModel model = new ProductsListViewModel
             {
                 Products = repository.Products
-                    .Where(p => category == null || p.Category == category)
+                    .Where(p => category == null || p.CategoryArray.EmptyArrayIfNull().Contains(category))
                     .OrderBy(p => p.ProductID)
                     .Skip((page - 1) * PageSize)
                     .Take(PageSize),
@@ -55,10 +79,15 @@ namespace MyNoddyStore.Controllers
                 {
                     CurrentPage = page,
                     ItemsPerPage = PageSize,
-                    TotalItems = category == null ? repository.Products.Count() : repository.Products.Where(e => e.Category == category).Count()
+                    //TotalItems = category == null ? repository.Products.Count() : repository.Products.Where(e => e.CategoryArray.Contains(category)).Count()
+                    TotalItems = category == null ? repository.Products.Count() : repository.Products.Where(e => e.CategoryArray.EmptyArrayIfNull().Contains(category)).Count()
+
+                    //list.Select(item => item.MyProperty).WhereNotNull()
+
                 },
                 CurrentCategory = category
             };
+
             return View(model);
         }
     }

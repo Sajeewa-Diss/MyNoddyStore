@@ -16,8 +16,8 @@
         @Html.PageLinks(Model.PagingInfo, x => Url.Action("List", new { category = Model.CurrentCategory, page = x }))
     </div>
 
-    @*This script manipulates items on the page. Whereas it may seem more pertinent to add this script per ProductSummary form, in practice this causes
-        issues with multiple events being bound to the forms (one for each time a form is loaded) *@
+    @*This script manipulates items on the page. Whereas it may seem more pertinent to add this script per ProductSummary partial-view form, in practice 
+        this causes issues with multiple events being bound to the forms (one for each time a form is loaded) *@
     <script type="text/javascript">
     var modelProducts; // initial products in cart
     var countdownVal;
