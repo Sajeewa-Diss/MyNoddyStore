@@ -56,7 +56,7 @@ namespace MyNoddyStore.Controllers
             }
             else // User has selected "Update Cart"
             {
-                //store the pageNumber and categoryString params in temp data (this is a bodge)
+                //store the pageNumber and categoryString params in temp data (this is kind of a bodge)
                 Dictionary<string, object> dict = new Dictionary<string, object>();
                 dict.Add("page", pageNumber);
                 dict.Add("category", categoryString);  //todo handle null
@@ -65,9 +65,13 @@ namespace MyNoddyStore.Controllers
                 Product product = repository.Products.FirstOrDefault(p => p.ProductID == productId);
                 if (product != null)
                 {
-                    //cart.AddItem(product, 1);
-                    cart.AddItem(product, MyQuantity);
-
+                    //remove all items and add required quantity up to 5.
+                    cart.RemoveLine(product);
+                    if (MyQuantity > 0 && MyQuantity <= 5)
+                    {
+                        cart.AddItem(product, MyQuantity);
+                    }
+                    
                     //todo decide how to correlate cart line and updated values.
                     messageString = "Update successful";
                 }

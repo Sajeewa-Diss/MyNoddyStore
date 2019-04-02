@@ -30,7 +30,6 @@ namespace MyNoddyStore.Controllers
         //    .Take(PageSize));
         //}
 
-        //[HttpGet]
         public ViewResult List(string category, int page = 1)
         {
             //set countdown variable again
@@ -45,6 +44,8 @@ namespace MyNoddyStore.Controllers
                 page = (int)dict["page"];
             }
 
+
+            //Original code worked for one category per product only.
             //ProductsListViewModel model = new ProductsListViewModel
             //{
             //    Products = repository.Products
@@ -61,13 +62,6 @@ namespace MyNoddyStore.Controllers
             //    CurrentCategory = category
             //};
 
-            //var filter = new[] { "Action", "Animation", "Comedy" };
-
-            //GetMovies()
-            //    .Where(movie => movie.GenreArray.Split('|')
-            //    .Select(arrayElement => arrayElement.Trim())
-            //           .Any(value => filter.Contains(value)))
-
             ProductsListViewModel model = new ProductsListViewModel
             {
                 Products = repository.Products
@@ -79,11 +73,7 @@ namespace MyNoddyStore.Controllers
                 {
                     CurrentPage = page,
                     ItemsPerPage = PageSize,
-                    //TotalItems = category == null ? repository.Products.Count() : repository.Products.Where(e => e.CategoryArray.Contains(category)).Count()
                     TotalItems = category == null ? repository.Products.Count() : repository.Products.Where(e => e.Categories.EmptyArrayIfNull().Contains(category)).Count()
-
-                    //list.Select(item => item.MyProperty).WhereNotNull()
-
                 },
                 CurrentCategory = category
             };
