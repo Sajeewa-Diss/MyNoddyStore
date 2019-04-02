@@ -33,7 +33,7 @@ namespace MyNoddyStore.Controllers
         //[HttpGet]
         public ViewResult List(string category, int page = 1)
         {
-            //set counddown variable again
+            //set countdown variable again
             ViewBag.remainingTime = 909;
 
             // Check if your key exists
@@ -71,7 +71,7 @@ namespace MyNoddyStore.Controllers
             ProductsListViewModel model = new ProductsListViewModel
             {
                 Products = repository.Products
-                    .Where(p => category == null || p.CategoryArray.EmptyArrayIfNull().Contains(category))
+                    .Where(p => category == null || p.Categories.EmptyArrayIfNull().Contains(category))
                     .OrderBy(p => p.ProductID)
                     .Skip((page - 1) * PageSize)
                     .Take(PageSize),
@@ -80,7 +80,7 @@ namespace MyNoddyStore.Controllers
                     CurrentPage = page,
                     ItemsPerPage = PageSize,
                     //TotalItems = category == null ? repository.Products.Count() : repository.Products.Where(e => e.CategoryArray.Contains(category)).Count()
-                    TotalItems = category == null ? repository.Products.Count() : repository.Products.Where(e => e.CategoryArray.EmptyArrayIfNull().Contains(category)).Count()
+                    TotalItems = category == null ? repository.Products.Count() : repository.Products.Where(e => e.Categories.EmptyArrayIfNull().Contains(category)).Count()
 
                     //list.Select(item => item.MyProperty).WhereNotNull()
 

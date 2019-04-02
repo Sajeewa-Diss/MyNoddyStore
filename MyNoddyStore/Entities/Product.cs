@@ -11,9 +11,11 @@ namespace MyNoddyStore.Entities
         public int ProductID { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public string ShortDescription { get; set; }
+        public string Picture { get; set; }
         public decimal Price { get; set; }
-        public string Category { get; set; }
-        public string[] CategoryArray { get; set; }
+        //public string Category { get; set; } //todo remove
+        public string[] Categories { get; set; }
         public int StockCount { get; set; }
         public int MyQuantity { get; set; }
         public int OtherQuantity { get; set; }

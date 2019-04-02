@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using MyNoddyStore.Abstract;
 using System.Linq;
+using MyNoddyStore.HtmlHelpers;
 namespace MyNoddyStore.Controllers
 {
     public class NavController : Controller
@@ -17,12 +18,21 @@ namespace MyNoddyStore.Controllers
 
             ViewBag.SelectedCategory = category;
 
-            IEnumerable<string> categories = repository.Products
-            .Select(x => x.Category)
+            //original code works for one category per product (category always has single item as a string).
+            //IEnumerable<string> categoryEnumerable = repository.Products
+            //.Select(x => x.Category)
+            //.Distinct()
+            //.OrderBy(x => x);
+
+            //new code works for multiple categories per product (as a string array).
+            IEnumerable<string> categoryEnumerable = repository.Products
+            .Select(x => x.Categories.EmptyArrayIfNull()).SelectMany(x => x).ToList()
             .Distinct()
             .OrderBy(x => x);
 
-            return PartialView("Menu", categories); //todo switch to flexmenu for mobiles
+            categoryEnumerable = categoryEnumerable.Where(s => !string.IsNullOrWhiteSpace(s)); //remove any empty string for category (defensive coding).
+
+            return PartialView("Menu", categoryEnumerable); //todo switch to flexmenu for mobiles
         }
     }
 

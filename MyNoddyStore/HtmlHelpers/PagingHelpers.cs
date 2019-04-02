@@ -44,21 +44,16 @@ namespace MyNoddyStore.HtmlHelpers
         public static IEnumerable<T> EmptyArrayIfNull<T>(this IEnumerable<T> sequence) //todo clean up
         {
             if (sequence == null) {
-                string[] emptyArray = new string[]{String.Empty}; // handle a product with no arrays by using a dummy string array of one empty item.
+                //string[] emptyArray = new string[] { };            // handle a product with no categories by returning an empty array object.
+                //T[] emptyArray = new T[] { };                        // handle a product with no categories by returning an empty array object.
 
-                //public static IEnumerable<SomeType> AllEnums = Enum.GetValues(typeof(SomeType)).Cast<SomeType>().ToList();
-                //IEnumerable<string> emptyStringList = Enum.GetValues(typeof(String)).Cast<string>().ToList();
-                //IEnumerable<T> d = emptyArray.Cast<T>();
-
-                //IEnumerable<T>d = Enum.GetValues(typeof(String)).Cast<T>().ToList();
-
-                return emptyArray.Cast<T>(); //we cast to type T but this is superfluous as we are only handling null string arrays here!
+                //return emptyArray; //.Cast<T>();                         //we could cast to type T but this is superfluous.
+                return new T[] { };
             }
             else
             {
                 return sequence;
             }
         }
-
     }
 }
