@@ -1,6 +1,8 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 using System.Linq;
 using System.Collections.Generic;
+using System.Diagnostics;
 using MyNoddyStore.Abstract;
 using MyNoddyStore.Models;
 using MyNoddyStore.HtmlHelpers;
@@ -34,6 +36,35 @@ namespace MyNoddyStore.Controllers
         {
             //set countdown variable again
             ViewBag.remainingTime = 909;
+            DateTime countdownTime;
+            double remainingMilliseconds = 0;
+
+            //if countdown already started, don't do anything
+            //string value = Session.GetDataFromSession<string>("countdownTimeCsKey");
+            DateTime? sessionVal = Session.GetDataFromSession<DateTime>("countdownTimeCsKey");
+
+            if (sessionVal is null)
+            {
+                countdownTime = DateTime.MinValue;
+            }
+            else
+            {
+                countdownTime = (DateTime)sessionVal;
+            }
+
+            if (countdownTime == DateTime.MinValue)
+            {
+                //System.Diagnostics.Debug.WriteLine("null time found");
+                //set a new countdown time
+                Session.SetDataToSession<string>("countdownTimeCsKey", DateTime.Now.AddMilliseconds(40000));
+                remainingMilliseconds = 40000;
+            } else
+            {
+                TimeSpan remaining = countdownTime - DateTime.Now;
+                remainingMilliseconds = remaining.TotalMilliseconds;
+            }
+
+
 
             // Check if your key exists
             if (TempData["myDictionary"] != null)
@@ -75,7 +106,8 @@ namespace MyNoddyStore.Controllers
                     ItemsPerPage = PageSize,
                     TotalItems = category == null ? repository.Products.Count() : repository.Products.Where(e => e.Categories.EmptyArrayIfNull().Contains(category)).Count()
                 },
-                CurrentCategory = category
+                CurrentCategory = category,
+                CountDownMilliseconds = remainingMilliseconds
             };
 
             return View(model);

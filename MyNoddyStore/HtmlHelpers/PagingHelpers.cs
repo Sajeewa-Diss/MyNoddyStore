@@ -2,10 +2,12 @@
 using System.Text;
 //using System.Web.SessionState;
 //using Microsoft.AspNet.Session;
+using System.Web;
 using System.Web.Mvc;
 using System.Linq;
 using System.Collections.Generic;
 //using Newtonsoft.Json;
+
 using MyNoddyStore.Models;
 
 namespace MyNoddyStore.HtmlHelpers
@@ -71,5 +73,23 @@ namespace MyNoddyStore.HtmlHelpers
 
         //    return value == null ? default(T) : JsonConvert.DeserializeObject<T>(value);
         //}
+
+        public static T GetDataFromSession<T>(this HttpSessionStateBase session, string key)  //todo use this values and change this class name or delete these methods
+        {
+            try { return (T)session[key]; }
+            catch { return default(T); }
+        }
+        /// <summary> 
+        /// Set value. 
+        /// </summary> 
+        /// <typeparam name="T"></typeparam> 
+        /// <param name="session"></param> 
+        /// <param name="key"></param> 
+        /// <param name="value"></param> 
+        public static void SetDataToSession<T>(this HttpSessionStateBase session, string key, object value)
+        {
+            session[key] = value;
+        }
+
     }
 }

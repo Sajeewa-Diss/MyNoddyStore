@@ -131,7 +131,7 @@ namespace MyNoddyStore
                 new Product { ProductID = 18, Name = "Unicorn", Description = "An item never in stock.", ShortDescription = "No stock", Picture = "unicorn",
                        Categories = new string[] { "Gifts", "Pets" }, Price = 90000M, InitialStockCount = 0, StockCount = 0, MyQuantity = 0, OtherQuantity = 0 },
                 new Product { ProductID = 19, Name = "Wristwatch", Description = "Sporty and elegant.", ShortDescription = "Tick-tock", Picture = "wristwatch",
-                       Categories = new string[] { "Fashion", "Gifts" }, Price = 120M, InitialStockCount = 10, StockCount = 10, MyQuantity = 0, OtherQuantity = 0 },
+                       Categories = new string[] { "Fashion", "Gifts" }, Price = 180M, InitialStockCount = 10, StockCount = 10, MyQuantity = 0, OtherQuantity = 0 },
                 new Product { ProductID = 20, Name = "Zipwire", Description = "An item with no categories.", ShortDescription = "Category-less", Picture = "zipwire",
                     //   Categories = new string[] { "Circus" },
                     Price = 15.99M, InitialStockCount = 100, StockCount = 100, MyQuantity = 0, OtherQuantity = 0 }

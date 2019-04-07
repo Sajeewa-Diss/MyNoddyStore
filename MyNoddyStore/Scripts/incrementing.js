@@ -1,4 +1,4 @@
-$('.minus-btn').on('click', function (e) {
+$('.minus-btn').on('click', function (e) { /*todo remove this reference ??*/
     e.preventDefault();
     var $this = $(this);
     var $input = $this.closest('div').find('input');

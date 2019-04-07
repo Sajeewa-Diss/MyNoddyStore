@@ -1,6 +1,9 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using System.Collections.Generic;
+using MyNoddyStore.HtmlHelpers;
 using MyNoddyStore.Abstract;
 using MyNoddyStore.Entities;
 using MyNoddyStore.Models;
@@ -14,6 +17,7 @@ namespace MyNoddyStore.Controllers
         private IProductRepository repository;
         private IOrderProcessor orderProcessor;
         private string messageString;
+        //private DateTime countdownTimeCs; 
 
         public CartController(IProductRepository repo, IOrderProcessor proc)
         {
@@ -25,6 +29,8 @@ namespace MyNoddyStore.Controllers
         public ViewResult Index(Cart cart, string returnUrl)
         {
             ViewBag.remainingTime = 908; //todo remove this??
+
+
 
             //ViewBag.SomeData = cartService.GetSomeData();
 

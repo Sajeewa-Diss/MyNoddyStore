@@ -15,6 +15,9 @@
     <div class="btn-group pull-right">
         @Html.PageLinks(Model.PagingInfo, x => Url.Action("List", new { category = Model.CurrentCategory, page = x }))
     </div>
+    <div>
+        <p id="demo"></p>
+    </div>
 
     @*This script manipulates items on the page. Whereas it may seem more pertinent to add this script per ProductSummary partial-view form, in practice 
         this causes issues with multiple events being bound to the forms (one for each time a form is loaded) *@
@@ -97,6 +100,11 @@
         return modelProducts.find(x => x.ProductID == ProductId).MyQuantity;
     }
 
+    function UpdateCountdownVal() {
+            var countdownCtrl = document.getElementById("demo");
+            countdownCtrl.innerHTML = countdownVal;
+        }
+
     //For each Update button on screen, set the initial state to disabled.
     function DisableAllUpdateButtons() {
         var buttons = document.getElementsByName("submitUpdate");
@@ -107,45 +115,29 @@
             //}
             buttons[i].disabled = true;
         }
-    }
-
-    //For each minus button, disable it if current quantity is zero. todo remove this function maybe.
-    function SetAllMinusButtons() {
-        var buttons = document.getElementsByName("minusbutton");
-        var i;
-        for (i = 0; i < buttons.length; i++) {
-            //check current quantity
-            var $this = $(buttons[i]);
-            var $input = $this.closest('div').find('input');
-            var value = parseInt($input.val());
-            if (value == 0) {
-                buttons[i].disabled = true;
-            }
         }
-    }
-
 
     $(document).ready(function () {
         @*var myObj =  @Html.Raw(Json.Encode(Model));
         MyTestFunc('hello');*@
 
+        countdownVal = @Html.Raw(Model.CountDownMilliseconds);
 
-        modelProducts =  @Html.Raw(Json.Encode(Model.Products));  //store the model cart product list.
-
-        countdownVal = '@ViewBag.remainingTime';                //get the latest countdown time.
+        modelProducts =  @Html.Raw(Json.Encode(Model.Products));
 
         DisableAllUpdateButtons();
 
+        UpdateCountdownVal();
 
-        //SetAllPlusButtons();
-        //SetAllMinusButtons();
+        @*countdownVal = '@ViewBag.remainingTime';*@                
 
     });
+
+
 
     function MyTestFunc(string1) {
         console.log(string1);
     }
-
 
     </script>
 

@@ -8,5 +8,6 @@ namespace MyNoddyStore.Models
         public IEnumerable<Product> Products { get; set; }
         public PagingInfo PagingInfo { get; set; }
         public string CurrentCategory { get; set; }
+        public double CountDownMilliseconds { get; set; }
     }
 }
