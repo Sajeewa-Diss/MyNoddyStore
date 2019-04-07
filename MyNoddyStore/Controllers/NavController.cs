@@ -34,6 +34,11 @@ namespace MyNoddyStore.Controllers
 
             return PartialView("Menu", categoryEnumerable); //todo switch to flexmenu for mobiles
         }
+
+        public PartialViewResult MenuIntro()
+        {
+            return PartialView("MenuIntro");
+        }
     }
 
 }
