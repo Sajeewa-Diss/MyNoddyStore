@@ -16,6 +16,7 @@ namespace MyNoddyStore.Entities
         public decimal Price { get; set; }
         //public string Category { get; set; } //todo remove
         public string[] Categories { get; set; }
+        public int InitialStockCount { get; set; }
         public int StockCount { get; set; }
         public int MyQuantity { get; set; }
         public int OtherQuantity { get; set; }

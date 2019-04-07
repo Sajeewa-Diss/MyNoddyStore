@@ -269,7 +269,7 @@
     <Content Include="Views\Cart\Index.cshtml" />
     <Content Include="Views\Cart\Summary.cshtml" />
     <Content Include="Views\Nav\MenuIntro.cshtml" />
-    <Content Include="Views\Shared\_LayoutIntro.cshtml" />
+    <Content Include="Views\Home\_LayoutIntro.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

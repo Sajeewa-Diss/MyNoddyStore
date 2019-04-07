@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<string>
+@Html.ActionLink(linkText: "Home", actionName: "Index", controllerName: "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-block btn-default btn-lg" })
 @Html.ActionLink(linkText: "All", actionName: "List", controllerName: "Product", routeValues: null, htmlAttributes: new { @class = "btn btn-block btn-default btn-lg" })
 @foreach (var link in Model)
 {
