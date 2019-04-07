@@ -6,8 +6,7 @@ namespace MyNoddyStore.Infrastructure.Binders
     {
         private const string sessionKey = "Cart";
 
-        public object BindModel(ControllerContext controllerContext,
-        ModelBindingContext bindingContext)
+        public object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
             {
             // get the Cart from the session
             Cart cart = null;

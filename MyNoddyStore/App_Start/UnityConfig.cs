@@ -61,6 +61,8 @@ namespace MyNoddyStore
             // TODO: Register your type's mappings here.
             var mock = new Mock<IProductRepository>();
 
+            //TODO use Hangfire somewhere.
+
             /*
             mock.Setup(m => m.Products).Returns(new List <Product> { //a list automatically implements IEnumerable!.
                new Product { ProductID = 1, Name = "Aadvark", Description = "Customers who ordered this also ordered: Termite mounds.", ShortDescription = "Ant-free zone", Picture = "aadvark",
@@ -72,6 +74,20 @@ namespace MyNoddyStore
             container.RegisterInstance<IProductRepository>(mock.Object);
 
             container.RegisterType<IOrderProcessor, EmailOrderProcessor>(new InjectionConstructor(emailSettings));
+
+            //container.RegisterType<IEmail, Email>(new InjectionFactory(c => new Email("To Name","to@email.com")));
+            //var email = container.Resolve<IEmail>();
+            //container.RegisterType<OperationEntity>("email", new ContainerControlledLifetimeManager(), new InjectionConstructor(email));
+
+            //container.RegisterType<IEmail, Email>(new ContainerControlledLifetimeManager(), new InjectionFactory(c => new Email("To Name","to@email.com")));
+            //var opEntity = container.Resolve<OperationEntity>();
+
+            //container.RegisterType<IEmail, Email>(new ContainerControlledLifetimeManager());
+
+            //    container.RegisterType<IDemo, Demo>(new ContainerControlledLifetimeManager());
+            //    var demoA = container.Resolve<IDemo>();
+            //    var demoB = container.Resolve<IDemo>();
+
 
         }
 

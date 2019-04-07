@@ -10,6 +10,7 @@ namespace MyNoddyStore.Controllers
 {
     public class CartController : Controller
     {
+        private readonly ICartService cartService; //todo decide should this be readonly??
         private IProductRepository repository;
         private IOrderProcessor orderProcessor;
         private string messageString;
@@ -18,11 +19,14 @@ namespace MyNoddyStore.Controllers
         {
             repository = repo;
             orderProcessor = proc;
+            //cartService = how to set this??
         }
 
         public ViewResult Index(Cart cart, string returnUrl)
         {
             ViewBag.remainingTime = 908; //todo remove this??
+
+            //ViewBag.SomeData = cartService.GetSomeData();
 
             return View(new CartIndexViewModel
             {

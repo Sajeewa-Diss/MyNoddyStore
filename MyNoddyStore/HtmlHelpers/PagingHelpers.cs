@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Text;
+//using System.Web.SessionState;
+//using Microsoft.AspNet.Session;
 using System.Web.Mvc;
 using System.Linq;
 using System.Collections.Generic;
+//using Newtonsoft.Json;
 using MyNoddyStore.Models;
+
 namespace MyNoddyStore.HtmlHelpers
 {
     public static class PagingHelpers   // a public static class allows extension method!
@@ -55,5 +59,17 @@ namespace MyNoddyStore.HtmlHelpers
                 return sequence;
             }
         }
+
+        //public static void SetObjectAsJson(this ISession session, string key, object value) //todo use this values and change this class name or delete these methods
+        //{
+        //    session.SetString(key, JsonConvert.SerializeObject(value));
+        //}
+
+        //public static T GetObjectFromJson<T>(this ISession session, string key)
+        //{
+        //    var value = session.GetString(key);
+
+        //    return value == null ? default(T) : JsonConvert.DeserializeObject<T>(value);
+        //}
     }
 }
