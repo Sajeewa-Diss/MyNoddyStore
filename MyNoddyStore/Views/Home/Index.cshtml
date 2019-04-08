@@ -34,9 +34,9 @@
                 @Html.ActionLink(linkText: "Start", actionName: "List", controllerName: "Product", routeValues: null, htmlAttributes: new { @class = "btn btn-success" })
             </p>
 
-            <span id="countdownClock"></span>
-
-
+            <div>
+                <span id="countdownClock"></span>
+            </div>
 
             <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
         </div>
@@ -83,7 +83,7 @@
 
 
             // Display the result in the element with id="demo"
-            countdownCtrl.innerHTML = "Checkout within " + formattedSeconds + "s";
+            countdownCtrl.innerHTML = "Checkout2 within " + formattedSeconds + "s";
 
             // If the count down is finished, write some text
             if (duration < 0) {
