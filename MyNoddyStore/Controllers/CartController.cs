@@ -7,7 +7,7 @@ using MyNoddyStore.HtmlHelpers;
 using MyNoddyStore.Abstract;
 using MyNoddyStore.Entities;
 using MyNoddyStore.Models;
-
+using MyNoddyStore.AdHocHelpers;
 
 namespace MyNoddyStore.Controllers
 {
@@ -28,9 +28,7 @@ namespace MyNoddyStore.Controllers
 
         public ViewResult Index(Cart cart, string returnUrl)
         {
-            ViewBag.remainingTime = 908; //todo remove this??
-
-
+            ViewBag.remainingTime = 50000; //todo set this
 
             //ViewBag.SomeData = cartService.GetSomeData();
 
@@ -202,6 +200,9 @@ namespace MyNoddyStore.Controllers
             {
                 line.Product.MyQuantity = line.Quantity;
             }
+
+            int remainingMilliseconds = Session.GetRemainingTimeOrSetDefault(); //todo don't set timeout here!!
+            ViewBag.remainingTime = remainingMilliseconds;
             return PartialView(cart);
         }
 

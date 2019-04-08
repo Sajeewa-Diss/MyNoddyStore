@@ -16,7 +16,7 @@
         @Html.PageLinks(Model.PagingInfo, x => Url.Action("List", new { category = Model.CurrentCategory, page = x }))
     </div>
     <div>
-        <p id="demo"></p>
+        <span id="countdownClock"></span>
     </div>
 
     @*This script manipulates items on the page. Whereas it may seem more pertinent to add this script per ProductSummary partial-view form, in practice 
@@ -101,7 +101,7 @@
     }
 
     function UpdateCountdownVal() {
-            var countdownCtrl = document.getElementById("demo");
+        var countdownCtrl = document.getElementById('countdownClock');
             countdownCtrl.innerHTML = countdownVal;
         }
 
@@ -127,17 +127,9 @@
 
         DisableAllUpdateButtons();
 
-        UpdateCountdownVal();
-
-        @*countdownVal = '@ViewBag.remainingTime';*@                
+        UpdateCountdownVal();        
 
     });
-
-
-
-    function MyTestFunc(string1) {
-        console.log(string1);
-    }
 
     </script>
 

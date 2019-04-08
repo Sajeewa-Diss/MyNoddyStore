@@ -2,7 +2,7 @@
 using System.Web.Mvc;
 using MyNoddyStore.Abstract;
 using System.Linq;
-using MyNoddyStore.HtmlHelpers;
+using MyNoddyStore.AdHocHelpers;
 namespace MyNoddyStore.Controllers
 {
     public class NavController : Controller

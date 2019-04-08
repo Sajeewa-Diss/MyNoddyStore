@@ -58,9 +58,10 @@
 
         var countdownCtrl = document.getElementById("demo");
 
-        var countDownDate = new Date(); //.getTime();
-        countDownDate.setMilliseconds(countDownDate.getMilliseconds() + 10000);
+        var remaining = @ViewBag.remainingTime; //todo if this has a value, show this in start screen and modify button caption.
 
+        var countDownDate = new Date(); //.getTime();
+        countDownDate.setMilliseconds(countDownDate.getMilliseconds() + remaining);
 
         // Update the count down every 1 second
         var x = setInterval(function () {
@@ -85,7 +86,7 @@
             countdownCtrl.innerHTML = "Checkout within " + formattedSeconds + "s";
 
             // If the count down is finished, write some text
-            if (distance < 0) {
+            if (duration < 0) {
                 clearInterval(x);
                 countdownCtrl.innerHTML = "EXPIRED";
             }

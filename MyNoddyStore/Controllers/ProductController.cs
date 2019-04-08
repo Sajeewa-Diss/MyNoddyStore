@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using MyNoddyStore.Abstract;
 using MyNoddyStore.Models;
+using MyNoddyStore.AdHocHelpers;
 using MyNoddyStore.HtmlHelpers;
 
 namespace MyNoddyStore.Controllers
@@ -34,37 +35,9 @@ namespace MyNoddyStore.Controllers
 
         public ViewResult List(string category, int page = 1)
         {
-            //set countdown variable again
-            ViewBag.remainingTime = 909;
-            DateTime countdownTime;
-            double remainingMilliseconds = 0;
+            int remainingMilliseconds = Session.GetRemainingTimeOrSetDefault(); // countdown time variable
 
-            //if countdown already started, don't do anything
-            //string value = Session.GetDataFromSession<string>("countdownTimeCsKey");
-            DateTime? sessionVal = Session.GetDataFromSession<DateTime>("countdownTimeCsKey");
-
-            if (sessionVal is null)
-            {
-                countdownTime = DateTime.MinValue;
-            }
-            else
-            {
-                countdownTime = (DateTime)sessionVal;
-            }
-
-            if (countdownTime == DateTime.MinValue)
-            {
-                //System.Diagnostics.Debug.WriteLine("null time found");
-                //set a new countdown time
-                Session.SetDataToSession<string>("countdownTimeCsKey", DateTime.Now.AddMilliseconds(40000));
-                remainingMilliseconds = 40000;
-            } else
-            {
-                TimeSpan remaining = countdownTime - DateTime.Now;
-                remainingMilliseconds = remaining.TotalMilliseconds;
-            }
-
-
+            ViewBag.remainingTime = remainingMilliseconds;
 
             // Check if your key exists
             if (TempData["myDictionary"] != null)
@@ -112,5 +85,29 @@ namespace MyNoddyStore.Controllers
 
             return View(model);
         }
+
+        //private int GetCountdownOrSetDefault(int defaultVal = 10)
+        //{
+        //    int remainingMilliseconds; // countdown time variable
+
+        //    //var context = HttpContext.Current; //.Session;
+
+        //    //if countdown already started, don't do anything
+        //    DateTime countdownTime = Session.GetDataFromSession<DateTime>("countdownTimeCsKey");
+
+        //    if (countdownTime == DateTime.MinValue)
+        //    {
+        //        //set a new countdown time of 31 seconds (1 second extra to account for lag)
+        //        Session.SetDataToSession<string>("countdownTimeCsKey", DateTime.Now.AddMilliseconds(40000));
+        //        remainingMilliseconds = 41000;
+        //    }
+        //    else
+        //    {
+        //        TimeSpan tsRemaining = countdownTime - DateTime.Now;
+        //        remainingMilliseconds = (int)tsRemaining.TotalMilliseconds;  //convert to integer for passing to view.
+        //    }
+
+        //    return 10;
+        //}
     }
 }
