@@ -81,9 +81,9 @@ namespace MyNoddyStore.AdHocHelpers
 
             if (countdownTime == DateTime.MinValue)
             {
-                //set a new countdown time of 31 seconds (1 second extra to account for lag)
-                session.SetDataToSession<string>("countdownTimeCsKey", DateTime.Now.AddMilliseconds(31000));
-                remainingMilliseconds = 31000;
+                //set a new countdown time of 41 seconds (1 second extra to account for lag)
+                session.SetDataToSession<string>("countdownTimeCsKey", DateTime.Now.AddMilliseconds(59000));
+                remainingMilliseconds = 59000;
             }
             else
             {

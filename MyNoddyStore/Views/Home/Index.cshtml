@@ -34,7 +34,7 @@
                 @Html.ActionLink(linkText: "Start", actionName: "List", controllerName: "Product", routeValues: null, htmlAttributes: new { @class = "btn btn-success" })
             </p>
 
-            <p id="demo"></p>
+            <span id="countdownClock"></span>
 
 
 
@@ -56,7 +56,7 @@
 
         //$(document).ready(function () {
 
-        var countdownCtrl = document.getElementById("demo");
+        var countdownCtrl = document.getElementById("countdownClock");
 
         var remaining = @ViewBag.remainingTime; //todo if this has a value, show this in start screen and modify button caption.
 

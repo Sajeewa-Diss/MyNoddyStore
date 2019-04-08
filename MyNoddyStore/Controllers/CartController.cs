@@ -26,6 +26,7 @@ namespace MyNoddyStore.Controllers
             //cartService = how to set this??
         }
 
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "None")]
         public ViewResult Index(Cart cart, string returnUrl)
         {
             ViewBag.remainingTime = 50000; //todo set this
@@ -192,7 +193,6 @@ namespace MyNoddyStore.Controllers
         //}
 
 
-
         public PartialViewResult Summary(Cart cart)
         {
             //update product quantity using cartline
@@ -207,12 +207,14 @@ namespace MyNoddyStore.Controllers
         }
 
         [HttpGet]
-         public ViewResult Checkout()
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "None")]
+        public ViewResult Checkout()
         {
             return View(new ShippingDetails());
         }
 
         [HttpPost]
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "None")]
         public ViewResult Checkout(Cart cart, ShippingDetails shippingDetails)
         {
             if (cart.Lines.Count() == 0)
