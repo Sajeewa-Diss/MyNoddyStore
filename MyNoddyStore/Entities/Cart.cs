@@ -10,7 +10,26 @@ namespace MyNoddyStore.Entities
     {
         private List<CartLine> lineCollection = new List<CartLine>();
 
-        public void AddItem(Product product, int quantity)
+        //public void AddItem(Product product, int quantity)
+        //{
+        //    CartLine line = lineCollection
+        //    .Where(p => p.Product.ProductID == product.ProductID)
+        //    .FirstOrDefault();
+        //    if (line == null)
+        //    {
+        //        lineCollection.Add(new CartLine
+        //        {
+        //            Product = product,
+        //            Quantity = quantity
+        //        });
+        //    }
+        //    else
+        //    {
+        //        line.Quantity += quantity;
+        //    }
+        //}
+
+        public void AddItem(Product product, int quantity = 1)
         {
             CartLine line = lineCollection
             .Where(p => p.Product.ProductID == product.ProductID)
@@ -20,12 +39,12 @@ namespace MyNoddyStore.Entities
                 lineCollection.Add(new CartLine
                 {
                     Product = product,
-                    Quantity = quantity
+                    Quantity = product.MyQuantity
                 });
             }
             else
             {
-                line.Quantity += quantity;
+                line.Quantity = product.MyQuantity;
             }
         }
 

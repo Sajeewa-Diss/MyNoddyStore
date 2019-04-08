@@ -60,29 +60,23 @@ namespace MyNoddyStore.Controllers
         //Although this second option is a candidate for an Ajax upload of the partial view, we in fact relaod the whole screen to refresh any updates to the stock of all displayed items.
         public RedirectToRouteResult UpdateCart(Cart cart, int productId, int MyQuantity, string returnUrl, int pageNumber, string categoryString, string submitUpdate) //, string submitCheckout)
         {
+            string updateMsg;
+
             if (submitUpdate == null) { // User has selected "View Cart"
                 return RedirectToAction("Index", new { returnUrl });
             }
             else // User has selected "Update Cart"
             {
-                //store the pageNumber and categoryString params in temp data (this is kind of a bodge)
+                //store the pageNumber and categoryString params in temp data (this is kind of a bodge).
                 Dictionary<string, object> dict = new Dictionary<string, object>();
                 dict.Add("page", pageNumber);
                 dict.Add("category", categoryString);  //todo handle null
-                TempData["myDictionary"] = dict; // Store it in the TempData
+                TempData["myDictionary"] = dict;       // Store it in the TempData
 
                 Product product = repository.Products.FirstOrDefault(p => p.ProductID == productId);
                 if (product != null)
                 {
-                    //remove all items and add required quantity up to 5.
-                    cart.RemoveLine(product);
-                    if (MyQuantity > 0 && MyQuantity <= 5)
-                    {
-                        cart.AddItem(product, MyQuantity);
-                    }
-                    
-                    //todo decide how to correlate cart line and updated values.
-                    messageString = "Update successful";
+                    updateMsg = BalanceCartTransaction(cart, product, MyQuantity);
                 }
                 return RedirectToAction("List", "Product"); //, new { returnUrl }); //todo redirect to product list
             }
@@ -232,6 +226,44 @@ namespace MyNoddyStore.Controllers
             {
                 return View(shippingDetails);
             }
+        }
+
+        //Balance stock and quantities in current cart update request
+        private string BalanceCartTransaction(Cart cart, Product product, int newQuantity){
+
+            string messageString = "";
+
+            if (newQuantity < 0 || newQuantity > 5)
+            {
+                messageString = "invalid number of items";
+            }
+
+            //return product's current quantity to stock.
+            product.StockCount += product.MyQuantity;
+            product.MyQuantity = 0;
+            cart.RemoveLine(product);
+
+            //re-add new quantity where stock allows.
+            if (newQuantity > 0) { 
+                if (product.StockCount >= newQuantity) // the update can be done
+                {
+                    product.MyQuantity = newQuantity;
+                    product.StockCount -= newQuantity;
+                    cart.AddItem(product, product.MyQuantity);
+                }
+                else if (product.StockCount != 0)  // there is some stock. The update can be done only partially
+                {
+                    product.MyQuantity = product.StockCount;
+                    product.StockCount = 0;
+                    cart.AddItem(product, product.MyQuantity);
+                    messageString = "Added partially (no stock)";
+                }
+                else  // the update can't be done. No stock.
+                {
+                    messageString = "Failed (no stock)";
+                }
+            }
+            return messageString;
         }
 
     }

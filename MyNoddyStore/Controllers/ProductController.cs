@@ -33,6 +33,7 @@ namespace MyNoddyStore.Controllers
         //    .Take(PageSize));
         //}
 
+
         //[OutputCache(NoStore = true, Duration = 0, VaryByParam = "None")]
         public ViewResult List(string category, int page = 1)
         {
@@ -43,7 +44,7 @@ namespace MyNoddyStore.Controllers
             // Check if your key exists
             if (TempData["myDictionary"] != null)
             {
-                // Grab your activity
+                // get category and page
                 Dictionary<string, object> dict = TempData["myDictionary"] as Dictionary<string, object>;
                 category = ((string)dict["category"] == string.Empty ? null : (string)dict["category"]); //set this to null if empty string
                 page = (int)dict["page"];
