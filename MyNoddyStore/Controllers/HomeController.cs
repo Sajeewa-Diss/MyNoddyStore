@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using MyNoddyStore.AdHocHelpers;
 
 namespace MyNoddyStore.Controllers
 {
@@ -10,6 +11,9 @@ namespace MyNoddyStore.Controllers
     {
         public ActionResult Index()
         {
+            int remainingMilliseconds = Session.GetRemainingTimeOrSetDefault(); //todo remove this viewbag setter??!!
+            ViewBag.remainingTime = remainingMilliseconds;
+
             return View();
         }
 

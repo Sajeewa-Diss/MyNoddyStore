@@ -33,7 +33,7 @@ namespace MyNoddyStore.Controllers
         //    .Take(PageSize));
         //}
 
-        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "None")]
+        //[OutputCache(NoStore = true, Duration = 0, VaryByParam = "None")]
         public ViewResult List(string category, int page = 1)
         {
             int remainingMilliseconds = Session.GetRemainingTimeOrSetDefault(); // countdown time variable
