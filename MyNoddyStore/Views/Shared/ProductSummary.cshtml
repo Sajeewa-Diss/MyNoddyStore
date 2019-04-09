@@ -1,5 +1,5 @@
 ﻿@model MyNoddyStore.Entities.Product
-<div class="well well-sm">
+<div class="well well-sm" name="mainchilddiv">
     @*<div class="pull-left">*@
     <img class="pull-left myimg" src="@Url.Content(String.Format("~/Images/{0}.png", Model.Picture))" alt="No Image" />
     @*</div>*@
@@ -10,13 +10,16 @@
     </h3>
 
     <button class="additemxyz">AddXYZ</button>
-    <div class="statusareaxyz"></div>
+    @*<div class="status-message" style="visibility:hidden"></div>*@
+    <div name="statusmsgdiv" id="statusmsgdivid" class="status-message">
+        <span>testtext</span>
+    </div>
 
     @using (Html.BeginForm("UpdateCart", "Cart"))
     {
         <div class="pull-right">
             <div class="flex-grid">
-                <div class="flexcol3 quantity">
+                <div class="flexcol3 quantity" name="quantitydiv">
                     <span>Quantity</span>
                     <button class="minus-btn" type="button" name="minusbutton">
                         <img src="~/Images/minus.svg" alt="" />
@@ -31,11 +34,10 @@
                         @Html.HiddenFor(x => x.ProductID)
                         @*@Html.Hidden("quantity", prodQuantity)*@
                         @*@Html.HiddenFor(x => x.MyQuantity)*@
-
                         @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
                         @Html.Hidden("pageNumber", (object)ViewBag.pageNumber)
                         @Html.Hidden("categoryString", (object)ViewBag.categoryString)
-                        <input type="submit" name="submitUpdate" id="btnUpdate" class="btn btn-success" value="Update" />
+                        <input type="submit" name="submitUpdate" id="btnUpdate" class="btn btn-success update-btn-class" value="Update" />
                     </div>
                 </div>
                 <div class="flexcol">

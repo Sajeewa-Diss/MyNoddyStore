@@ -20,10 +20,16 @@
     </div>
 
     @*This script manipulates items on the page. Whereas it may seem more pertinent to add this script per ProductSummary partial-view form, in practice 
-        this causes issues with multiple events being bound to the forms (one for each time a form is loaded) *@
+        that may cause issues with multiple events being bound to the forms (one for each time a child form is loaded) *@
     <script type="text/javascript">
     var modelProducts; // initial products in cart
     //var countdownVal;
+
+    $('.update-btn-class').on('click', function (e) {
+        e.preventDefault();
+        var $this = $(this);
+        ActivateThisStatusMessageControl($this);
+    });
 
     $('.plus-btn').on('click', function (e) {
         e.preventDefault();
@@ -86,7 +92,27 @@
             $(thisUpdateButton).removeAttr('disabled');
             //thisUpdateButton.removeAttr('disabled');     //we could call the JQuery method on a Js element directly. This code also works
         }
+    }    
+
+    function ActivateThisStatusMessageControl(localElement)
+    {
+        //diable all other status message controls and enable the local one corresponding to this update button.
+        var elements = document.getElementsByClassName("status-message");
+        var i;
+        for (i = 0; i < elements.length; i++) {
+            elements[i].setAttribute("style", "display:none");
+        }
+        var thisDiv = localElement.closest("div[name='mainchilddiv']").find("div[name='statusmsgdiv']");
+        $(thisDiv).attr('style', 'display:inline');
     }
+
+
+
+
+
+
+
+
 
     function GetProductId(localElement) {
         return localElement.closest('div').siblings().children().find("input[name='ProductID']").val();
@@ -101,6 +127,7 @@
     }
 
     //For each Update button on screen, set the initial state to disabled.
+    //todo set all buttons to disabled to begin with!
     function DisableAllUpdateButtons() {
         var buttons = document.getElementsByName("submitUpdate");
         var i;
@@ -158,9 +185,7 @@
 
 
 
-
-
-
+//#region flashMessage
         (function ($) {
             $.fn.flash_message = function (options) {
 
@@ -192,11 +217,14 @@
 
         $('.additemxyz').click(function () {
 
-            $('.statusareaxyz').flash_message({
+            $('.status-message').flash_message({
                 text: 'Added to cart!',
                 how: 'append'
             });
         });
+//#endregion
+
+
 
 
 
@@ -209,7 +237,6 @@
 
 
     </script>
-
     @*
         <script>
           $(document).ready(function () {
@@ -224,8 +251,6 @@
             });
           });
         </script>
-
-
     *@
 
 
