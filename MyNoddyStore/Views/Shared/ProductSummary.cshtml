@@ -9,17 +9,15 @@
         <span class="pull-right label label-primary">@Model.Price.ToString("c")</span>
     </h3>
 
-    <button class="additemxyz">AddXYZ</button>
-    @*<div class="status-message" style="visibility:hidden"></div>*@
-    <div name="statusmsgdiv" id="statusmsgdivid" class="status-message">
-        <span>testtext</span>
+    @*<button class="additemxyz">AddXYZ</button>*@
+    <div name="statusmsgdiv" class="status-message">
     </div>
 
     @using (Html.BeginForm("UpdateCart", "Cart"))
     {
         <div class="pull-right">
             <div class="flex-grid">
-                <div class="flexcol3 quantity" name="quantitydiv">
+                <div class="flexcol3 quantity">
                     <span>Quantity</span>
                     <button class="minus-btn" type="button" name="minusbutton">
                         <img src="~/Images/minus.svg" alt="" />

@@ -77,6 +77,7 @@ namespace MyNoddyStore.Controllers
                 if (product != null)
                 {
                     updateMsg = BalanceCartTransaction(cart, product, MyQuantity);
+                    
                 }
                 return RedirectToAction("List", "Product"); //, new { returnUrl }); //todo redirect to product list
             }

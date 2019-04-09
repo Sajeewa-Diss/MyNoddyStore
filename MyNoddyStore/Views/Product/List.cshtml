@@ -26,19 +26,17 @@
     //var countdownVal;
 
     $('.update-btn-class').on('click', function (e) {
-        e.preventDefault();
+        //e.preventDefault();
         var $this = $(this);
         ActivateThisStatusMessageControl($this);
     });
 
     $('.plus-btn').on('click', function (e) {
-        e.preventDefault();
+        //e.preventDefault();
         var $this = $(this);
         var $input = $this.closest('div').find('input');
         var value = parseInt($input.val());
-
         var thisProdId = GetProductId($this);
-
         var currentStock = GetCurrentStock(thisProdId);
         var myQuantity = GetMyQuantity(thisProdId);
 
@@ -50,9 +48,7 @@
         } else {
             value = 5;
         }
-
         $input.val(value);
-
         ResetLocalUpdateButton($this);
     });
 
@@ -68,9 +64,7 @@
         } else {
             value = 0;
         }
-
         $input.val(value);
-
         ResetLocalUpdateButton($this);
     });
 
@@ -105,14 +99,6 @@
         var thisDiv = localElement.closest("div[name='mainchilddiv']").find("div[name='statusmsgdiv']");
         $(thisDiv).attr('style', 'display:inline');
     }
-
-
-
-
-
-
-
-
 
     function GetProductId(localElement) {
         return localElement.closest('div').siblings().children().find("input[name='ProductID']").val();
@@ -179,11 +165,6 @@
             countdownCtrl.innerHTML = "EXPIRED";  //todo countdown at this point
         }
     }
-
-
-
-
-
 
 //#region flashMessage
         (function ($) {
