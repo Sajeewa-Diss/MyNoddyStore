@@ -22,149 +22,159 @@
     @*This script manipulates items on the page. Whereas it may seem more pertinent to add this script per ProductSummary partial-view form, in practice 
         that may cause issues with multiple events being bound to the forms (one for each time a child form is loaded) *@
     <script type="text/javascript">
-    var modelProducts; // initial products in cart
-    //var countdownVal;
+        var modelProducts; // initial products in cart
+        //var countdownVal;
+        //var testMessagexyz = @ViewBag.testMessage;
 
-    $('.update-btn-class').on('click', function (e) {
-        //e.preventDefault();
-        var $this = $(this);
-        ActivateThisStatusMessageControl($this);
-    });
+            $('.update-btn-class').on('click', function (e) {
+            //e.preventDefault();
+            var $this = $(this);
+            ActivateThisStatusMessageControl($this);
+        });
 
-    $('.plus-btn').on('click', function (e) {
-        //e.preventDefault();
-        var $this = $(this);
-        var $input = $this.closest('div').find('input');
-        var value = parseInt($input.val());
-        var thisProdId = GetProductId($this);
-        var currentStock = GetCurrentStock(thisProdId);
-        var myQuantity = GetMyQuantity(thisProdId);
+        $('.plus-btn').on('click', function (e) {
+            //e.preventDefault();
+            var $this = $(this);
+            var $input = $this.closest('div').find('input');
+            var value = parseInt($input.val());
+            var thisProdId = GetProductId($this);
+            var currentStock = GetCurrentStock(thisProdId);
+            var myQuantity = GetMyQuantity(thisProdId);
 
-        if (value < 5) {        // max quantity value allowed is 5
-            //add up to the available stock only
-            if (value - myQuantity < currentStock) {
-                value = value + 1;
+            if (value < 5) {        // max quantity value allowed is 5
+                //add up to the available stock only
+                if (value - myQuantity < currentStock) {
+                    value = value + 1;
+                }
+            } else {
+                value = 5;
             }
-        } else {
-            value = 5;
-        }
-        $input.val(value);
-        ResetLocalUpdateButton($this);
-    });
-
-
-    $('.minus-btn').on('click', function (e) {
-        e.preventDefault();
-        var $this = $(this);
-        var $input = $this.closest('div').find('input');
-        var value = parseInt($input.val());
-
-        if (value > 1) {        // min quantity value allowed is 0
-            value = value - 1;
-        } else {
-            value = 0;
-        }
-        $input.val(value);
-        ResetLocalUpdateButton($this);
-    });
-
-
-    //Set local Update button to be enabled/disabled as necessary.
-    function ResetLocalUpdateButton(localElement) {
-
-        var currentQuantity = parseInt(localElement.closest('div').find('input').val()); //this is the number of items now selected. 
-        var thisProdId = GetProductId(localElement);
-        var cartQuantity = modelProducts.find(x => x.ProductID == thisProdId).MyQuantity; //this is the number of items in cart model originally.
-
-        var thisUpdateButton = localElement.closest('div').siblings().children().find("input[name='submitUpdate']");
-
-        //if current quantity differs from the original value, then the cart value needs to be updated - otherwise the update button should be disabled.
-        if (currentQuantity == cartQuantity) {
-            $(thisUpdateButton).attr('disabled', true);
-            //$(thisUpdateButton).prop('disabled', true);   //boolean [attr]ibutes and [prop]erties are treated similarly in JQuery. So this code also works.
-        } else {
-            $(thisUpdateButton).removeAttr('disabled');
-            //thisUpdateButton.removeAttr('disabled');     //we could call the JQuery method on a Js element directly. This code also works
-        }
-    }    
-
-    function ActivateThisStatusMessageControl(localElement)
-    {
-        //diable all other status message controls and enable the local one corresponding to this update button.
-        var elements = document.getElementsByClassName("status-message");
-        var i;
-        for (i = 0; i < elements.length; i++) {
-            elements[i].setAttribute("style", "display:none");
-        }
-        var thisDiv = localElement.closest("div[name='mainchilddiv']").find("div[name='statusmsgdiv']");
-        $(thisDiv).attr('style', 'display:inline');
-    }
-
-    function GetProductId(localElement) {
-        return localElement.closest('div').siblings().children().find("input[name='ProductID']").val();
-    }
-
-    function GetCurrentStock(ProductId) {
-        return modelProducts.find(x => x.ProductID == ProductId).StockCount;
-    }
-
-    function GetMyQuantity(ProductId) {
-        return modelProducts.find(x => x.ProductID == ProductId).MyQuantity;
-    }
-
-    //For each Update button on screen, set the initial state to disabled.
-    //todo set all buttons to disabled to begin with!
-    function DisableAllUpdateButtons() {
-        var buttons = document.getElementsByName("submitUpdate");
-        var i;
-        for (i = 0; i < buttons.length; i++) {
-            //if (x[i].type == "checkbox") {
-            //    x[i].checked = true;
-            //}
-            buttons[i].disabled = true;
-        }
-        }
-
-    $(document).ready(function () {
-        modelProducts =  @Html.Raw(Json.Encode(Model.Products));
-
-        DisableAllUpdateButtons();
+            $input.val(value);
+            ResetLocalUpdateButton($this);
         });
 
 
-    var countdownCtrl = document.getElementById("countdownClock");
-    @*var remaining = @ViewBag.remainingTime; *@
-    var remaining = @Html.Raw(Model.CountDownMilliseconds);
-    var countDownDate = new Date(); //.getTime();
-    countDownDate.setMilliseconds(countDownDate.getMilliseconds() + remaining);
+        $('.minus-btn').on('click', function (e) {
+            e.preventDefault();
+            var $this = $(this);
+            var $input = $this.closest('div').find('input');
+            var value = parseInt($input.val());
 
-    // Update the count down every 1 second
-    var x = setInterval(RunCountdown, 1000);
-
-    function RunCountdown() {
-        // Get todays date and time
-        var now = new Date().getTime();
-
-        // Find the duration between now and the count down date
-        var duration = countDownDate - now;
-
-        // Time calculations for days, hours, minutes and seconds
-        //var days = Math.floor(duration / (1000 * 60 * 60 * 24));
-        //var hours = Math.floor((duration % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        //var minutes = Math.floor((duration % (1000 * 60 * 60)) / (1000 * 60));
-        var seconds = Math.floor((duration % (1000 * 60)) / 1000);
-        var formattedSeconds = seconds.toString().padStart(2, '0');
+            if (value > 1) {        // min quantity value allowed is 0
+                value = value - 1;
+            } else {
+                value = 0;
+            }
+            $input.val(value);
+            ResetLocalUpdateButton($this);
+        });
 
 
-        // Display the result in the element with id="demo"
-        countdownCtrl.innerHTML = "Checkout1 within " + formattedSeconds + "s";
+        //Set local Update button to be enabled/disabled as necessary.
+        function ResetLocalUpdateButton(localElement) {
 
-        // If the count down is finished, cancel the countdown
-        if (duration < 0) {
-            clearInterval(x);
-            countdownCtrl.innerHTML = "EXPIRED";  //todo countdown at this point
+            var currentQuantity = parseInt(localElement.closest('div').find('input').val()); //this is the number of items now selected. 
+            var thisProdId = GetProductId(localElement);
+            var cartQuantity = modelProducts.find(x => x.ProductID == thisProdId).MyQuantity; //this is the number of items in cart model originally.
+
+            var thisUpdateButton = localElement.closest('div').siblings().children().find("input[name='submitUpdate']");
+
+            //if current quantity differs from the original value, then the cart value needs to be updated - otherwise the update button should be disabled.
+            if (currentQuantity == cartQuantity) {
+                $(thisUpdateButton).attr('disabled', true);
+                //$(thisUpdateButton).prop('disabled', true);   //boolean [attr]ibutes and [prop]erties are treated similarly in JQuery. So this code also works.
+            } else {
+                $(thisUpdateButton).removeAttr('disabled');
+                //thisUpdateButton.removeAttr('disabled');     //we could call the JQuery method on a Js element directly. This code also works
+            }
+        }    
+
+        function ActivateThisStatusMessageControl(localElement)
+        {
+            //diable all other status message controls and enable the local one corresponding to this update button.
+            var elements = document.getElementsByClassName("status-message");
+            var i;
+            for (i = 0; i < elements.length; i++) {
+                elements[i].setAttribute("style", "display:none");
+            }
+            var thisDiv = localElement.closest("div[name='mainchilddiv']").find("div[name='statusmsgdiv']");
+            $(thisDiv).attr('style', 'display:inline');
         }
-    }
+
+        function GetProductId(localElement) {
+            return localElement.closest('div').siblings().children().find("input[name='ProductID']").val();
+        }
+
+        function GetCurrentStock(ProductId) {
+            return modelProducts.find(x => x.ProductID == ProductId).StockCount;
+        }
+
+        function GetMyQuantity(ProductId) {
+            return modelProducts.find(x => x.ProductID == ProductId).MyQuantity;
+        }
+
+        //For each Update button on screen, set the initial state to disabled.
+        //todo set all buttons to disabled to begin with!
+        function DisableAllUpdateButtons() {
+            var buttons = document.getElementsByName("submitUpdate");
+            var i;
+            for (i = 0; i < buttons.length; i++) {
+                //if (x[i].type == "checkbox") {
+                //    x[i].checked = true;
+                //}
+                buttons[i].disabled = true;}
+        }
+
+        $(document).ready(function () {
+            modelProducts =  @Html.Raw(Json.Encode(Model.Products));
+
+            DisableAllUpdateButtons();
+
+            DisplayUpdateMessages();
+        });
+
+
+        var countdownCtrl = document.getElementById("countdownClock");
+        @*var remaining = @ViewBag.remainingTime; *@
+        var remaining = @Html.Raw(Model.CountDownMilliseconds);
+        var countDownDate = new Date(); //.getTime();
+        countDownDate.setMilliseconds(countDownDate.getMilliseconds() + remaining);
+
+        // Update the count down every 1 second
+        var x = setInterval(RunCountdown, 1000);
+
+        function RunCountdown() {
+            // Get todays date and time
+            var now = new Date().getTime();
+
+            // Find the duration between now and the count down date
+            var duration = countDownDate - now;
+
+            // Time calculations for days, hours, minutes and seconds
+            //var days = Math.floor(duration / (1000 * 60 * 60 * 24));
+            //var hours = Math.floor((duration % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            //var minutes = Math.floor((duration % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((duration % (1000 * 60)) / 1000);
+            var formattedSeconds = seconds.toString().padStart(2, '0');
+
+
+            // Display the result in the element with id="demo"
+            countdownCtrl.innerHTML = "Checkout1 within " + formattedSeconds + "s";
+
+            // If the count down is finished, cancel the countdown
+            if (duration < 0) {
+                clearInterval(x);
+                countdownCtrl.innerHTML = "EXPIRED";  //todo countdown at this point
+            }
+        }
+
+        function DisplayUpdateMessages() {
+            $('.status-message').flash_message({
+                text: 'Added to cart!',
+                how: 'append'
+            });
+        }
+
 
 //#region flashMessage
         (function ($) {
@@ -195,6 +205,8 @@
                 });
             };
         })(jQuery);
+
+
 
         $('.additemxyz').click(function () {
 
