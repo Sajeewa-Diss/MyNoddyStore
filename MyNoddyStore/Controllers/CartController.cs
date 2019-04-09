@@ -29,6 +29,15 @@ namespace MyNoddyStore.Controllers
         //[OutputCache(NoStore = true, Duration = 0, VaryByParam = "None")]
         public ViewResult Index(Cart cart, string returnUrl)
         {
+            //if (TempData["myDictionary"] != null)
+            //{
+            //    // get category and page
+            //    Dictionary<string, object> dict = TempData["myDictionary"] as Dictionary<string, object>;
+            //    category = ((string)dict["category"] == string.Empty ? null : (string)dict["category"]); //set this to null if empty string
+            //    page = (int)dict["page"];
+            //}
+
+
             ViewBag.remainingTime = 50000; //todo set this
 
             //ViewBag.SomeData = cartService.GetSomeData();
@@ -60,26 +69,32 @@ namespace MyNoddyStore.Controllers
         //Although this second option is a candidate for an Ajax upload of the partial view, we in fact relaod the whole screen to refresh any updates to the stock of all displayed items.
         public RedirectToRouteResult UpdateCart(Cart cart, int productId, int MyQuantity, string returnUrl, int pageNumber, string categoryString, string submitUpdate) //, string submitCheckout)
         {
-            string updateMsg;
+            string updateMsg = "";
+
+            //store the pageNumber and categoryString params in temp data (this is kind of a bodge). Add any other necessary data.
+            Dictionary<string, object> dict = new Dictionary<string, object>();
+            dict.Add("page", pageNumber);
+            dict.Add("category", categoryString);  //todo handle null
 
             if (submitUpdate == null) { // User has selected "View Cart"
+                dict.Add("productId", 0);
+                dict.Add("message", string.Empty);
+                TempData["myDictionary"] = dict;       // Store it in the TempData. todo pass these args via the actual method params.
                 return RedirectToAction("Index", new { returnUrl });
             }
             else // User has selected "Update Cart"
             {
-                //store the pageNumber and categoryString params in temp data (this is kind of a bodge).
-                Dictionary<string, object> dict = new Dictionary<string, object>();
-                dict.Add("page", pageNumber);
-                dict.Add("category", categoryString);  //todo handle null
-                TempData["myDictionary"] = dict;       // Store it in the TempData
-
                 Product product = repository.Products.FirstOrDefault(p => p.ProductID == productId);
                 if (product != null)
                 {
                     updateMsg = BalanceCartTransaction(cart, product, MyQuantity);
                     ViewBag.testMessage = updateMsg;
                 }
-                return RedirectToAction("List", "Product"); //, new { returnUrl }); //todo redirect to product list
+                dict.Add("productId", productId);
+                dict.Add("message", updateMsg);
+                TempData["myDictionary"] = dict;       // Store it in the TempData
+
+                return RedirectToAction("List", "Product");
             }
         }
 
@@ -232,7 +247,7 @@ namespace MyNoddyStore.Controllers
         //Balance stock and quantities in current cart update request
         private string BalanceCartTransaction(Cart cart, Product product, int newQuantity){
 
-            string messageString = "";
+            string messageString = "Updated";
 
             if (newQuantity < 0 || newQuantity > 5)
             {

@@ -13,7 +13,6 @@ namespace MyNoddyStore.Controllers
         {
             int remainingMilliseconds = Session.GetRemainingTimeOrSetDefault(); //todo remove this viewbag setter??!!
             ViewBag.remainingTime = remainingMilliseconds;
-
             return View();
         }
 

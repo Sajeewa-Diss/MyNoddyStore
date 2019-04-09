@@ -10,13 +10,10 @@
 {
     //@Html.Partial("ProductSummary", pr)
     @Html.Partial("ProductSummary", pr, new ViewDataDictionary { {"pageNumber", Model.PagingInfo.CurrentPage },
-                                                                 {"categoryString", Model.CurrentCategory }}      ) //we are adding the current page and category to each partial view
+                                                                 {"categoryString", Model.CurrentCategory }}) //we are adding the current page and category to each partial view
 }
     <div class="btn-group pull-right">
         @Html.PageLinks(Model.PagingInfo, x => Url.Action("List", new { category = Model.CurrentCategory, page = x }))
-    </div>
-    <div>
-        <span id="countdownClock"></span>
     </div>
 
     @*This script manipulates items on the page. Whereas it may seem more pertinent to add this script per ProductSummary partial-view form, in practice 
@@ -24,13 +21,14 @@
     <script type="text/javascript">
         var modelProducts; // initial products in cart
         //var countdownVal;
-        //var testMessagexyz = @ViewBag.testMessage;
+        var updatedProductId; //todo convert this to model params.
+        var updatedMsg;
 
-            $('.update-btn-class').on('click', function (e) {
-            //e.preventDefault();
-            var $this = $(this);
-            ActivateThisStatusMessageControl($this);
-        });
+        //$('.update-btn-class').on('click', function (e) {
+        //    //e.preventDefault();
+        //    var $this = $(this);
+        //    ActivateThisStatusMessageControl($this);
+        //});
 
         $('.plus-btn').on('click', function (e) {
             //e.preventDefault();
@@ -73,7 +71,7 @@
         //Set local Update button to be enabled/disabled as necessary.
         function ResetLocalUpdateButton(localElement) {
 
-            var currentQuantity = parseInt(localElement.closest('div').find('input').val()); //this is the number of items now selected. 
+            var currentQuantity = parseInt(localElement.closest('div').find('input').val()); //this is the number of items now selected.
             var thisProdId = GetProductId(localElement);
             var cartQuantity = modelProducts.find(x => x.ProductID == thisProdId).MyQuantity; //this is the number of items in cart model originally.
 
@@ -87,7 +85,7 @@
                 $(thisUpdateButton).removeAttr('disabled');
                 //thisUpdateButton.removeAttr('disabled');     //we could call the JQuery method on a Js element directly. This code also works
             }
-        }    
+        }
 
         function ActivateThisStatusMessageControl(localElement)
         {
@@ -128,6 +126,11 @@
         $(document).ready(function () {
             modelProducts =  @Html.Raw(Json.Encode(Model.Products));
 
+            //updatedProductId = @ViewBag.productId; //todo convert this to model params.
+            //updatedMsg = (@ViewBag.statusMsg;
+
+
+
             DisableAllUpdateButtons();
 
             DisplayUpdateMessages();
@@ -135,7 +138,6 @@
 
 
         var countdownCtrl = document.getElementById("countdownClock");
-        @*var remaining = @ViewBag.remainingTime; *@
         var remaining = @Html.Raw(Model.CountDownMilliseconds);
         var countDownDate = new Date(); //.getTime();
         countDownDate.setMilliseconds(countDownDate.getMilliseconds() + remaining);
@@ -169,12 +171,20 @@
         }
 
         function DisplayUpdateMessages() {
+
+            //console.log((int)@ViewBag.productId);
+            //console.log((string)@ViewBag.statusMsg);
+
+            //alert(document.getElementById('UpdatedProductId').value);
+            var x = '@Model.UpdatedMessage';
+            var y = '@Model.UpdatedProductId';
+            //alert(x);
+
             $('.status-message').flash_message({
                 text: 'Added to cart!',
                 how: 'append'
             });
         }
-
 
 //#region flashMessage
         (function ($) {
@@ -208,13 +218,13 @@
 
 
 
-        $('.additemxyz').click(function () {
+        //$('.additemxyz').click(function () {
 
-            $('.status-message').flash_message({
-                text: 'Added to cart!',
-                how: 'append'
-            });
-        });
+        //    $('.status-message').flash_message({
+        //        text: 'Added to cart!',
+        //        how: 'append'
+        //    });
+        //});
 //#endregion
 
 

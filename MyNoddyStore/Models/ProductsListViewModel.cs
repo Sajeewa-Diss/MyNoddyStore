@@ -9,5 +9,7 @@ namespace MyNoddyStore.Models
         public PagingInfo PagingInfo { get; set; }
         public string CurrentCategory { get; set; }
         public double CountDownMilliseconds { get; set; }
+        public int UpdatedProductId { get; set; }
+        public string UpdatedMessage { get; set; }
     }
 }

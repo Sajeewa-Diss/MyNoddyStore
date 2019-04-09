@@ -6,12 +6,11 @@
 
     <h3>
         <strong>@Model.Name</strong><span>Stock:@Model.InitialStockCount.ToString() =  @Model.StockCount.ToString() + @Model.MyQuantity.ToString() + @Model.OtherQuantity.ToString()</span>
-        <span class="pull-right label label-primary">@Model.Price.ToString("c")</span>
+        <span class="pull-right label label-primary">@Model.Price.ToString("c")</span><span class="pull-right">testing</span>
     </h3>
 
     @*<button class="additemxyz">AddXYZ</button>*@
-    <div name="statusmsgdiv" class="status-message">
-    </div>
+    <div name="statusmsgdiv" class="status-message" style="display:inline"></div>
 
     @using (Html.BeginForm("UpdateCart", "Cart"))
     {
@@ -19,13 +18,13 @@
             <div class="flex-grid">
                 <div class="flexcol3 quantity">
                     <span>Quantity</span>
-                    <button class="minus-btn" type="button" name="minusbutton">
-                        <img src="~/Images/minus.svg" alt="" />
-                    </button>
-                    <input type="text" class="textclass" name="MyQuantity" size="1" width="50" readonly="readonly" value="@Model.MyQuantity.ToString()">
-                    <button class="plus-btn" type="button" name="plusbutton">
-                        <img src="~/Images/plus.svg" alt="" />
-                    </button>
+                        <button class="minus-btn" type="button" name="minusbutton">
+                            <img src="~/Images/minus.svg" alt="" />
+                        </button>
+                        <input type="text" class="textclass" name="MyQuantity" size="1" width="50" readonly="readonly" value="@Model.MyQuantity.ToString()">
+                        <button class="plus-btn" type="button" name="plusbutton">
+                            <img src="~/Images/plus.svg" alt="" />
+                        </button>
                 </div>
                 <div class="flexcol">
                     <div>

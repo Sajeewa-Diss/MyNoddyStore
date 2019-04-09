@@ -39,15 +39,19 @@ namespace MyNoddyStore.Controllers
         {
             int remainingMilliseconds = Session.GetRemainingTimeOrSetDefault(); // countdown time variable
 
-            ViewBag.remainingTime = remainingMilliseconds;
+            int productId = 0;
+            string updateMsg = string.Empty;
+            //ViewBag.remainingTime = remainingMilliseconds;
 
-            // Check if your key exists
+            // Check if our key exists
             if (TempData["myDictionary"] != null)
             {
                 // get category and page
                 Dictionary<string, object> dict = TempData["myDictionary"] as Dictionary<string, object>;
                 category = ((string)dict["category"] == string.Empty ? null : (string)dict["category"]); //set this to null if empty string
                 page = (int)dict["page"];
+                productId = (int)dict["productId"];
+                updateMsg = (string)dict["message"];
             }
 
 
@@ -82,9 +86,13 @@ namespace MyNoddyStore.Controllers
                     TotalItems = category == null ? repository.Products.Count() : repository.Products.Where(e => e.Categories.EmptyArrayIfNull().Contains(category)).Count()
                 },
                 CurrentCategory = category,
-                CountDownMilliseconds = remainingMilliseconds
+                CountDownMilliseconds = remainingMilliseconds,
+                UpdatedProductId = productId,
+                UpdatedMessage = updateMsg
             };
 
+            ViewBag.productId = (int)productId; //todo remove these two viewbag data (check not used).
+            ViewBag.statusMsg = (string)updateMsg;
             return View(model);
         }
 
