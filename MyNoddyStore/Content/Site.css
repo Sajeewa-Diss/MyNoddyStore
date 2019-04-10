@@ -48,7 +48,8 @@ textarea {
     /*flex: 3;*/
     flex-direction: row;
     flex-wrap: nowrap;
-    min-width:150px;
+    max-width: 150px;
+    min-width: 120px;
 }
 
 /*@media (max-width: 400px) {
@@ -73,7 +74,9 @@ textarea {
 
 span.status-message {
     font-size: 0.75em;
-    color:lime;
+    color: lime;
+    padding-right: 10px;
+    padding-bottom: 0px;
 }
 
 span.status-message.redmessage {

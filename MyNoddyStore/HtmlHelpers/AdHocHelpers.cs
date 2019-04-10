@@ -11,7 +11,6 @@ using MyNoddyStore.Abstract;
 using MyNoddyStore.Models;
 using MyNoddyStore.AdHocHelpers;
 
-
 namespace MyNoddyStore.AdHocHelpers
 {
     public static class AdHocHelpers   // a public static class allows extension method!
@@ -28,13 +27,12 @@ namespace MyNoddyStore.AdHocHelpers
             return sequence.Where(e => e != null).Select(e => e.Value);
         }
 
-        public static IEnumerable<T> EmptyArrayIfNull<T>(this IEnumerable<T> sequence) //todo clean up
+        public static IEnumerable<T> EmptyArrayIfNull<T>(this IEnumerable<T> sequence)
         {
             if (sequence == null) {
-                //string[] emptyArray = new string[] { };            // handle a product with no categories by returning an empty array object.
-                //T[] emptyArray = new T[] { };                        // handle a product with no categories by returning an empty array object.
-
-                //return emptyArray; //.Cast<T>();                         //we could cast to type T but this is superfluous.
+                //string[] emptyArray = new string[] { };            // handle a product with no categories by returning an empty array object (non-generic).
+                //T[] emptyArray = new T[] { };                      // handle a product with no categories by returning an empty array object.
+                //return emptyArray.Cast<T>();                       // we could cast to type T (this is valid but superfluous).
                 return new T[] { };
             }
             else
@@ -42,18 +40,6 @@ namespace MyNoddyStore.AdHocHelpers
                 return sequence;
             }
         }
-
-        //public static void SetObjectAsJson(this ISession session, string key, object value) //todo use this values and change this class name or delete these methods
-        //{
-        //    session.SetString(key, JsonConvert.SerializeObject(value));
-        //}
-
-        //public static T GetObjectFromJson<T>(this ISession session, string key)
-        //{
-        //    var value = session.GetString(key);
-
-        //    return value == null ? default(T) : JsonConvert.DeserializeObject<T>(value);
-        //}
 
         public static T GetDataFromSession<T>(this HttpSessionStateBase session, string key)  //todo use this values and change this class name or delete these methods
         {
@@ -72,7 +58,28 @@ namespace MyNoddyStore.AdHocHelpers
             session[key] = value;
         }
 
-        //if countdown already started, return the remaining time. Otherwise return a default start value.
+        public static int GetLastItemAddedByOtherPlayer(this HttpSessionStateBase session)
+        {
+            return session.GetDataFromSession<int>("lastItemAdded");
+        }
+
+        public static void SetLastItemAddedByOtherPlayer(this HttpSessionStateBase session, int value)
+        {
+            session.SetDataToSession<int>("lastItemAdded", value);
+        }
+
+        //used to cycle through the products inventory. 
+        public static bool GetShoppingByOtherPlayerCompleted(this HttpSessionStateBase session)
+        {
+            return session.GetDataFromSession<bool>("shoppingCompleted");
+        }
+
+        public static void SetShoppingByOtherPlayerCompleted(this HttpSessionStateBase session, bool value)
+        {
+            session.SetDataToSession<bool>("shoppingCompleted", value);
+        }
+
+        //if countdown already started, return the remaining time. Otherwise return a start value.
         public static int GetRemainingTimeOrSetDefault(this HttpSessionStateBase session)
         {
             int remainingMilliseconds; // countdown time variable
@@ -110,6 +117,29 @@ namespace MyNoddyStore.AdHocHelpers
             }
             return remainingMilliseconds;
         }
+
+        public static int GetCountdownRandomizerValue(this HttpSessionStateBase session)
+        {
+            //returns 1 or 2 randomly based on the session countdown start time.
+            int milliseconds = session.GetDataFromSession<DateTime>("countdownTimeCsKey").Millisecond;
+            return new System.Random(milliseconds).Next(0, 2) + 1;
+        }
+
+        //#region redundant methods. Keep as reference
+
+        //public static void SetObjectAsJson(this ISession session, string key, object value) //todo use this values and change this class name or delete these methods
+        //{
+        //    session.SetString(key, JsonConvert.SerializeObject(value));
+        //}
+
+        //public static T GetObjectFromJson<T>(this ISession session, string key)
+        //{
+        //    var value = session.GetString(key);
+
+        //    return value == null ? default(T) : JsonConvert.DeserializeObject<T>(value);
+        //}
+
+        //#endreion
 
     }
 }

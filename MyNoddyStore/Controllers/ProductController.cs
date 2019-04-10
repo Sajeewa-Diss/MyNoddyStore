@@ -37,7 +37,7 @@ namespace MyNoddyStore.Controllers
         //[OutputCache(NoStore = true, Duration = 0, VaryByParam = "None")]
         public ViewResult List(string category, int page = 1)
         {
-            int remainingMilliseconds = Session.GetRemainingTimeOrSetDefault(); // countdown time variable
+            int remainingMilliseconds = Session.GetRemainingTimeOrSetDefault(); // countdown time variable. todo set this to get only.
 
             int productId = 0;
             string updateMsg = string.Empty;
@@ -55,7 +55,7 @@ namespace MyNoddyStore.Controllers
             }
 
 
-            //Original code worked for one category per product only.
+            //Original code correctly works for one category per product only.
             //ProductsListViewModel model = new ProductsListViewModel
             //{
             //    Products = repository.Products
@@ -91,33 +91,9 @@ namespace MyNoddyStore.Controllers
                 UpdatedMessage = updateMsg
             };
 
-            ViewBag.productId = (int)productId; //todo remove these two viewbag data (check not used).
-            ViewBag.statusMsg = (string)updateMsg;
+            //ViewBag.productId = (int)productId; //todo remove these two viewbag data (check not used).
+            //ViewBag.statusMsg = (string)updateMsg;
             return View(model);
         }
-
-        //private int GetCountdownOrSetDefault(int defaultVal = 10)
-        //{
-        //    int remainingMilliseconds; // countdown time variable
-
-        //    //var context = HttpContext.Current; //.Session;
-
-        //    //if countdown already started, don't do anything
-        //    DateTime countdownTime = Session.GetDataFromSession<DateTime>("countdownTimeCsKey");
-
-        //    if (countdownTime == DateTime.MinValue)
-        //    {
-        //        //set a new countdown time of 31 seconds (1 second extra to account for lag)
-        //        Session.SetDataToSession<string>("countdownTimeCsKey", DateTime.Now.AddMilliseconds(40000));
-        //        remainingMilliseconds = 41000;
-        //    }
-        //    else
-        //    {
-        //        TimeSpan tsRemaining = countdownTime - DateTime.Now;
-        //        remainingMilliseconds = (int)tsRemaining.TotalMilliseconds;  //convert to integer for passing to view.
-        //    }
-
-        //    return 10;
-        //}
     }
 }

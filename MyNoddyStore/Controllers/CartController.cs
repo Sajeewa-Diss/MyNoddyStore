@@ -50,6 +50,7 @@ namespace MyNoddyStore.Controllers
             });
         }
 
+        //this legacy method is no longer used by our pattern.
         public RedirectToRouteResult AddToCart(Cart cart, int productId, int MyQuantity, string returnUrl)
         {
             Product product = repository.Products
@@ -69,7 +70,10 @@ namespace MyNoddyStore.Controllers
         //Although this second option is a candidate for an Ajax upload of the partial view, we in fact relaod the whole screen to refresh any updates to the stock of all displayed items.
         public RedirectToRouteResult UpdateCart(Cart cart, int productId, int MyQuantity, string returnUrl, int pageNumber, string categoryString, string submitUpdate) //, string submitCheckout)
         {
-            string updateMsg = "";
+            string updateMsg = ""; //todo handle when time expired with a suitable update message.
+
+            //When returning to this controller, always update the cart with simulated activity by the computer-player.
+            SimulateSweepUser(cart);
 
             //store the pageNumber and categoryString params in temp data (this is kind of a bodge). Add any other necessary data.
             Dictionary<string, object> dict = new Dictionary<string, object>();
@@ -108,100 +112,7 @@ namespace MyNoddyStore.Controllers
             }
             return RedirectToAction("Index", new { returnUrl });
         }
-
-        //alternative type of removeall construct.
-        //public ActionResult Remove(Mobiles mob)
-        //{
-        //    List<Mobiles> li = (List<Mobiles>)Session["cart"];
-        //    li.RemoveAll(x => x.slno == mob.slno);
-        //    Session["cart"] = li;
-        //    Session["count"] = Convert.ToInt32(Session["count"]) - 1;
-        //    return RedirectToAction("Myorder", "AddToCart");
-
-        //}
-
-        //Adding Server-side Functions for Refreshing Quantity
-        //We do not change the data properties in any model this time.
-        //We just add functions to save the album item in the cart to the database and then return the data in JSON format for messaging purpose.
-        //In Controllers\ShoppingCartController.cs:
-        //[HttpPost]
-        //public ActionResult UpdateCartCount(int id, int cartCount)
-        //{
-        //    // Get the cart 
-        //    var cart = ShoppingCart.GetCart(this.HttpContext);
-
-        //    // Get the name of the album to display confirmation 
-        //    string albumName = storeDB.Carts
-        //        .Single(item => item.RecordId == id).Album.Title;
-
-        //    // Update the cart count 
-        //    int itemCount = cart.UpdateCartCount(id, cartCount);
-
-        //    //Prepare messages
-        //    string msg = "The quantity of " + Server.HtmlEncode(albumName) +
-        //            " has been refreshed in your shopping cart.";
-        //    if (itemCount == 0) msg = Server.HtmlEncode(albumName) +
-        //            " has been removed from your shopping cart.";
-        //    //
-        //    // Display the confirmation message 
-        //    var results = new ShoppingCartRemoveViewModel
-        //    {
-        //        Message = msg,
-        //        CartTotal = cart.GetTotal(),
-        //        CartCount = cart.GetCount(),
-        //        ItemCount = itemCount,
-        //        DeleteId = id
-        //    };
-        //    return Json(results);
-        //}
-
-
-        //[HttpPost]
-        //public ActionResult UpdateCartCount(int id, int cartCount)
-        //{
-        //    ShoppingCartRemoveViewModel results = null;
-        //    try
-        //    {
-        //        // Get the cart 
-        //        var cart = ShoppingCart.GetCart(this.HttpContext);
-
-        //        // Get the name of the album to display confirmation 
-        //        string albumName = storeDB.Carts
-        //            .Single(item => item.RecordId == id).Album.Title;
-
-        //        // Update the cart count 
-        //        int itemCount = cart.UpdateCartCount(id, cartCount);
-
-        //        //Prepare messages
-        //        string msg = "The quantity of " + Server.HtmlEncode(albumName) +
-        //                " has been refreshed in your shopping cart.";
-        //        if (itemCount == 0) msg = Server.HtmlEncode(albumName) +
-        //                " has been removed from your shopping cart.";
-        //        //
-        //        // Display the confirmation message 
-        //        results = new ShoppingCartRemoveViewModel
-        //        {
-        //            Message = msg,
-        //            CartTotal = cart.GetTotal(),
-        //            CartCount = cart.GetCount(),
-        //            ItemCount = itemCount,
-        //            DeleteId = id
-        //        };
-        //    }
-        //    catch
-        //    {
-        //        results = new ShoppingCartRemoveViewModel
-        //        {
-        //            Message = "Error occurred or invalid input...",
-        //            CartTotal = -1,
-        //            CartCount = -1,
-        //            ItemCount = -1,
-        //            DeleteId = id
-        //        };
-        //    }
-        //    return Json(results);
-        //}
-
+   
 
         public PartialViewResult Summary(Cart cart)
         {
@@ -242,6 +153,29 @@ namespace MyNoddyStore.Controllers
             {
                 return View(shippingDetails);
             }
+        }
+
+        //Simulate another user shopping up to this point in time or until the end of the sweep time-period.
+        private void SimulateSweepUser(Cart cart, bool shopToEnd = false)
+        {
+            //ensure we are within time or that the sweep user hasn't yet finished
+
+            int x = Session.GetLastItemAddedByOtherPlayer();
+            bool y = Session.GetShoppingByOtherPlayerCompleted();
+            //SetShoppingByOtherPlayerCompleted
+
+
+
+            //AdHocHelpers.LastItemAddedByOtherPlayer { get; set; }     //used to cycle through the products inventory. 
+            //AdHocHelpers.ShoppingByOtherPlayerCompleted { get; set; }
+
+            int z = Session.GetCountdownRandomizerValue();
+
+            //System.Diagnostics.Debug.WriteLine(x.ToString() + " hh " + y.ToString() + " hh " + z.ToString());
+
+            //set the two static properties.
+            //Session.SetLastItemAddedByOtherPlayer(0);
+            //Session.SetShoppingByOtherPlayerCompleted(true);
         }
 
         //Balance stock and quantities in current cart update request
