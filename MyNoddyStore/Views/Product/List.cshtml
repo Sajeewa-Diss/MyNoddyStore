@@ -21,7 +21,7 @@
     <script type="text/javascript">
         var modelProducts; // initial products in cart
         //var countdownVal;
-        var updatedProductId; //todo convert this to model params.
+        var updatedProductId;
         var updatedMsg;
 
         //$('.update-btn-class').on('click', function (e) {
@@ -31,7 +31,7 @@
         //});
 
         $('.plus-btn').on('click', function (e) {
-            //e.preventDefault();
+            e.preventDefault();
             var $this = $(this);
             var $input = $this.closest('div').find('input');
             var value = parseInt($input.val());
@@ -50,7 +50,6 @@
             $input.val(value);
             ResetLocalUpdateButton($this);
         });
-
 
         $('.minus-btn').on('click', function (e) {
             e.preventDefault();
@@ -79,7 +78,7 @@
 
             //if current quantity differs from the original value, then the cart value needs to be updated - otherwise the update button should be disabled.
             if (currentQuantity == cartQuantity) {
-                $(thisUpdateButton).attr('disabled', true);
+                $(thisUpdateButton).attr('disabled', 'disabled');
                 //$(thisUpdateButton).prop('disabled', true);   //boolean [attr]ibutes and [prop]erties are treated similarly in JQuery. So this code also works.
             } else {
                 $(thisUpdateButton).removeAttr('disabled');
@@ -87,16 +86,27 @@
             }
         }
 
-        function ActivateThisStatusMessageControl(localElement)
+        function ShowCartUpdateStatusMessage()
         {
-            //diable all other status message controls and enable the local one corresponding to this update button.
+            //disable all other status message controls and enable the local one corresponding to this update button.
             var elements = document.getElementsByClassName("status-message");
             var i;
             for (i = 0; i < elements.length; i++) {
+
+                //find the corresponding 
+
+
                 elements[i].setAttribute("style", "display:none");
             }
-            var thisDiv = localElement.closest("div[name='mainchilddiv']").find("div[name='statusmsgdiv']");
-            $(thisDiv).attr('style', 'display:inline');
+            //var thisDiv = localElement.closest("div[name='mainchilddiv']").find("div[name='statusmsgdiv']");
+            //$(thisDiv).attr('style', 'display:inline');
+            elements[2].setAttribute("style", "display:inline");
+
+            $('.status-message').flash_message({
+                text: updatedMsg,
+                how: 'append'
+            });
+
         }
 
         function GetProductId(localElement) {
@@ -120,20 +130,17 @@
                 //if (x[i].type == "checkbox") {
                 //    x[i].checked = true;
                 //}
-                buttons[i].disabled = true;}
+                buttons[i].disabled = 'disabled';}
         }
 
         $(document).ready(function () {
             modelProducts =  @Html.Raw(Json.Encode(Model.Products));
 
-            //updatedProductId = @ViewBag.productId; //todo convert this to model params.
+            //updatedProductId = @ViewBag.productId; //todo remove
             //updatedMsg = (@ViewBag.statusMsg;
 
-
-
             DisableAllUpdateButtons();
-
-            DisplayUpdateMessages();
+            DisplayUpdateMessage();
         });
 
 
@@ -170,20 +177,22 @@
             }
         }
 
-        function DisplayUpdateMessages() {
+        function DisplayUpdateMessage() {
 
             //console.log((int)@ViewBag.productId);
             //console.log((string)@ViewBag.statusMsg);
 
             //alert(document.getElementById('UpdatedProductId').value);
-            var x = '@Model.UpdatedMessage';
-            var y = '@Model.UpdatedProductId';
-            //alert(x);
+            updatedMsg = '@Model.UpdatedMessage';
+            updatedProductId = '@Model.UpdatedProductId';
 
-            $('.status-message').flash_message({
-                text: 'Added to cart!',
-                how: 'append'
-            });
+            if (updatedMsg != "" && updatedProductId != 0) { //we can only show a message that exists for a valid product id, so both params are necessary.
+                ShowCartUpdateStatusMessage();
+            }
+
+            //reset any values
+            updatedMsg = "";
+            updatedProductId = 0;
         }
 
 //#region flashMessage

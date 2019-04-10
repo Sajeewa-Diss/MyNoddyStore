@@ -48,6 +48,7 @@ textarea {
     /*flex: 3;*/
     flex-direction: row;
     flex-wrap: nowrap;
+    min-width:150px;
 }
 
 /*@media (max-width: 400px) {
@@ -69,4 +70,15 @@ textarea {
     color: #43484D;
     font-weight: 300;
 }
+
+span.status-message {
+    font-size: 0.75em;
+    color:lime;
+}
+
+span.status-message.red {
+    font-size: 0.75em;
+    color: red;
+}
+
 

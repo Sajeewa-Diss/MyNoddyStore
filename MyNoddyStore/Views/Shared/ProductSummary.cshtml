@@ -6,11 +6,10 @@
 
     <h3>
         <strong>@Model.Name</strong><span>Stock:@Model.InitialStockCount.ToString() =  @Model.StockCount.ToString() + @Model.MyQuantity.ToString() + @Model.OtherQuantity.ToString()</span>
-        <span class="pull-right label label-primary">@Model.Price.ToString("c")</span><span class="pull-right">testing</span>
+        <span class="pull-right label label-primary">@Model.Price.ToString("c")</span><span name="statusmsgspan" class="pull-right status-message" style="position: absolute; display:inline"></span>
     </h3>
 
-    @*<button class="additemxyz">AddXYZ</button>*@
-    <div name="statusmsgdiv" class="status-message" style="display:inline"></div>
+    @*<div name="statusmsgdiv" class="status-message" style="display:inline"></div>*@
 
     @using (Html.BeginForm("UpdateCart", "Cart"))
     {
@@ -34,7 +33,7 @@
                         @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
                         @Html.Hidden("pageNumber", (object)ViewBag.pageNumber)
                         @Html.Hidden("categoryString", (object)ViewBag.categoryString)
-                        <input type="submit" name="submitUpdate" id="btnUpdate" class="btn btn-success update-btn-class" value="Update" />
+                        <input type="submit" name="submitUpdate" id="btnUpdate" class="btn btn-success update-btn-class" value="Update" disabled="disabled" />
                     </div>
                 </div>
                 <div class="flexcol">
