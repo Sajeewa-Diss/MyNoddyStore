@@ -19,16 +19,10 @@
     @*This script manipulates items on the page. Whereas it may seem more pertinent to add this script per ProductSummary partial-view form, in practice 
         that may cause issues with multiple events being bound to the forms (one for each time a child form is loaded) *@
     <script type="text/javascript">
+
+        const successMessage = "Updated";
         var modelProducts; // initial products in cart
         //var countdownVal;
-        //var updatedProductId;
-        //var updatedMsg;
-
-        //$('.update-btn-class').on('click', function (e) {
-        //    //e.preventDefault();
-        //    var $this = $(this);
-        //    ActivateThisStatusMessageControl($this);
-        //});
 
         $('.plus-btn').on('click', function (e) {
             e.preventDefault();
@@ -97,21 +91,23 @@
                 var localProdId = $(elements[i].closest("div[name='mainchilddiv']")).find("input[name='ProductID']").val();
                 if (localProdId == targetProductId) {
                     elements[i].setAttribute("style", "display:inline");
+
+                    //make the message red or green depending on success or failure.
+                    if (message == successMessage) {
+                        $(elements[i]).removeClass("redmessage")
+                    } else {
+                        $(elements[i]).addClass("redmessage");
+                    }
                 } else {
                     elements[i].setAttribute("style", "display:none");
                 }
-
-                
             }
-            //var thisDiv = localElement.closest("div[name='mainchilddiv']").find("div[name='statusmsgdiv']");
-            //$(thisDiv).attr('style', 'display:inline');
-            //elements[2].setAttribute("style", "display:inline");
 
+            //Call the JQuery function that flashes our message.
             $('.status-message').flash_message({
                 text: message,
                 how: 'append'
             });
-
         }
 
         function GetProductId(localElement) {
@@ -127,7 +123,6 @@
         }
 
         //For each Update button on screen, set the initial state to disabled.
-        //todo set all buttons to disabled to begin with!
         function DisableAllUpdateButtons() {
             var buttons = document.getElementsByName("submitUpdate");
             var i;
@@ -140,10 +135,6 @@
 
         $(document).ready(function () {
             modelProducts =  @Html.Raw(Json.Encode(Model.Products));
-
-            //updatedProductId = @ViewBag.productId; //todo remove
-            //updatedMsg = (@ViewBag.statusMsg;
-
             DisableAllUpdateButtons();
             DisplayUpdateMessage();
         });
@@ -151,7 +142,7 @@
 
         var countdownCtrl = document.getElementById("countdownClock");
         var remaining = @Html.Raw(Model.CountDownMilliseconds);
-        var countDownDate = new Date(); //.getTime();
+        var countDownDate = new Date();
         countDownDate.setMilliseconds(countDownDate.getMilliseconds() + remaining);
 
         // Update the count down every 1 second
@@ -184,10 +175,6 @@
 
         function DisplayUpdateMessage() {
 
-            //console.log((int)@ViewBag.productId);
-            //console.log((string)@ViewBag.statusMsg);
-
-            //alert(document.getElementById('UpdatedProductId').value);
             var updatedMsg = '@Model.UpdatedMessage';
             var updatedProductId = '@Model.UpdatedProductId';
 
@@ -200,7 +187,7 @@
             updatedProductId = 0;
         }
 
-//#region flashMessage
+//#region JQuery flashMessage
         (function ($) {
             $.fn.flash_message = function (options) {
 
@@ -230,44 +217,8 @@
             };
         })(jQuery);
 
-
-
-        //$('.additemxyz').click(function () {
-
-        //    $('.status-message').flash_message({
-        //        text: 'Added to cart!',
-        //        how: 'append'
-        //    });
-        //});
 //#endregion
 
-
-
-
-
-
-
-
-
-
-
-
-
     </script>
-    @*
-        <script>
-          $(document).ready(function () {
-            $("#btnSave").click(function () {
-                $("form").attr("action", "/Customer/Save");
-            });
-            $("#btnSaveForLatter").click(function () {
-                $("form").attr("action", "/Customer/SaveForLater");
-            });
-            $("#btnSaveAndPublish").click(function () {
-                $("form").attr("action", "/Customer/SaveAndPublish");
-            });
-          });
-        </script>
-    *@
 
 

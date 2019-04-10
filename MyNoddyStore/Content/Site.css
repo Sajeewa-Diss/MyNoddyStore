@@ -76,7 +76,7 @@ span.status-message {
     color:lime;
 }
 
-span.status-message.red {
+span.status-message.redmessage {
     font-size: 0.75em;
     color: red;
 }
