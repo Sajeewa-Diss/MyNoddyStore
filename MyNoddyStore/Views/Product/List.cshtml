@@ -21,8 +21,8 @@
     <script type="text/javascript">
         var modelProducts; // initial products in cart
         //var countdownVal;
-        var updatedProductId;
-        var updatedMsg;
+        //var updatedProductId;
+        //var updatedMsg;
 
         //$('.update-btn-class').on('click', function (e) {
         //    //e.preventDefault();
@@ -86,24 +86,29 @@
             }
         }
 
-        function ShowCartUpdateStatusMessage()
+        function ShowCartUpdateStatusMessage(targetProductId, message)
         {
             //disable all other status message controls and enable the local one corresponding to this update button.
             var elements = document.getElementsByClassName("status-message");
             var i;
             for (i = 0; i < elements.length; i++) {
 
-                //find the corresponding 
+                //find the corresponding product id
+                var localProdId = $(elements[i].closest("div[name='mainchilddiv']")).find("input[name='ProductID']").val();
+                if (localProdId == targetProductId) {
+                    elements[i].setAttribute("style", "display:inline");
+                } else {
+                    elements[i].setAttribute("style", "display:none");
+                }
 
-
-                elements[i].setAttribute("style", "display:none");
+                
             }
             //var thisDiv = localElement.closest("div[name='mainchilddiv']").find("div[name='statusmsgdiv']");
             //$(thisDiv).attr('style', 'display:inline');
-            elements[2].setAttribute("style", "display:inline");
+            //elements[2].setAttribute("style", "display:inline");
 
             $('.status-message').flash_message({
-                text: updatedMsg,
+                text: message,
                 how: 'append'
             });
 
@@ -183,11 +188,11 @@
             //console.log((string)@ViewBag.statusMsg);
 
             //alert(document.getElementById('UpdatedProductId').value);
-            updatedMsg = '@Model.UpdatedMessage';
-            updatedProductId = '@Model.UpdatedProductId';
+            var updatedMsg = '@Model.UpdatedMessage';
+            var updatedProductId = '@Model.UpdatedProductId';
 
             if (updatedMsg != "" && updatedProductId != 0) { //we can only show a message that exists for a valid product id, so both params are necessary.
-                ShowCartUpdateStatusMessage();
+                ShowCartUpdateStatusMessage(updatedProductId, updatedMsg);
             }
 
             //reset any values
