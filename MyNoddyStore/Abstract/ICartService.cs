@@ -9,6 +9,6 @@ namespace MyNoddyStore.Abstract
 {
     public interface ICartService
     {
-        string GetSomeData();
+        //string GetSomeData();
     }
 }

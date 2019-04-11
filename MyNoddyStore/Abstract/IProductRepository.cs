@@ -10,6 +10,8 @@ namespace MyNoddyStore.Abstract
     public interface IProductRepository
     {
         IEnumerable<Product> Products { get; }
+        
         //string TestConnection();
+
     }
 }

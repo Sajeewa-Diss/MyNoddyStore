@@ -4,6 +4,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Diagnostics;
 using MyNoddyStore.Abstract;
+using MyNoddyStore.Entities;
 using MyNoddyStore.Models;
 using MyNoddyStore.HtmlHelpers;
 
@@ -37,12 +38,20 @@ namespace MyNoddyStore.Controllers
         public ViewResult List(string category, int page = 1)
         {
             int remainingMilliseconds = Session.GetRemainingTimeOrSetDefault(); // countdown time variable. todo set this to get only.
+            Cart cart = new Cart();
 
             int productId = 0;
             string updateMsg = string.Empty;
             //ViewBag.remainingTime = remainingMilliseconds;
 
-            // Check if our key exists
+            // Check if "cartObj" key exists
+            if (TempData["cartObj"] != null)
+            {
+                // get category and page
+                cart = (Cart)TempData["cartObj"];
+            }
+
+            // Check if "myDictionary" key exists
             if (TempData["myDictionary"] != null)
             {
                 // get category and page
@@ -52,7 +61,6 @@ namespace MyNoddyStore.Controllers
                 productId = (int)dict["productId"];
                 updateMsg = (string)dict["message"];
             }
-
 
             //Original code correctly works for one category per product only.
             //ProductsListViewModel model = new ProductsListViewModel
@@ -71,13 +79,37 @@ namespace MyNoddyStore.Controllers
             //    CurrentCategory = category
             //};
 
-            ProductsListViewModel model = new ProductsListViewModel
-            {
-                Products = repository.Products
-                    .Where(p => category == null || p.Categories.EmptyArrayIfNull().Contains(category))
+            //merge product and cart info
+
+
+
+
+
+
+
+
+
+
+
+
+            //var products = repository.Products
+            //        .Where(p => category == null || p.Categories.EmptyArrayIfNull().Contains(category))
+            //        .OrderBy(p => p.ProductID)
+            //        .Skip((page - 1) * PageSize)
+            //        .Take(PageSize);
+
+            IEnumerable<Product> x = repository.Products;
+
+            var mergedProductList = x.Where(p => category == null || p.Categories.EmptyArrayIfNull().Contains(category))
                     .OrderBy(p => p.ProductID)
                     .Skip((page - 1) * PageSize)
-                    .Take(PageSize),
+                    .Take(PageSize);
+
+            MergeProductsStockWithCart(mergedProductList, cart);
+
+            ProductsListViewModel model = new ProductsListViewModel
+            {
+                Products = mergedProductList,
                 PagingInfo = new PagingInfo
                 {
                     CurrentPage = page,
@@ -93,6 +125,23 @@ namespace MyNoddyStore.Controllers
             //ViewBag.productId = (int)productId; //todo remove these two viewbag data (check not used).
             //ViewBag.statusMsg = (string)updateMsg;
             return View(model);
+        }
+
+        private void MergeProductsStockWithCart(IEnumerable<Product> products, Cart cart)
+        {
+            IEnumerable<CartLine> lineList = cart.Lines;
+            
+            foreach (var pr in products)
+            {
+                foreach(var lineItem in lineList)
+                {
+                    if (lineItem.Product.ProductID == pr.ProductID)
+                    {
+                        pr.MyQuantity = lineItem.Quantity;
+                    }
+                }
+
+            }
         }
     }
 }

@@ -8,7 +8,7 @@ namespace MyNoddyStore.Entities
 {
     public class Cart
     {
-        private List<CartLine> lineCollection = new List<CartLine>();
+        public List<CartLine> lineCollection = new List<CartLine>(); //todo keep this private??
 
         //public void AddItem(Product product, int quantity)
         //{

@@ -10,7 +10,7 @@ namespace MyNoddyStore.Models
     {
         public Cart Cart { get; set; }
         public string ReturnUrl { get; set; }
-        public string UpdateMessage { get; set; }
+        public string UpdateMessage { get; set; }         //todo remove??
         public double CountDownMilliseconds { get; set; }
     }
 }

@@ -55,27 +55,19 @@ namespace MyNoddyStore
                 WriteAsFile = bool.Parse(ConfigurationManager.AppSettings["Email.WriteAsFile"] ?? "false")
             };
 
-            //Console.WriteLine("RegisterTypesCalled"); //todo remove me
-            System.Diagnostics.Debug.WriteLine("how often am i called");
+            EFProductRepository newRepo = new EFProductRepository();
 
             // TODO: Register your type's mappings here.
-            var mock = new Mock<IProductRepository>();
-
+            //var mock = new Mock<IProductRepository>();
+            //mock.Setup(m => m.Products).Returns(GetProductsList());
+            //container.RegisterInstance<IProductRepository>(mock.Object); //note this repository object is shared by all browser sessions.
+            
             //TODO use Hangfire somewhere.
 
-            /*
-            mock.Setup(m => m.Products).Returns(new List <Product> { //a list automatically implements IEnumerable!.
-               new Product { ProductID = 1, Name = "Aadvark", Description = "Customers who ordered this also ordered: Termite mounds.", ShortDescription = "Ant-free zone", Picture = "aadvark",
-                   Categories = new string[] { "Pets" }, Price = 105M, InitialStockCount = 3, StockCount = 3, MyQuantity = 0, OtherQuantity = 0 },
-               new Product { ProductID = 20, Name = "Zipwire" ..etc..
-            }; */
-            mock.Setup(m => m.Products).Returns(GetProductsList());
-
-            container.RegisterInstance<IProductRepository>(mock.Object);
-
+            container.RegisterInstance<IProductRepository>(newRepo);
             container.RegisterType<IOrderProcessor, EmailOrderProcessor>(new InjectionConstructor(emailSettings));
 
-            //container.RegisterType<IEmail, Email>(new InjectionFactory(c => new Email("To Name","to@email.com")));
+            //container.RegisterType<IEmail, Email>(new InjectionFactory(c => new Email("To Name","to@email.com")));         //todo tidy this up
             //var email = container.Resolve<IEmail>();
             //container.RegisterType<OperationEntity>("email", new ContainerControlledLifetimeManager(), new InjectionConstructor(email));
 
@@ -103,9 +95,9 @@ namespace MyNoddyStore
                 new Product { ProductID = 4, Name = "Caviar (Vegan)", Description = "A miracle of science.", ShortDescription = "Scientific", Picture = "caviarvegan",
                        Categories = new string[] { "Food", "Gifts" }, Price = 18M, InitialStockCount = 100, StockCount = 100, MyQuantity = 0, OtherQuantity = 0 },
                 new Product { ProductID = 5, Name = "Champagne", Description = "Bollinger 1974.", ShortDescription = "Boli '74", Picture = "champagne",
-                       Categories = new string[] { "Food", "Gifts" }, Price = 55M, InitialStockCount = 10, StockCount = 10, MyQuantity = 0, OtherQuantity = 0 },
+                       Categories = new string[] { "Food", "Gifts" }, Price = 55M, InitialStockCount = 8, StockCount = 8, MyQuantity = 0, OtherQuantity = 0 },
                 new Product { ProductID = 6, Name = "Chateauneuf", Description = "du pape 1974.", ShortDescription = "dupape '74", Picture = "chateauneuf",
-                       Categories = new string[] { "Food", "Gifts" }, Price = 35M, InitialStockCount = 10, StockCount = 10, MyQuantity = 0, OtherQuantity = 0 },
+                       Categories = new string[] { "Food", "Gifts" }, Price = 35M, InitialStockCount = 8, StockCount = 8, MyQuantity = 0, OtherQuantity = 0 },
                 new Product { ProductID = 7, Name = "Cherries", Description = "Punnet of cherries.", ShortDescription = "Fresh", Picture = "cherry",
                        Categories = new string[] { "Food" }, Price = 3M, InitialStockCount = 100, StockCount = 100, MyQuantity = 0, OtherQuantity = 0 },
                 new Product { ProductID = 8, Name = "Blue Dress", Description = "or is it gold?", ShortDescription = "Cotton", Picture = "dressblue",
@@ -137,9 +129,9 @@ namespace MyNoddyStore
                 new Product { ProductID = 21, Name = "Unicorn", Description = "An item never in stock.", ShortDescription = "No stock", Picture = "unicorn",
                        Categories = new string[] { "Gifts", "Pets" }, Price = 90000M, InitialStockCount = 0, StockCount = 0, MyQuantity = 0, OtherQuantity = 0 },
                 new Product { ProductID = 22, Name = "Smartwatch", Description = "Also tells the time.", ShortDescription = "Android", Picture = "smartwatch",
-                       Categories = new string[] { "Fashion", "Gifts" }, Price = 350M, InitialStockCount = 8, StockCount = 8, MyQuantity = 0, OtherQuantity = 0 },
+                       Categories = new string[] { "Fashion", "Gifts" }, Price = 350M, InitialStockCount = 6, StockCount = 6, MyQuantity = 0, OtherQuantity = 0 },
                 new Product { ProductID = 23, Name = "Wristwatch", Description = "Sporty and elegant.", ShortDescription = "Tick-tock", Picture = "wristwatch",
-                       Categories = new string[] { "Fashion", "Gifts" }, Price = 180M, InitialStockCount = 10, StockCount = 10, MyQuantity = 0, OtherQuantity = 0 },
+                       Categories = new string[] { "Fashion", "Gifts" }, Price = 180M, InitialStockCount = 6, StockCount = 6, MyQuantity = 0, OtherQuantity = 0 },
                 new Product { ProductID = 24, Name = "Zipwire", Description = "An item with no categories.", ShortDescription = "Category-less", Picture = "zipwire",
                     //   Categories = new string[] { "Circus" },
                     Price = 15.99M, InitialStockCount = 100, StockCount = 100, MyQuantity = 0, OtherQuantity = 0 }

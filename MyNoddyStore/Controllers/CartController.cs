@@ -96,6 +96,7 @@ namespace MyNoddyStore.Controllers
                 dict.Add("message", updateMsg);
                 TempData["myDictionary"] = dict;       // Store it in the TempData
 
+                TempData["cartObj"] = cart;
                 return RedirectToAction("List", "Product");
             }
         }
