@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Diagnostics;
 using System.Web;
 using System.Web.Mvc;
 using System.Collections.Generic;
@@ -7,23 +8,21 @@ using MyNoddyStore.HtmlHelpers;
 using MyNoddyStore.Abstract;
 using MyNoddyStore.Entities;
 using MyNoddyStore.Models;
-using MyNoddyStore.AdHocHelpers;
 
 namespace MyNoddyStore.Controllers
 {
     public class CartController : Controller
     {
-        private readonly ICartService cartService; //todo decide should this be readonly??
+        //private readonly ICartService cartService;
         private IProductRepository repository;
         private IOrderProcessor orderProcessor;
         private string messageString;
-        //private DateTime countdownTimeCs; 
 
         public CartController(IProductRepository repo, IOrderProcessor proc)
         {
             repository = repo;
             orderProcessor = proc;
-            //cartService = how to set this??
+            //cartService = set this here if req'd
         }
 
         //[OutputCache(NoStore = true, Duration = 0, VaryByParam = "None")]
@@ -36,7 +35,6 @@ namespace MyNoddyStore.Controllers
             //    category = ((string)dict["category"] == string.Empty ? null : (string)dict["category"]); //set this to null if empty string
             //    page = (int)dict["page"];
             //}
-
 
             ViewBag.remainingTime = 50000; //todo set this
 
@@ -117,12 +115,13 @@ namespace MyNoddyStore.Controllers
         public PartialViewResult Summary(Cart cart)
         {
             //update product quantity using cartline
-            foreach(var line in cart.Lines)
+            foreach (var line in cart.Lines)
             {
                 line.Product.MyQuantity = line.Quantity;
+                line.Product.OtherQuantity = line.OtherQuantity;
             }
 
-            int remainingMilliseconds = Session.GetRemainingTimeOrSetDefault(); //todo remove this viewbag setter!!
+            int remainingMilliseconds = Session.GetRemainingTime();
             ViewBag.remainingTime = remainingMilliseconds;
 
             return PartialView(cart);
@@ -156,26 +155,62 @@ namespace MyNoddyStore.Controllers
         }
 
         //Simulate another user shopping up to this point in time or until the end of the sweep time-period.
+        //This method will add one item to cart per second of shopping allowed or remaining.
         private void SimulateSweepUser(Cart cart, bool shopToEnd = false)
         {
-            //ensure we are within time or that the sweep user hasn't yet finished
+            //System.Diagnostics.Debug.WriteLine("simulate sweep method entered");
 
-            int x = Session.GetLastItemAddedByOtherPlayer();
-            bool y = Session.GetShoppingByOtherPlayerCompleted();
-            //SetShoppingByOtherPlayerCompleted
+            int lastProdId = 0;
+            int numItemsToAdd = 0;
 
+            //ensure that the sweep user hasn't yet finished
+            bool sweepCompleted = Session.GetShoppingByOtherPlayerCompleted(); //todo set this somewhere else to remove null reference exception  - check for all other such objects.
+            if (sweepCompleted){
+                return;          //Operation has completed. No need to simulate shopping.
+            }
+
+            int maxItemLimit = HtmlHelpers.AdHocHelpers.simulatedShoppingItemLimit;
+            int totalMilliseconds = HtmlHelpers.AdHocHelpers.shoppingTimeMilliseconds;
+            int currentItemQuantity = SumOtherQuantity(cart);
+
+            //ensure we are within time. If so, calculate number of seconds of shopping time to simulate. If not, shop to end of period.
+            int remainingMilliseconds = Session.GetRemainingTime();
+            if (remainingMilliseconds <= 0){ //if shopping time has expired, then shop to the end of the time period (and set appropriate flags).
+                shopToEnd = true;
+            }
+
+            //if shopping to end, add all remaining items. Else add items with respect to the current-expired time only (as a simple ratio, say).
+            if (shopToEnd){
+                numItemsToAdd = maxItemLimit - currentItemQuantity; 
+            } else { // some casting ius req'd to stop integer ratios tending to zero.
+                numItemsToAdd = (int)(maxItemLimit * (((double)totalMilliseconds - (double)remainingMilliseconds) / (double)totalMilliseconds)) - currentItemQuantity;
+            }
+
+            //int x = Session.GetLastItemAddedByOtherPlayer();
+            //int z = Session.GetCountdownRandomizerValue();
 
 
             //AdHocHelpers.LastItemAddedByOtherPlayer { get; set; }     //used to cycle through the products inventory. 
             //AdHocHelpers.ShoppingByOtherPlayerCompleted { get; set; }
 
-            int z = Session.GetCountdownRandomizerValue();
-
-            //System.Diagnostics.Debug.WriteLine(x.ToString() + " hh " + y.ToString() + " hh " + z.ToString());
-
             //set the two static properties.
-            //Session.SetLastItemAddedByOtherPlayer(0);
-            //Session.SetShoppingByOtherPlayerCompleted(true);
+            Session.SetLastItemAddedByOtherPlayer(lastProdId);
+            if (shopToEnd) //if shopping time has completed, set appropriate flag.
+            { 
+                Session.SetShoppingByOtherPlayerCompleted(true);
+            }
+
+        }
+
+        private int SumOtherQuantity(Cart cart)
+        {
+            int total = 0;
+            //update product quantity using cartline. todo rewrite this as a linq expression.
+            foreach (var line in cart.Lines)
+            {
+                total += line.Product.OtherQuantity;
+            }
+            return total;
         }
 
         //Balance stock and quantities in current cart update request

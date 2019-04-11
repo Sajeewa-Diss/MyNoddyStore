@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using MyNoddyStore.Abstract;
 using MyNoddyStore.Models;
-using MyNoddyStore.AdHocHelpers;
 using MyNoddyStore.HtmlHelpers;
 
 namespace MyNoddyStore.Controllers

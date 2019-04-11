@@ -9,13 +9,15 @@ using System.Collections.Generic;
 //using Newtonsoft.Json;
 using MyNoddyStore.Abstract;
 using MyNoddyStore.Models;
-using MyNoddyStore.AdHocHelpers;
 
-namespace MyNoddyStore.AdHocHelpers
+namespace MyNoddyStore.HtmlHelpers
 {
-    public static class AdHocHelpers   // a public static class allows extension method!
+    public static class AdHocHelpers   // a public static class allows extension method.
     {
-        //Helper method required for paging.
+        public const int simulatedShoppingItemLimit = 60;
+        public const int shoppingTimeMilliseconds = 61000;
+
+        //Helper methods required for paging.
         public static IEnumerable<T> WhereNotNull<T>(this IEnumerable<T> sequence)
         {
             return sequence.Where(e => e != null);
@@ -40,7 +42,8 @@ namespace MyNoddyStore.AdHocHelpers
                 return sequence;
             }
         }
-
+        
+        //Helper methods using the session object.
         public static T GetDataFromSession<T>(this HttpSessionStateBase session, string key)  //todo use this values and change this class name or delete these methods
         {
             try { return (T)session[key]; }
@@ -89,8 +92,8 @@ namespace MyNoddyStore.AdHocHelpers
             if (countdownTime == DateTime.MinValue)
             {
                 //set a new countdown time of 41 seconds (1 second extra to account for lag)
-                session.SetDataToSession<string>("countdownTimeCsKey", DateTime.Now.AddMilliseconds(61000));
-                remainingMilliseconds = 61000;
+                session.SetDataToSession<string>("countdownTimeCsKey", DateTime.Now.AddMilliseconds(shoppingTimeMilliseconds));
+                remainingMilliseconds = shoppingTimeMilliseconds;
             }
             else
             {
