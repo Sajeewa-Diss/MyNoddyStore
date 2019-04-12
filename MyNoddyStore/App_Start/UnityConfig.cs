@@ -50,24 +50,23 @@ namespace MyNoddyStore
             // Make sure to add a Unity.Configuration to the using statements.
             // container.LoadConfiguration();
 
-            EmailSettings emailSettings = new EmailSettings
-            {
-                WriteAsFile = bool.Parse(ConfigurationManager.AppSettings["Email.WriteAsFile"] ?? "false")
-            };
-
             EFProductRepository newRepo = new EFProductRepository();
 
             // TODO: Register your type's mappings here.
+            #region mock construct
             //var mock = new Mock<IProductRepository>();
             //mock.Setup(m => m.Products).Returns(GetProductsList());
             //container.RegisterInstance<IProductRepository>(mock.Object); //note this repository object is shared by all browser sessions.
-            
+            #endregion
+
             //TODO use Hangfire somewhere.
 
-            container.RegisterInstance<IProductRepository>(newRepo);
-            container.RegisterType<IOrderProcessor, EmailOrderProcessor>(new InjectionConstructor(emailSettings));
+            container.RegisterInstance<IProductRepository>(newRepo); //note this is a singleton shared by all controllers, and by all borwser requests.
 
-            //container.RegisterType<IEmail, Email>(new InjectionFactory(c => new Email("To Name","to@email.com")));         //todo tidy this up
+            #region container examples
+            //container.RegisterType<IOrderProcessor, EmailOrderProcessor>(new InjectionConstructor(emailSettings));
+
+            //container.RegisterType<IEmail, Email>(new InjectionFactory(c => new Email("To Name","to@email.com")));
             //var email = container.Resolve<IEmail>();
             //container.RegisterType<OperationEntity>("email", new ContainerControlledLifetimeManager(), new InjectionConstructor(email));
 
@@ -79,7 +78,7 @@ namespace MyNoddyStore
             //    container.RegisterType<IDemo, Demo>(new ContainerControlledLifetimeManager());
             //    var demoA = container.Resolve<IDemo>();
             //    var demoB = container.Resolve<IDemo>();
-
+            #endregion
 
         }
 

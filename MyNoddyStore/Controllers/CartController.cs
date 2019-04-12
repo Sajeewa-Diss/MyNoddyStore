@@ -28,6 +28,7 @@ namespace MyNoddyStore.Controllers
         //[OutputCache(NoStore = true, Duration = 0, VaryByParam = "None")]
         public ViewResult Index(Cart cart, string returnUrl)
         {
+
             //if (TempData["myDictionary"] != null)
             //{
             //    // get category and page
@@ -35,6 +36,7 @@ namespace MyNoddyStore.Controllers
             //    category = ((string)dict["category"] == string.Empty ? null : (string)dict["category"]); //set this to null if empty string
             //    page = (int)dict["page"];
             //}
+            
 
             ViewBag.remainingTime = 50000; //todo set this
 
@@ -48,21 +50,24 @@ namespace MyNoddyStore.Controllers
             });
         }
 
+        #region legacy pattern code
         //this legacy method is no longer used by our pattern.
-        public RedirectToRouteResult AddToCart(Cart cart, int productId, int MyQuantity, string returnUrl)
-        {
-            Product product = repository.Products
-            .FirstOrDefault(p => p.ProductID == productId);
-            if (product != null)
-            {
-                //cart.AddItem(product, 1);
-                cart.AddItem(product, MyQuantity);
+        //public RedirectToRouteResult AddToCart(Cart cart, int productId, int MyQuantity, string returnUrl)
+        //{
+        //    Product product = repository.Products
+        //    .FirstOrDefault(p => p.ProductID == productId);
+        //    if (product != null)
+        //    {
+        //        //cart.AddItem(product, 1);
+        //        cart.AddItem(product, MyQuantity);
 
-                //todo decide how to correlate cart line and updated values.
-                messageString = "Update successful";
-            }
-            return RedirectToAction("Index", new { returnUrl });
-        }
+        //        //todo decide how to correlate cart line and updated values.
+        //        messageString = "Update successful";
+        //    }
+        //    return RedirectToAction("Index", new { returnUrl });
+        //}
+        #endregion
+
 
         //This method can be called in two ways. If user simply wants to view the cart we construct a simple redirect. If user wants to add to cart, we reload the same page with the items updated.
         //Although this second option is a candidate for an Ajax upload of the partial view, we in fact relaod the whole screen to refresh any updates to the stock of all displayed items.
@@ -70,7 +75,7 @@ namespace MyNoddyStore.Controllers
         {
             string updateMsg = ""; //todo handle when time expired with a suitable update message.
 
-            //When returning to this controller, always update the cart with simulated activity by the computer-player.
+            //When returning to the controller, always update the cart with simulated activity by the computer-player.
             SimulateSweepUser(cart);
 
             //store the pageNumber and categoryString params in temp data (this is kind of a bodge). Add any other necessary data.
@@ -81,7 +86,8 @@ namespace MyNoddyStore.Controllers
             if (submitUpdate == null) { // User has selected "View Cart"
                 dict.Add("productId", 0);
                 dict.Add("message", string.Empty);
-                TempData["myDictionary"] = dict;       // Store it in the TempData. todo pass these args via the actual method params.
+                TempData["myDictionary"] = dict;       // Store it in the TempData.
+                Session["cartObj"] = cart;
                 return RedirectToAction("Index", new { returnUrl });
             }
             else // User has selected "Update Cart"
@@ -90,13 +96,12 @@ namespace MyNoddyStore.Controllers
                 if (product != null)
                 {
                     updateMsg = BalanceCartTransaction(cart, product, MyQuantity);
-                    ViewBag.testMessage = updateMsg;
+                    //ViewBag.testMessage = updateMsg;
                 }
                 dict.Add("productId", productId);
                 dict.Add("message", updateMsg);
                 TempData["myDictionary"] = dict;       // Store it in the TempData
-
-                TempData["cartObj"] = cart;
+                Session["cartObj"] = cart;
                 return RedirectToAction("List", "Product");
             }
         }
@@ -119,7 +124,6 @@ namespace MyNoddyStore.Controllers
             foreach (var line in cart.Lines)
             {
                 line.Product.MyQuantity = line.Quantity;
-                line.Product.OtherQuantity = line.OtherQuantity;
             }
 
             int remainingMilliseconds = Session.GetRemainingTime();
@@ -235,13 +239,13 @@ namespace MyNoddyStore.Controllers
                 {
                     product.MyQuantity = newQuantity;
                     product.StockCount -= newQuantity;
-                    cart.AddItem(product, product.MyQuantity);
+                    cart.AddItem(product);
                 }
                 else if (product.StockCount != 0)  // there is some stock. The update can be done only partially
                 {
                     product.MyQuantity = product.StockCount;
                     product.StockCount = 0;
-                    cart.AddItem(product, product.MyQuantity);
+                    cart.AddItem(product);
                     messageString = "Added partially (no stock)";
                 }
                 else  // the update can't be done. No stock.

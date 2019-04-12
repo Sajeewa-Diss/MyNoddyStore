@@ -9,7 +9,9 @@ namespace MyNoddyStore.Entities
     public class Cart
     {
         public List<CartLine> lineCollection = new List<CartLine>(); //todo keep this private??
-
+        public List<CartLine> lineCollectionOther = new List<CartLine>();
+        
+        //legacy method in original pattern
         //public void AddItem(Product product, int quantity)
         //{
         //    CartLine line = lineCollection
@@ -29,7 +31,7 @@ namespace MyNoddyStore.Entities
         //    }
         //}
 
-        public void AddItem(Product product, int quantity = 1)
+        public void AddItem(Product product)
         {
             CartLine line = lineCollection
             .Where(p => p.Product.ProductID == product.ProductID)
@@ -44,7 +46,7 @@ namespace MyNoddyStore.Entities
             }
             else
             {
-                line.Quantity = product.MyQuantity;
+                line.Quantity = product.MyQuantity; //we use MyQuantity value as a getter elsewhere.
             }
         }
 
@@ -67,13 +69,18 @@ namespace MyNoddyStore.Entities
         {
             get { return lineCollection; }
         }
+
+        public IEnumerable<CartLine> LinesOther
+        {
+            get { return lineCollectionOther; }
+        }
     }
 
     public class CartLine
     {
         public Product Product { get; set; }
         public int Quantity { get; set; }
-        public int OtherQuantity { get; set; }
+        //public int OtherQuantity { get; set; }
     }
 }
 
