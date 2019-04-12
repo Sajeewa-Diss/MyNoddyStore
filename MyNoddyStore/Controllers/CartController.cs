@@ -15,13 +15,11 @@ namespace MyNoddyStore.Controllers
     {
         //private readonly ICartService cartService;
         private IProductRepository repository;
-        private IOrderProcessor orderProcessor;
         private string messageString;
 
-        public CartController(IProductRepository repo, IOrderProcessor proc)
+        public CartController(IProductRepository repo)
         {
             repository = repo;
-            orderProcessor = proc;
             //cartService = set this here if req'd
         }
 
@@ -149,7 +147,7 @@ namespace MyNoddyStore.Controllers
             }
             if (ModelState.IsValid)
             {
-                orderProcessor.ProcessOrder(cart, shippingDetails);
+                //orderProcessor.ProcessOrder(cart, shippingDetails);
                 cart.Clear();
                 return View("Completed");
             }
