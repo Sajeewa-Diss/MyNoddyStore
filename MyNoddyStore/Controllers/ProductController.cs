@@ -115,21 +115,42 @@ namespace MyNoddyStore.Controllers
             return View(model);
         }
 
-        //please note this merge is necessary only because we have a bodged the view model. Don't use this in any original code!
+        //please note this merge is necessary only because we have a bodged the view model. Don't use this pattern in any original code!
         private void MergeProductsStockWithCart(IEnumerable<Product> products, Cart cart)
         {
-            IEnumerable<CartLine> lineList = cart.Lines;
-            
+            IEnumerable<CartLine> linesList = cart.Lines;
+            IEnumerable<CartLine> linesOtherList = cart.LinesOther;
+
             foreach (var pr in products)
             {
-                foreach(var lineItem in lineList)
+                //reset each products data
+                pr.MyQuantity = 0;
+                pr.OtherQuantity = 0;
+                pr.StockCount = 0;
+
+                //first update using other cartline
+                foreach (CartLine item in linesOtherList)
                 {
-                    if (lineItem.Product.ProductID == pr.ProductID)
+                    if (item.Product.ProductID == pr.ProductID)
                     {
-                        pr.MyQuantity = lineItem.Quantity;
-                        pr.StockCount = pr.InitialStockCount - pr.MyQuantity;
+                        if (item.Quantity != item.Product.OtherQuantity)
+                        {
+                            Debug.WriteLine("pete tong *******     ******      ******      ******     ******      *****     *****     *****      *****     ******     *****");
+                        }
+                        pr.OtherQuantity = item.Product.OtherQuantity;
                     }
                 }
+
+                //next update using user cartline
+                foreach (CartLine item in linesList)
+                {
+                    if (item.Product.ProductID == pr.ProductID)
+                    {
+                        pr.MyQuantity = item.Quantity;
+                    }
+                }
+                //recalculate the current stock count
+                pr.StockCount = pr.InitialStockCount - pr.OtherQuantity - pr.MyQuantity;
 
             }
         }
