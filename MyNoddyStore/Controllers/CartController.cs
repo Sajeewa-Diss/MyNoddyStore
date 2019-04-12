@@ -35,13 +35,6 @@ namespace MyNoddyStore.Controllers
             //}
 
 
-
-
-
-
-
-
-
             //When returning to the controller, always update the cart with simulated activity by the computer-player.
             //SimulateSweepUser(cart); todo add here??
 

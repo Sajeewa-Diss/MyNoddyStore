@@ -93,7 +93,7 @@ namespace MyNoddyStore.HtmlHelpers
 
             if (countdownTime == DateTime.MinValue)
             {
-                //set a new countdown time of 41 seconds (1 second extra to account for lag)
+                //set a new countdown time using a global constant.
                 session.SetDataToSession<string>("countdownTimeCsKey", DateTime.Now.AddMilliseconds(shoppingTimeMilliseconds));
                 remainingMilliseconds = shoppingTimeMilliseconds;
             }
@@ -164,9 +164,9 @@ namespace MyNoddyStore.HtmlHelpers
                 return;          //Operation has completed. No need to simulate shopping.
             }
 
-            int delayMilliseconds = HtmlHelpers.AdHocHelpers.shoppingStartDelayMilliseconds;
-            int maxItemLimit = HtmlHelpers.AdHocHelpers.simulatedShoppingItemLimit;
-            int totalMilliseconds = HtmlHelpers.AdHocHelpers.shoppingTimeMilliseconds;
+            int delayMilliseconds = shoppingStartDelayMilliseconds;
+            int maxItemLimit = simulatedShoppingItemLimit;
+            int totalMilliseconds = shoppingTimeMilliseconds;
             int currentItemQuantity = SumOtherQuantity(cart);
 
             //ensure we are within time. If so, calculate number of seconds of shopping time to simulate. If not, shop to end of period.
@@ -174,8 +174,7 @@ namespace MyNoddyStore.HtmlHelpers
             if (remainingMilliseconds <= 0)
             { //if shopping time has expired, then shop to the end of the time period (and set appropriate flags).
                 shopToEnd = true;
-            } else
-            {
+            } else {
                 //don't start AI shopping until set time from start
                 if(delayMilliseconds > totalMilliseconds - remainingMilliseconds)
                 {
@@ -183,7 +182,7 @@ namespace MyNoddyStore.HtmlHelpers
                 }
             }
 
-            //if shopping to end, add all remaining items. Else add items with respect to the current-expired time only (as a simple ratio, say).
+            //if shopping to end, shop for all remaining items. Else add items with respect to the current-expired time only (as a simple ratio, say).
             if (shopToEnd)
             {
                 numItemsToAdd = maxItemLimit - currentItemQuantity;
@@ -193,7 +192,9 @@ namespace MyNoddyStore.HtmlHelpers
                 numItemsToAdd = (int)(maxItemLimit * (((double)totalMilliseconds - (double)remainingMilliseconds) / (double)totalMilliseconds)) - currentItemQuantity;
             }
 
-            //int x = Session.GetLastItemAddedByOtherPlayer();
+            lastProdId = session.GetLastItemAddedByOtherPlayer();
+            lastProdId = DoSweep(cart, numItemsToAdd, lastProdId);
+            //
             //int z = Session.GetCountdownRandomizerValue();
 
 
@@ -207,6 +208,33 @@ namespace MyNoddyStore.HtmlHelpers
                 session.SetShoppingByOtherPlayerCompleted(true);
             }
 
+        }
+
+        //Add the specified number of items to the AI user's cartline.
+        private static int DoSweep(Cart cart, int numItems, int lastProdBought)
+        {
+
+            //if no items yet in AI cartline, add five of the ten most expensive items randomly. 
+
+
+            //Else derive the number of current item count. maybe not req'd??
+
+
+            //Also add all current cartlines in human user's cart to AI cart.
+
+
+
+            //Cycle through (from correct start position) buying one item from each until required number of items have been added.
+
+
+
+            //if no more items possible to buy (if max limit or stockcount has been used), choose next product not on list and add it to cartline.
+            //This time but as many as possible and so on until the required number has been reached.
+
+
+
+            //rturn the id of the last item added to cart.
+            return lastProdBought;
         }
 
         private static int SumOtherQuantity(Cart cart)
