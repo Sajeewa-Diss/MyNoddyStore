@@ -31,6 +31,7 @@ namespace MyNoddyStore.Entities
         //    }
         //}
 
+        //note that both the product.MyQuantity property and line.Quantity property will be matched within this method.
         public void AddItem(Product product)
         {
             CartLine line = lineCollection
@@ -79,8 +80,8 @@ namespace MyNoddyStore.Entities
     public class CartLine
     {
         public Product Product { get; set; }
-        public int Quantity { get; set; }
-        //public int OtherQuantity { get; set; }
+        public int Quantity { get; set; }       //note this property is an exact mirror of the product's MyQuanity or OtherQuantity property, 
+                                                 //used by the user-player and computer-player respectively in their respective line collections.
     }
 }
 

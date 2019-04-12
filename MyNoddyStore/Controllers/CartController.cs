@@ -20,7 +20,6 @@ namespace MyNoddyStore.Controllers
         public CartController(IProductRepository repo)
         {
             repository = repo;
-            //cartService = set this here if req'd
         }
 
         //[OutputCache(NoStore = true, Duration = 0, VaryByParam = "None")]
@@ -72,6 +71,10 @@ namespace MyNoddyStore.Controllers
         public RedirectToRouteResult UpdateCart(Cart cart, int productId, int MyQuantity, string returnUrl, int pageNumber, string categoryString, string submitUpdate) //, string submitCheckout)
         {
             string updateMsg = ""; //todo handle when time expired with a suitable update message.
+
+            //refresh the product list with the latest
+
+
 
             //When returning to the controller, always update the cart with simulated activity by the computer-player.
             SimulateSweepUser(cart);
@@ -208,18 +211,20 @@ namespace MyNoddyStore.Controllers
         private int SumOtherQuantity(Cart cart)
         {
             int total = 0;
-            //update product quantity using cartline. todo rewrite this as a linq expression.
-            foreach (var line in cart.Lines)
+            foreach (var item in cart.LinesOther)
             {
-                total += line.Product.OtherQuantity;
+                total += item.Quantity;
             }
             return total;
         }
 
-        //Balance stock and quantities in current cart update request
+        //Balance stock and quantities in current cart update request.
         private string BalanceCartTransaction(Cart cart, Product product, int newQuantity){
 
-            string messageString = "Updated";
+            //update the product stock details using the current cart.
+            BalanceCurrentProductStock(cart, product);
+
+            string messageString = "";
 
             if (newQuantity < 0 || newQuantity > 5)
             {
@@ -238,6 +243,7 @@ namespace MyNoddyStore.Controllers
                     product.MyQuantity = newQuantity;
                     product.StockCount -= newQuantity;
                     cart.AddItem(product);
+                    messageString = "Updated";
                 }
                 else if (product.StockCount != 0)  // there is some stock. The update can be done only partially
                 {
@@ -251,7 +257,46 @@ namespace MyNoddyStore.Controllers
                     messageString = "Failed (no stock)";
                 }
             }
+
+            //todo if time expired. Append extra message text.
+
             return messageString;
+        }
+
+        //Balance this product's stock details using cart info.
+        private void BalanceCurrentProductStock(Cart cart, Product product)
+        {
+            //update the product stock details using the current cart.
+            CartLine line = cart.Lines
+                    .Where(p => p.Product.ProductID == product.ProductID)
+                    .FirstOrDefault();
+            if (line == null)
+            {
+                //no matching item in cart
+                product.MyQuantity = 0;
+            }
+            else
+            {
+                //matching item found
+                product.MyQuantity = line.Quantity;
+            }
+
+            //also update any data from other line
+            CartLine lineOther = cart.LinesOther
+                .Where(p => p.Product.ProductID == product.ProductID)
+                .FirstOrDefault();
+            if (lineOther == null)
+            {
+                //no matching item in cart
+                product.OtherQuantity = 0;
+            }
+            else
+            {
+                //matching item found
+                product.OtherQuantity = lineOther.Quantity;
+            }
+
+            product.StockCount = product.InitialStockCount - product.MyQuantity - product.OtherQuantity;
         }
 
     }
