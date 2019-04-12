@@ -21,6 +21,7 @@
     <script type="text/javascript">
 
         const successMessage = "Updated";
+        const maxCartLineItemLimit = 5;
         var modelProducts; // initial products in cart
         //var countdownVal;
 
@@ -33,13 +34,13 @@
             var currentStock = GetCurrentStock(thisProdId);
             var myQuantity = GetMyQuantity(thisProdId);
 
-            if (value < 5) {        // max quantity value allowed is 5
+            if (value < maxCartLineItemLimit) {        // max quantity value allowed is declared as a const
                 //add up to the available stock only
                 if (value - myQuantity < currentStock) {
                     value = value + 1;
                 }
             } else {
-                value = 5;
+                value = maxCartLineItemLimit;
             }
             $input.val(value);
             ResetLocalUpdateButton($this);

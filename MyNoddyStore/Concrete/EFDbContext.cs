@@ -9,6 +9,8 @@ using System.Data.SqlClient;
 
 namespace MyNoddyStore.Concrete
 {
+
+    #region legacy pattern
     //class EFDbContext : DbContext
     //{
     //    public DbSet<Product> Products { get; set; }
@@ -29,4 +31,5 @@ namespace MyNoddyStore.Concrete
     //    }
 
     //}
+    #endregion
 }

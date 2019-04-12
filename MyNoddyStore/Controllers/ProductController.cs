@@ -48,7 +48,7 @@ namespace MyNoddyStore.Controllers
 
             // simulate further shopping by the computer-player
             IEnumerable<Product> list = repository.Products.ToList<Product>();
-            Session.RunAISweepUser(cart, list);
+            Session.RunAISweep(cart, list);
 
             // Check if "cartObj" key exists
             if (Session["cartObj"] != null)
@@ -115,7 +115,7 @@ namespace MyNoddyStore.Controllers
             return View(model);
         }
 
-        //please note this merge is necessary only because we have a bodged the view model. Don't use this pattern in any original code!
+        //note this merge is necessary only because we have a bodged the view model. Don't use this pattern in any original code!
         private void MergeProductsStockWithCart(IEnumerable<Product> products, Cart cart)
         {
             IEnumerable<CartLine> linesList = cart.Lines;

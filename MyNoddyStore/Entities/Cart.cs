@@ -65,7 +65,7 @@ namespace MyNoddyStore.Entities
             .FirstOrDefault();
             if (line == null)
             {
-                product.OtherQuantity = 1; //no items added yet. todo change back to zero
+                product.OtherQuantity = 0; //no items added yet.
                 lineCollectionOther.Add(new CartLine
                 {
                     Product = product,
@@ -108,32 +108,6 @@ namespace MyNoddyStore.Entities
     {
         public Product Product { get; set; }
         public int Quantity { get; set; }       //note this property is an exact mirror of the product's MyQuanity or OtherQuantity property, 
-                                                 //used by the user-player and computer-player respectively in their respective line collections.
+                                                 //used by the user-player and AI-player respectively in their respective line collections.
     }
 }
-
-//public int UpdateCartCount(int id, int cartCount)
-//{
-//    // Get the cart 
-//    var cartItem = storeDB.Carts.Single(
-//        cart => cart.CartId == ShoppingCartId
-//        && cart.RecordId == id);
-
-//    int itemCount = 0;
-
-//    if (cartItem != null)
-//    {
-//        if (cartCount > 0)
-//        {
-//            cartItem.Count = cartCount;
-//            itemCount = cartItem.Count;
-//        }
-//        else
-//        {
-//            storeDB.Carts.Remove(cartItem);
-//        }
-//        // Save changes 
-//        storeDB.SaveChanges();
-//    }
-//    return itemCount;
-//}
