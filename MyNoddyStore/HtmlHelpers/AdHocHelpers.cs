@@ -123,12 +123,12 @@ namespace MyNoddyStore.HtmlHelpers
             return remainingMilliseconds;
         }
 
-        public static int GetCountdownRandomizerValue(this HttpSessionStateBase session)
-        {
-            //returns 1 or 2 randomly based on the session countdown start time.
-            int milliseconds = session.GetDataFromSession<DateTime>("countdownTimeCsKey").Millisecond;
-            return new System.Random(milliseconds).Next(0, 2) + 1;
-        }
+        //public static int GetCountdownRandomizerValue(this HttpSessionStateBase session)
+        //{
+        //    //returns 1 or 2 randomly based on the session countdown start time.
+        //    int milliseconds = session.GetDataFromSession<DateTime>("countdownTimeCsKey").Millisecond;
+        //    return new System.Random(milliseconds).Next(0, 2) + 1;
+        //}
 
 
 
@@ -150,8 +150,11 @@ namespace MyNoddyStore.HtmlHelpers
 
         //Simulate another user shopping up to this point in time or until the end of the sweep time-period.
         //This method will add one item to cart per second of shopping allowed or remaining.
-        public static void RunAISweepUser(this HttpSessionStateBase session, Cart cart, bool shopToEnd = false)
+        public static void RunAISweepUser(this HttpSessionStateBase session, Cart cart, IEnumerable<Product> prodlist, bool shopToEnd = false)
         {
+            List<Product> prodList = new List<Product>();
+
+
             //System.Diagnostics.Debug.WriteLine("simulate sweep method entered");
 
             int lastProdId = 0;
@@ -192,8 +195,9 @@ namespace MyNoddyStore.HtmlHelpers
                 numItemsToAdd = (int)(maxItemLimit * (((double)totalMilliseconds - (double)remainingMilliseconds) / (double)totalMilliseconds)) - currentItemQuantity;
             }
 
+            int rendom1or2 = session.GetCountdownRandomizerValue();
             lastProdId = session.GetLastItemAddedByOtherPlayer();
-            lastProdId = DoSweep(cart, numItemsToAdd, lastProdId);
+            lastProdId = DoSweep(cart, prodlist, numItemsToAdd, lastProdId, rendom1or2);
             //
             //int z = Session.GetCountdownRandomizerValue();
 
@@ -211,11 +215,14 @@ namespace MyNoddyStore.HtmlHelpers
         }
 
         //Add the specified number of items to the AI user's cartline.
-        private static int DoSweep(Cart cart, int numItems, int lastProdBought)
+        private static int DoSweep(Cart cart, IEnumerable<Product> prodlist, int numItems, int lastProdBought, int random1or2)
         {
-
-            //if no items yet in AI cartline, add five of the ten most expensive items randomly. 
-
+            //if no items yet in AI cartline, add five of the ten most expensive items with existing stock, randomly. 
+            if (cart.LinesOtherCount == 0)
+            {
+                AddFiveNewItemsToOtherLine(cart, prodlist, random1or2);
+            }
+            
 
             //Else derive the number of current item count. maybe not req'd??
 
@@ -235,6 +242,52 @@ namespace MyNoddyStore.HtmlHelpers
 
             //rturn the id of the last item added to cart.
             return lastProdBought;
+        }
+
+        private static void AddFiveNewItemsToOtherLine(Cart cart, IEnumerable<Product> prodlist, int random)
+        {
+            //first balance the items in current repository
+            BalanceRepositoryWrtCart(cart, prodlist);
+
+            //next get the ten most expensive items still in stock.
+            IEnumerable<Product> dearItems = prodlist.OrderByDescending(e => e.Price)
+                        .Where(e => e.StockCount > 0)
+                        .Take(10)                          // takes the top 10 items (after the sort)
+                        .OrderBy(e => e.ProductID);        //re-order by product id
+
+            //get every nth item stating at 0 or 1 randomly.
+            int nth = 2; //.i.e. every second item.
+            int skipper = random - 1; //we either skip 1 item or skip zero.
+            IEnumerable<Product>  myFiveItems = dearItems.Skip(skipper).Where((x, i) => i % nth == 0);
+            //.Select(e => new { e.Name, e.Price });
+            AddEmptyLinesToOtherCart(cart, myFiveItems);
+
+            System.Diagnostics.Debug.WriteLine("hi");
+        }
+
+        private static void AddEmptyLinesToOtherCart(Cart cart, IEnumerable<Product> prodList)
+        {
+            //add the items to LinesOther if not yet included (no quantity will be added).
+            foreach(Product pr in prodList)
+            {
+                cart.AddEmptyLineOther(pr);
+            }
+        }
+
+        private static int GetCountdownRandomizerValue(this HttpSessionStateBase session)
+        {
+            //returns 1 or 2 randomly based on the session countdown start time.
+            int milliseconds = session.GetDataFromSession<DateTime>("countdownTimeCsKey").Millisecond;
+            return new System.Random(milliseconds).Next(0, 2) + 1;
+        }
+
+        //balance repository items for all products
+        private static void BalanceRepositoryWrtCart(Cart cart, IEnumerable<Product> repository)
+        {
+            foreach (Product pr in repository)
+            {
+                BalanceCurrentProductStock(cart, pr);
+            }
         }
 
         private static int SumOtherQuantity(Cart cart)

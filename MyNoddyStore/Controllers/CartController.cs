@@ -76,7 +76,8 @@ namespace MyNoddyStore.Controllers
             string updateMsg = ""; //todo handle when time expired with a suitable update message.
 
             //When returning to the controller, always update the cart with simulated activity by the computer-player.
-            Session.RunAISweepUser(cart);
+            IEnumerable<Product> list = repository.Products.ToList<Product>();
+            Session.RunAISweepUser(cart, list);
 
             //store the pageNumber and categoryString params in temp data (this is kind of a bodge). Add any other necessary data.
             Dictionary<string, object> dict = new Dictionary<string, object>();

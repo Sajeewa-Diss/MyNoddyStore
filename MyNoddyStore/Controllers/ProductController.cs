@@ -47,7 +47,8 @@ namespace MyNoddyStore.Controllers
             //ViewBag.remainingTime = remainingMilliseconds;
 
             // simulate further shopping by the computer-player
-            Session.RunAISweepUser(cart);
+            IEnumerable<Product> list = repository.Products.ToList<Product>();
+            Session.RunAISweepUser(cart, list);
 
             // Check if "cartObj" key exists
             if (Session["cartObj"] != null)

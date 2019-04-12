@@ -8,8 +8,8 @@ namespace MyNoddyStore.Entities
 {
     public class Cart
     {
-        public List<CartLine> lineCollection = new List<CartLine>(); //todo keep this private??
-        public List<CartLine> lineCollectionOther = new List<CartLine>();
+        private List<CartLine> lineCollection = new List<CartLine>(); //todo keep this private??
+        private List<CartLine> lineCollectionOther = new List<CartLine>();
         
         //legacy method in original pattern
         //public void AddItem(Product product, int quantity)
@@ -56,6 +56,28 @@ namespace MyNoddyStore.Entities
             lineCollection.RemoveAll(l => l.Product.ProductID == product.ProductID);
         }
 
+
+        //adds an empty line item to LineCollectionOther (if not already extant).
+        public void AddEmptyLineOther(Product product)
+        {
+            CartLine line = lineCollectionOther
+            .Where(p => p.Product.ProductID == product.ProductID)
+            .FirstOrDefault();
+            if (line == null)
+            {
+                product.OtherQuantity = 1; //no items added yet. todo change back to zero
+                lineCollectionOther.Add(new CartLine
+                {
+                    Product = product,
+                    Quantity = product.OtherQuantity
+                });
+            }
+            else
+            {
+                //do nothing if line is extant.
+            }
+        }
+
         public decimal ComputeTotalValue()
         {
             return lineCollection.Sum(e => e.Product.Price * e.Quantity);
@@ -74,6 +96,11 @@ namespace MyNoddyStore.Entities
         public IEnumerable<CartLine> LinesOther
         {
             get { return lineCollectionOther; }
+        }
+
+        public int LinesOtherCount
+        {
+            get { return lineCollectionOther.Count(); }
         }
     }
 
