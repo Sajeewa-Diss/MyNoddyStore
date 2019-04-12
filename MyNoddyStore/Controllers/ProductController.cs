@@ -46,6 +46,9 @@ namespace MyNoddyStore.Controllers
             string updateMsg = string.Empty;
             //ViewBag.remainingTime = remainingMilliseconds;
 
+            // simulate further shopping by the computer-player
+            Session.RunAISweepUser(cart);
+
             // Check if "cartObj" key exists
             if (Session["cartObj"] != null)
             {

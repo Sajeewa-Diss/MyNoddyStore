@@ -9,6 +9,7 @@ using System.Collections.Generic;
 //using Newtonsoft.Json;
 using MyNoddyStore.Abstract;
 using MyNoddyStore.Models;
+using MyNoddyStore.Entities;
 
 namespace MyNoddyStore.HtmlHelpers
 {
@@ -16,6 +17,7 @@ namespace MyNoddyStore.HtmlHelpers
     {
         public const int simulatedShoppingItemLimit = 60;
         public const int shoppingTimeMilliseconds = 61000;
+        public const int shoppingStartDelayMilliseconds = 5000;  //sets the head-start given to human-player.
 
         //Helper methods required for paging.
         public static IEnumerable<T> WhereNotNull<T>(this IEnumerable<T> sequence)
@@ -128,8 +130,187 @@ namespace MyNoddyStore.HtmlHelpers
             return new System.Random(milliseconds).Next(0, 2) + 1;
         }
 
-        //#region redundant methods. Keep as reference
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //Simulate another user shopping up to this point in time or until the end of the sweep time-period.
+        //This method will add one item to cart per second of shopping allowed or remaining.
+        public static void RunAISweepUser(this HttpSessionStateBase session, Cart cart, bool shopToEnd = false)
+        {
+            //System.Diagnostics.Debug.WriteLine("simulate sweep method entered");
+
+            int lastProdId = 0;
+            int numItemsToAdd = 0;
+
+            //ensure that the sweep user hasn't yet finished
+            bool sweepCompleted = session.GetShoppingByOtherPlayerCompleted(); //todo set this somewhere else to remove null reference exception  - check for all other such objects.
+            if (sweepCompleted)
+            {
+                return;          //Operation has completed. No need to simulate shopping.
+            }
+
+            int delayMilliseconds = HtmlHelpers.AdHocHelpers.shoppingStartDelayMilliseconds;
+            int maxItemLimit = HtmlHelpers.AdHocHelpers.simulatedShoppingItemLimit;
+            int totalMilliseconds = HtmlHelpers.AdHocHelpers.shoppingTimeMilliseconds;
+            int currentItemQuantity = SumOtherQuantity(cart);
+
+            //ensure we are within time. If so, calculate number of seconds of shopping time to simulate. If not, shop to end of period.
+            int remainingMilliseconds = session.GetRemainingTime();
+            if (remainingMilliseconds <= 0)
+            { //if shopping time has expired, then shop to the end of the time period (and set appropriate flags).
+                shopToEnd = true;
+            } else
+            {
+                //don't start AI shopping until set time from start
+                if(delayMilliseconds > totalMilliseconds - remainingMilliseconds)
+                {
+                    return; 
+                }
+            }
+
+            //if shopping to end, add all remaining items. Else add items with respect to the current-expired time only (as a simple ratio, say).
+            if (shopToEnd)
+            {
+                numItemsToAdd = maxItemLimit - currentItemQuantity;
+            }
+            else
+            { // some casting ius req'd to stop integer ratios tending to zero.
+                numItemsToAdd = (int)(maxItemLimit * (((double)totalMilliseconds - (double)remainingMilliseconds) / (double)totalMilliseconds)) - currentItemQuantity;
+            }
+
+            //int x = Session.GetLastItemAddedByOtherPlayer();
+            //int z = Session.GetCountdownRandomizerValue();
+
+
+            //AdHocHelpers.LastItemAddedByOtherPlayer { get; set; }     //used to cycle through the products inventory. 
+            //AdHocHelpers.ShoppingByOtherPlayerCompleted { get; set; }
+
+            //set the two static properties.
+            session.SetLastItemAddedByOtherPlayer(lastProdId);
+            if (shopToEnd) //if shopping time has completed, set appropriate flag.
+            {
+                session.SetShoppingByOtherPlayerCompleted(true);
+            }
+
+        }
+
+        private static int SumOtherQuantity(Cart cart)
+        {
+            int total = 0;
+            foreach (var item in cart.LinesOther)
+            {
+                total += item.Quantity;
+            }
+            return total;
+        }
+
+        //Balance stock and quantities in current cart update request.
+        public static string BalanceCartTransaction(this Cart cart, Product product, int newQuantity)
+        {
+
+            //update the product stock details using the current cart.
+            BalanceCurrentProductStock(cart, product);
+
+            string messageString = "";
+
+            if (newQuantity < 0 || newQuantity > 5)
+            {
+                messageString = "invalid number of items";
+            }
+
+            //return product's current quantity to stock.
+            product.StockCount += product.MyQuantity;
+            product.MyQuantity = 0;
+            cart.RemoveLine(product);
+
+            //re-add new quantity where stock allows.
+            if (newQuantity > 0)
+            {
+                if (product.StockCount >= newQuantity) // the update can be done
+                {
+                    product.MyQuantity = newQuantity;
+                    product.StockCount -= newQuantity;
+                    cart.AddItem(product);
+                    messageString = "Updated";
+                }
+                else if (product.StockCount != 0)  // there is some stock. The update can be done only partially
+                {
+                    product.MyQuantity = product.StockCount;
+                    product.StockCount = 0;
+                    cart.AddItem(product);
+                    messageString = "Added partially (no stock)";
+                }
+                else  // the update can't be done. No stock.
+                {
+                    messageString = "Failed (no stock)";
+                }
+            }
+
+            //todo if time expired. Append extra message text.
+
+            return messageString;
+        }
+
+        //Balance this product's stock details using cart info.
+        private static void BalanceCurrentProductStock(Cart cart, Product product)
+        {
+            //update the product stock details using the current cart.
+            CartLine line = cart.Lines
+                    .Where(p => p.Product.ProductID == product.ProductID)
+                    .FirstOrDefault();
+            if (line == null)
+            {
+                //no matching item in cart
+                product.MyQuantity = 0;
+            }
+            else
+            {
+                //matching item found
+                product.MyQuantity = line.Quantity;
+            }
+
+            //also update any data from other line
+            CartLine lineOther = cart.LinesOther
+                .Where(p => p.Product.ProductID == product.ProductID)
+                .FirstOrDefault();
+            if (lineOther == null)
+            {
+                //no matching item in cart
+                product.OtherQuantity = 0;
+            }
+            else
+            {
+                //matching item found
+                product.OtherQuantity = lineOther.Quantity;
+            }
+
+            product.StockCount = product.InitialStockCount - product.MyQuantity - product.OtherQuantity;
+        }
+
+
+
+
+
+
+
+
+
+        #region redundant methods. Keep as reference
         //public static void SetObjectAsJson(this ISession session, string key, object value) //todo use this values and change this class name or delete these methods
         //{
         //    session.SetString(key, JsonConvert.SerializeObject(value));
@@ -141,8 +322,7 @@ namespace MyNoddyStore.HtmlHelpers
 
         //    return value == null ? default(T) : JsonConvert.DeserializeObject<T>(value);
         //}
-
-        //#endreion
+        #endregion
 
     }
 }

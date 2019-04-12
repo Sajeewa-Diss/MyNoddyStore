@@ -18,11 +18,13 @@ namespace MyNoddyStore.Controllers
 
             ViewBag.SelectedCategory = category;
 
+            #region legacy pattern code
             //original code works for one category per product (category always has single item as a string).
             //IEnumerable<string> categoryEnumerable = repository.Products
             //.Select(x => x.Category)
             //.Distinct()
             //.OrderBy(x => x);
+            #endregion
 
             //new code works for multiple categories per product (as a string array).
             IEnumerable<string> categoryEnumerable = repository.Products
