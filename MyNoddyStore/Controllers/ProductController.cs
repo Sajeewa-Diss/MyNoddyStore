@@ -46,7 +46,7 @@ namespace MyNoddyStore.Controllers
             string updateMsg = string.Empty;
             //ViewBag.remainingTime = remainingMilliseconds;
 
-            // simulate further shopping by the computer-player
+            // simulate further shopping by the NPC
             IEnumerable<Product> list = repository.Products.ToList<Product>();
             Session.RunAISweep(cart, list);
 

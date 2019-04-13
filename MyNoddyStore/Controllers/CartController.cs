@@ -27,6 +27,7 @@ namespace MyNoddyStore.Controllers
         public ViewResult Index(Cart cart, string returnUrl)
         {
 
+            #region legacy pattern code
             //if (TempData["myDictionary"] != null)
             //{
             //    // get category and page
@@ -34,12 +35,16 @@ namespace MyNoddyStore.Controllers
             //    category = ((string)dict["category"] == string.Empty ? null : (string)dict["category"]); //set this to null if empty string
             //    page = (int)dict["page"];
             //}
+            #endregion
 
-
-            //When returning to the controller, always update the cart with simulated activity by the computer-player.
-            //SimulateSweepUser(cart); todo add here??
+            //When returning to the controller, always update the cart with simulated activity by the NPC.
+            //todo should this method be called here??
+            //todo also investigate how much time the AI sweep call costs.
+            IEnumerable<Product> list = repository.Products.ToList<Product>();
+            Session.RunAISweep(cart, list);
 
             ViewBag.remainingTime = 50000; //todo set this
+
 
             //ViewBag.SomeData = cartService.GetSomeData();
 
@@ -76,7 +81,7 @@ namespace MyNoddyStore.Controllers
         {
             string updateMsg = ""; //todo handle when time expired with a suitable update message.
 
-            //When returning to the controller, always update the cart with simulated activity by the computer-player.
+            //When returning to the controller, always update the cart with simulated activity by the NPC.
             IEnumerable<Product> list = repository.Products.ToList<Product>();
             Session.RunAISweep(cart, list);
 

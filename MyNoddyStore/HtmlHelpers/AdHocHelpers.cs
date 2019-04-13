@@ -75,12 +75,12 @@ namespace MyNoddyStore.HtmlHelpers
         }
 
         //used to cycle through the products inventory. 
-        public static bool GetShoppingByAIPlayerCompleted(this HttpSessionStateBase session)
+        public static bool GetShoppingByNpcCompleted(this HttpSessionStateBase session)
         {
             return session.GetDataFromSession<bool>("shoppingCompleted");
         }
 
-        public static void SetShoppingByAIPlayerCompleted(this HttpSessionStateBase session, bool value)
+        public static void SetShoppingByNpcCompleted(this HttpSessionStateBase session, bool value)
         {
             session.SetDataToSession<bool>("shoppingCompleted", value);
         }
@@ -130,14 +130,13 @@ namespace MyNoddyStore.HtmlHelpers
         {
             List<Product> prodList = new List<Product>();
 
-
             //System.Diagnostics.Debug.WriteLine("simulate sweep method entered");
 
             int lastProdId = 0;
             int numItemsToAdd = 0;
 
             //ensure that the sweep user hasn't yet finished
-            bool sweepCompleted = session.GetShoppingByAIPlayerCompleted(); //todo set this somewhere else to remove null reference exception  - check for all other such objects.
+            bool sweepCompleted = session.GetShoppingByNpcCompleted(); //todo set this somewhere else to remove null reference exception  - check for all other such objects.
             if (sweepCompleted)
             {
                 return;          //Operation has completed. No need to simulate shopping.
@@ -181,7 +180,7 @@ namespace MyNoddyStore.HtmlHelpers
             session.SetLastItemAddedByAIPlayer(lastProdId);
             if (shopToEnd) //if shopping time has completed, set appropriate flag.
             {
-                session.SetShoppingByAIPlayerCompleted(true);
+                session.SetShoppingByNpcCompleted(true);
             }
 
         }

@@ -53,6 +53,9 @@
     @Html.ActionLink("Checkout now", "Checkout", null, new { @class = "btn btn-primary" })
 </div>
 
+@*//todo make sure this view doesn't oscillate as time changes. todo add flashing buttons*@
+
+
 @*But in this case, you need to specify custom attributes in the third parameter of @Html.TextBox() for manually rendering the unobtrusive validation HTML.*@
 @*<a href="#" class="RefreshQuantity" data-id="@item.RecordId" txt-id="CartItems_@(ix)__Count">Refresh quantity</a>        &nbsp;|&nbsp;*@
 
@@ -105,13 +108,13 @@
 
 @*Add code into the jQuery $(".RefreshQuantity").click(function ()) to set the quantity to zero when input value is empty.*@
 @*$(".RefreshQuantity").click(function () {
-    // Get the id from the link
-    var recordToUpdate = $(this).attr("data-id");
+     // Get the id from the link
+     var recordToUpdate = $(this).attr("data-id");
 
-    //Set quantity number to 0 if input value is empty
-    var countToUpdate = 0;
-    if ($("#" + $(this).attr("txt-id")).val() !== '') {
-        countToUpdate = $("#" + $(this).attr("txt-id")).val();
-    }
+     //Set quantity number to 0 if input value is empty
+     var countToUpdate = 0;
+     if ($("#" + $(this).attr("txt-id")).val() !== '') {
+         countToUpdate = $("#" + $(this).attr("txt-id")).val();
+     }
 
-   if (recordToUpdate != '') { ..etc..*@
+    if (recordToUpdate != '') { ..etc..*@
