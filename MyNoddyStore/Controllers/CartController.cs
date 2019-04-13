@@ -41,7 +41,7 @@ namespace MyNoddyStore.Controllers
             //todo should this method be called here??
             //todo also investigate how much time the AI sweep call costs.
             IEnumerable<Product> list = repository.Products.ToList<Product>();
-            Session.RunAISweep(cart, list);
+            Session.RunNpcSweep(cart, list);
 
             ViewBag.remainingTime = 50000; //todo set this
 
@@ -83,7 +83,7 @@ namespace MyNoddyStore.Controllers
 
             //When returning to the controller, always update the cart with simulated activity by the NPC.
             IEnumerable<Product> list = repository.Products.ToList<Product>();
-            Session.RunAISweep(cart, list);
+            Session.RunNpcSweep(cart, list);
 
             //store the pageNumber and categoryString params in temp data (this is kind of a bodge). Add any other necessary data.
             Dictionary<string, object> dict = new Dictionary<string, object>();
@@ -205,7 +205,7 @@ namespace MyNoddyStore.Controllers
                     mergedList.Remove(item3);
                 }
             }
-            return mergedList;
+            return mergedList.OrderBy(x => x.Product.ProductID).ToList(); //order by the product id.
         }
 
     }

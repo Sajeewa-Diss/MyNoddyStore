@@ -15,11 +15,12 @@ namespace MyNoddyStore.HtmlHelpers
 {
     public static class AdHocHelpers   // a public static class allows extension method.
     {
-        public const int simulatedShoppingItemLimit = 60;
+        public const int NpcShoppingItemLimit = 60;
         public const int shoppingTimeMilliseconds = 61000;
         public const int shoppingStartDelayMilliseconds = 5000;  //sets the head-start given to human-player.
-        public const int maxCartLineItemLimit = 5;               //per-line limit in shopping cart (note this const is also matched in View Javascript). 
+        public const int maxCartLineItemLimit = 5;               //per-line limit in shopping cart (note this const is also matched in View page Javascript). 
 
+        #region AdHoc Helper Methods
         //Helper methods required for paging.
         public static IEnumerable<T> WhereNotNull<T>(this IEnumerable<T> sequence)
         {
@@ -74,7 +75,7 @@ namespace MyNoddyStore.HtmlHelpers
             session.SetDataToSession<int>("lastItemAdded", value);
         }
 
-        //used to cycle through the products inventory. 
+
         public static bool GetShoppingByNpcCompleted(this HttpSessionStateBase session)
         {
             return session.GetDataFromSession<bool>("shoppingCompleted");
@@ -85,7 +86,7 @@ namespace MyNoddyStore.HtmlHelpers
             session.SetDataToSession<bool>("shoppingCompleted", value);
         }
 
-        //if countdown already started, return the remaining time. Otherwise return a start value.
+        //if countdown already started, return the remaining time. Otherwise return a start-time value.
         public static int GetRemainingTimeOrSetDefault(this HttpSessionStateBase session)
         {
             int remainingMilliseconds; // countdown time variable
@@ -123,174 +124,65 @@ namespace MyNoddyStore.HtmlHelpers
             }
             return remainingMilliseconds;
         }
+        #endregion
 
-        //Simulate another user shopping up to this point in time or until the end of the sweep time-period.
-        //This method will add one item to cart per second of shopping allowed or remaining.
-        public static void RunAISweep(this HttpSessionStateBase session, Cart cart, IEnumerable<Product> prodlist, bool shopToEnd = false)
+        //Simulate NPC shopping up to this point in time or until the end of the sweep time-period.
+        //This method will add one items to cart at the rate specified by the constants above (currently an item per second).
+        public static void RunNpcSweep(this HttpSessionStateBase session, Cart cart, IEnumerable<Product> repoProdList, bool shopToEnd = false)
         {
-            List<Product> prodList = new List<Product>();
-
-            //System.Diagnostics.Debug.WriteLine("simulate sweep method entered");
-
-            int lastProdId = 0;
-            int numItemsToAdd = 0;
-
             //ensure that the sweep user hasn't yet finished
             bool sweepCompleted = session.GetShoppingByNpcCompleted(); //todo set this somewhere else to remove null reference exception  - check for all other such objects.
             if (sweepCompleted)
             {
-                return;          //Operation has completed. No need to simulate shopping.
+                return;          //Operation has completed. No need to run cart sweep simulation.
             }
 
             int delayMilliseconds = shoppingStartDelayMilliseconds;
-            int maxItemLimit = simulatedShoppingItemLimit;
+            int maxItemLimit = NpcShoppingItemLimit;
             int totalMilliseconds = shoppingTimeMilliseconds;
-            int currentItemQuantity = SumOtherQuantity(cart);
+            int currentTotalQuantities = SumNpcQuantities(cart);
 
             //ensure we are within time. If so, calculate number of seconds of shopping time to simulate. If not, shop to end of period.
             int remainingMilliseconds = session.GetRemainingTime();
             if (remainingMilliseconds <= 0)
-            { //if shopping time has expired, then shop to the end of the time period (and set appropriate flags).
+            { //if shopping time has expired, then shop to the end of the time period (NPC always completes a full sweep successfully) and set appropriate flag later.
                 shopToEnd = true;
             } else {
-                //don't start AI shopping until set time from start
+                //Delay NPC sweep until set time from start.
                 if(delayMilliseconds > totalMilliseconds - remainingMilliseconds)
                 {
                     return; 
                 }
             }
 
+            //initialise req'd variables
+            //List<Product> prodList = repoProdList.ToList<Product>();  //new List<Product>(); todo remove?????
+            int lastProdId = 0;
+            int numItemsToAdd = 0;
+
             //if shopping to end, shop for all remaining items. Else add items with respect to the current-expired time only (as a simple ratio, say).
             if (shopToEnd)
             {
-                numItemsToAdd = maxItemLimit - currentItemQuantity;
+                numItemsToAdd = maxItemLimit - currentTotalQuantities;
             }
             else
-            { // some casting ius req'd to stop integer ratios tending to zero.
-                numItemsToAdd = (int)(maxItemLimit * (((double)totalMilliseconds - (double)remainingMilliseconds) / (double)totalMilliseconds)) - currentItemQuantity;
+            { // some casting is req'd to stop integer ratios tending to zero.
+                numItemsToAdd = (int)(maxItemLimit * (((double)totalMilliseconds - (double)remainingMilliseconds) / (double)totalMilliseconds)) - currentTotalQuantities;
             }
 
-            int rendom1or2 = session.GetCountdownRandomizerValue();
-            lastProdId = session.GetLastItemAddedByOtherPlayer();
+            int rendom1or2 = session.GetCountdownRandomizerValue();  //set this variable from a session get.
+            lastProdId = session.GetLastItemAddedByOtherPlayer();    //ditto
 
             //call the sweep do method. An updated last prod id will be returned upon completion.
-            lastProdId = DoSweep(cart, prodlist, numItemsToAdd, lastProdId, rendom1or2);
+            lastProdId = DoSweep(cart, repoProdList, numItemsToAdd, lastProdId, rendom1or2);
 
-            //set the two static properties.
+            //set session properties if req'd.
             session.SetLastItemAddedByAIPlayer(lastProdId);
             if (shopToEnd) //if shopping time has completed, set appropriate flag.
             {
                 session.SetShoppingByNpcCompleted(true);
             }
 
-        }
-
-        //Add the specified number of items to the AI user's cartline.
-        private static int DoSweep(Cart cart, IEnumerable<Product> prodlist, int numItems, int lastProdId, int random1or2)
-        {
-            //if no items yet in AI cartline, add five of the ten most expensive lines, randomly (but add no quantities yet). 
-            if (cart.LinesOtherCount == 0)
-            {
-                AddFiveNewItemsToOtherLine(cart, prodlist, random1or2);
-            }
-
-            //Also add all current cartlines in human user's cart to AI cart (but add no quantities yet).
-            AddUserCartLinesToAICartLines(cart);
-
-            //Cycle through cartlines already created (from correct continue position) buying one item from each line until required number of items have been added.
-            int returnedProdId = 0;
-            returnedProdId = AddItemsToAICartlinesCyclically(cart, numItems, lastProdId);
-
-
-            //if no more items possible to buy (if max limit or stockcount has been used), choose next product not on list and add it to cartline.
-            //This time buy as many items as possible and so on until the required number has been reached.
-
-
-
-            //rturn the id of the last item added to cart.
-            return returnedProdId;
-        }
-
-        private static int AddItemsToAICartlinesCyclically(Cart cart, int numItems, int lastProdBought)
-        {
-            //for (int i = function2(); i < 100 /*where 100 is the end or another function call to get the end*/; i = function2())
-            //{
-
-            //    try
-            //    {
-            //        //ToDo
-            //    }
-            //    catch { continue; }
-            //}
-
-            return 1;
-
-
-        }
-
-
-        //Mirror the user cartlines in AI cartline (to mirror the cart-adding behaviour).
-        private static void AddUserCartLinesToAICartLines(Cart cart)
-        {
-            //first balance the items in current repository
-            foreach (CartLine line in cart.Lines)
-            {
-                cart.AddEmptyLineOther(line.Product);
-            }
-        }
-
-        private static void AddFiveNewItemsToOtherLine(Cart cart, IEnumerable<Product> prodlist, int random)
-        {
-            //first balance the items in current repository
-            BalanceRepositoryWrtCart(cart, prodlist);
-
-            //next get the ten most expensive items still in stock.
-            IEnumerable<Product> dearItems = prodlist.OrderByDescending(e => e.Price)
-                        .Where(e => e.StockCount > 0)
-                        .Take(10)                          // takes the top 10 items (after the sort)
-                        .OrderBy(e => e.ProductID);        //re-order by product id
-
-            //get every nth item stating at 0 or 1 randomly.
-            int nth = 2; //.i.e. every second item.
-            int skipper = random - 1; //we either skip 1 item or skip zero.
-            IEnumerable<Product>  myFiveItems = dearItems.Skip(skipper).Where((x, i) => i % nth == 0);
-            //.Select(e => new { e.Name, e.Price });
-            AddEmptyLinesToOtherCart(cart, myFiveItems);
-        }
-
-        private static void AddEmptyLinesToOtherCart(Cart cart, IEnumerable<Product> prodList)
-        {
-            //add the items to LinesOther if not yet included (no quantity will be added).
-            foreach(Product pr in prodList)
-            {
-                cart.AddEmptyLineOther(pr);
-            }
-        }
-
-        private static int GetCountdownRandomizerValue(this HttpSessionStateBase session)
-        {
-            //returns 1 or 2 randomly based on the session countdown start time.
-            int milliseconds = session.GetDataFromSession<DateTime>("countdownTimeCsKey").Millisecond;
-            return new System.Random(milliseconds).Next(0, 2) + 1;
-        }
-
-        //balance repository items for all products
-        private static void BalanceRepositoryWrtCart(Cart cart, IEnumerable<Product> repository)
-        {
-            foreach (Product pr in repository)
-            {
-                BalanceCurrentProductStock(cart, pr);
-            }
-        }
-
-        private static int SumOtherQuantity(Cart cart)
-        {
-            int total = 0;
-            foreach (var item in cart.LinesOther)
-            {
-                total += item.Quantity;
-            }
-            return total;
         }
 
         //Balance stock and quantities in current cart update request.
@@ -340,6 +232,135 @@ namespace MyNoddyStore.HtmlHelpers
             return messageString;
         }
 
+        #region private methods
+        //Add the specified number of items to the AI user's cartline.
+        private static int DoSweep(Cart cart, IEnumerable<Product> prodlist, int numItems, int lastProdIdAdded, int random1or2)
+        {
+            int numItemsRemaining = numItems;
+            //if no items yet in AI cartline, add five of the ten most expensive lines, randomly (but add no quantities yet). 
+            if (cart.LinesOtherCount == 0)
+            {
+                AddFiveNewItemsToNpcLine(cart, prodlist, random1or2);
+            }
+
+            //Also add all current cartlines in human user's cart to AI cart (but add no quantities yet).
+            AddUserCartLinesToAICartLines(cart);
+
+            //Cycle through cartlines already created (from correct continue position) buying one item from each line until required number of items have been added.
+            //Do this in each sweep in case user player has returned items to stock (just because they can).
+            int returnedProdId = 0;
+            bool allItemsAdded; // a param to store a success indicator.
+            returnedProdId = AddItemsToNpcCartlinesCyclically(out allItemsAdded, cart, ref numItemsRemaining, lastProdIdAdded);
+
+            int numItemsStillRemaining = numItemsRemaining;
+
+            //if no more items possible to buy (if max limit or stockcount has been used), choose next product not on list and add it to cartline.
+            //This time buy as many items as possible and so on until the required number has been reached.
+            if (!allItemsAdded)
+            {
+                returnedProdId = AddItemsToNpcCartlinesInBlocks(cart, numItemsStillRemaining, returnedProdId);
+            }
+
+            //rturn the id of the last item added to cart.
+            return returnedProdId;
+        }
+
+        //Add an item to each NPC cart cartline until the req'd number of items added, or until all possible items added.
+        private static int AddItemsToNpcCartlinesCyclically(out bool success, Cart cart, ref int numItems, int lastProdIdAdded)
+        {
+            success = true; //todo make sure this is false initiallly
+
+            todo create som elogic in the same was as AddItemsToNpcCartlinesCyclically for human player.
+                then call AddItemOther with correct product object set up afaik.
+           
+            return 0;
+
+
+        }
+
+        //Add max possible items to a new NPC cartline until the required number is reached.
+        private static int AddItemsToNpcCartlinesInBlocks(Cart cart, int numItems, int lastProdIdAdded)
+        {
+            //for (int i = function2(); i < 100 /*where 100 is the end or another function call to get the end*/; i = function2())
+            //{
+
+            //    try
+            //    {
+            //        //ToDo
+            //    }
+            //    catch { continue; }
+            //}
+
+            return 1;
+
+
+        }
+
+
+        //Mirror the user cartlines in AI cartline (to mimic the cart-adding behaviour).
+        private static void AddUserCartLinesToAICartLines(Cart cart)
+        {
+            //first balance the items in current repository
+            foreach (CartLine line in cart.Lines)
+            {
+                cart.AddEmptyLineOther(line.Product);
+            }
+        }
+
+        private static void AddFiveNewItemsToNpcLine(Cart cart, IEnumerable<Product> prodlist, int random1or2)
+        {
+            //first balance the items in current repository
+            BalanceRepositoryWrtCart(cart, prodlist);
+
+            //next get the ten most expensive items still in stock.
+            IEnumerable<Product> dearItems = prodlist.OrderByDescending(e => e.Price)
+                        .Where(e => e.StockCount > 0)
+                        .Take(10)                          // takes the top 10 items (after the sort)
+                        .OrderBy(e => e.ProductID);        //re-order by product id
+
+            //get every nth item stating at 0 or 1 randomly.
+            int nth = 2; //.i.e. every second item.
+            int skipper = random1or2 - 1; //we either skip 1 item or skip zero.
+            IEnumerable<Product>  npcFiveItems = dearItems.Skip(skipper).Where((x, i) => i % nth == 0);
+            //.Select(e => new { e.Name, e.Price });
+            AddEmptyLinesToOtherCart(cart, npcFiveItems);
+        }
+
+        private static void AddEmptyLinesToOtherCart(Cart cart, IEnumerable<Product> prodList)
+        {
+            //add the items to LinesOther if not yet included (no quantity will be added).
+            foreach(Product pr in prodList)
+            {
+                cart.AddEmptyLineOther(pr);
+            }
+        }
+
+        private static int GetCountdownRandomizerValue(this HttpSessionStateBase session)
+        {
+            //returns 1 or 2 randomly based on the session countdown start time.
+            int milliseconds = session.GetDataFromSession<DateTime>("countdownTimeCsKey").Millisecond;
+            return new System.Random(milliseconds).Next(0, 2) + 1;
+        }
+
+        //balance repository items for all products
+        private static void BalanceRepositoryWrtCart(Cart cart, IEnumerable<Product> repository)
+        {
+            foreach (Product pr in repository)
+            {
+                BalanceCurrentProductStock(cart, pr);
+            }
+        }
+
+        private static int SumNpcQuantities(Cart cart)
+        {
+            int total = 0;
+            foreach (var item in cart.LinesOther)
+            {
+                total += item.Quantity;
+            }
+            return total;
+        }
+
         //Balance this product's stock details using cart info.
         private static void BalanceCurrentProductStock(Cart cart, Product product)
         {
@@ -358,7 +379,7 @@ namespace MyNoddyStore.HtmlHelpers
                 product.MyQuantity = line.Quantity;
             }
 
-            //also update any data from other line
+            //also update any data from NPC line
             CartLine lineOther = cart.LinesOther
                 .Where(p => p.Product.ProductID == product.ProductID)
                 .FirstOrDefault();
@@ -375,7 +396,7 @@ namespace MyNoddyStore.HtmlHelpers
 
             product.StockCount = product.InitialStockCount - product.MyQuantity - product.OtherQuantity;
         }
-
+        #endregion
 
         #region redundant methods. Keep as reference
         //public static void SetObjectAsJson(this ISession session, string key, object value) //todo use this values and change this class name or delete these methods

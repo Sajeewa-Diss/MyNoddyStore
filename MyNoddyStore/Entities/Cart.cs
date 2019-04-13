@@ -31,7 +31,7 @@ namespace MyNoddyStore.Entities
         //    }
         //}
 
-        //note that both the product.MyQuantity property and line.Quantity property will be matched within this method.
+        //note that both the product.MyQuantity property and line.Quantity property will be cross-checked within this method.
         public void AddItem(Product product)
         {
             CartLine line = lineCollection
@@ -42,7 +42,7 @@ namespace MyNoddyStore.Entities
                 lineCollection.Add(new CartLine
                 {
                     Product = product,
-                    Quantity = product.MyQuantity
+                    Quantity = product.MyQuantity //todo we should even balance the stock at this point no???
                 });
             }
             else
@@ -51,6 +51,27 @@ namespace MyNoddyStore.Entities
             }
         }
 
+        //note that both the product.OtherQuantity property and line.Quantity property will be cross-checked within this method.
+        public void AddItemOther(Product product)
+        {
+            CartLine line = lineCollectionOther
+            .Where(p => p.Product.ProductID == product.ProductID)
+            .FirstOrDefault();
+            if (line == null)
+            {
+                lineCollectionOther.Add(new CartLine
+                {
+                    Product = product,
+                    Quantity = product.OtherQuantity //todo we should even balance the stock at this point no???
+                });
+            }
+            else
+            {
+                line.Quantity = product.OtherQuantity; //we use OtherQuantity value as a getter elsewhere.
+            }
+        }
+
+        //This method is not req'd by the NPC so only applied to the user cart line (if they so wish).
         public void RemoveLine(Product product)
         {
             lineCollection.RemoveAll(l => l.Product.ProductID == product.ProductID);
@@ -129,7 +150,7 @@ namespace MyNoddyStore.Entities
         }
     }
 
-    //simple IComparer for merging cartlines (a noddy demo of its use)
+    //simple IEqualityComparer for merging cartlines (a noddy demo of its use).
     public class SimpleCartLineComparer : IEqualityComparer<MergedCartLine>
     {
         public bool Equals(MergedCartLine x, MergedCartLine y)

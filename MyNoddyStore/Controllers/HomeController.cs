@@ -11,8 +11,8 @@ namespace MyNoddyStore.Controllers
     {
         public ActionResult Index()
         {
-            int remainingMilliseconds = Session.GetRemainingTimeOrSetDefault(); //todo remove this viewbag setter??!!
-            ViewBag.remainingTime = remainingMilliseconds;
+            int remainingMilliseconds = Session.GetRemainingTimeOrSetDefault(); //todo make getter only not setter. yes!!
+            ViewBag.remainingTime = remainingMilliseconds;                        //use a view model object??
             return View();
         }
 

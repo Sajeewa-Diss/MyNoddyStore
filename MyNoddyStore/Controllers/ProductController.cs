@@ -39,7 +39,7 @@ namespace MyNoddyStore.Controllers
         //[OutputCache(NoStore = true, Duration = 0, VaryByParam = "None")]
         public ViewResult List(string category, int page = 1)
         {
-            int remainingMilliseconds = Session.GetRemainingTimeOrSetDefault(); // countdown time variable. todo set this to get only.
+            int remainingMilliseconds = Session.GetRemainingTimeOrSetDefault(); // countdown time variable. todo set this to get only? probably not.
             Cart cart = new Cart();
 
             int productId = 0;
@@ -48,7 +48,7 @@ namespace MyNoddyStore.Controllers
 
             // simulate further shopping by the NPC
             IEnumerable<Product> list = repository.Products.ToList<Product>();
-            Session.RunAISweep(cart, list);
+            Session.RunNpcSweep(cart, list);
 
             // Check if "cartObj" key exists
             if (Session["cartObj"] != null)
