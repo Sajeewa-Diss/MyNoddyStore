@@ -1,36 +1,50 @@
-﻿@model MyNoddyStore.Entities.ShippingDetails
+﻿@*@model MyNoddyStore.Models.CartIndexViewModel*@
+@*@model MyNoddyStore.Entities.Cart*@
+@model List<MyNoddyStore.Entities.MergedCartLine>
 @{
-    ViewBag.Title = "MyNoddyStore: Checkout";
+    ViewBag.Title = "MyNoddy Store: Results";
 }
-<h2>Check out now</h2>
-<p>Please enter your details, and we'll ship your goods right away!</p>
-@using (Html.BeginForm())
-{
-    @Html.ValidationSummary()
-    <h3>Ship to</h3>
-    <div class="form-group">
-        <label>Name</label>
-        @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
-    </div>
-    <h3>Address</h3>
-    foreach (var property in ViewData.ModelMetadata.Properties)
-    {
-        if (property.PropertyName != "Name" && property.PropertyName != "GiftWrap")
-        {
-            <div class="form-group">
-                <label>@(property.DisplayName ?? property.PropertyName)</label>
-                @Html.TextBox(property.PropertyName, null, new { @class = "form-control" })
-            </div>
-        }
+<style>
+    #cartTable td {
+        vertical-align: middle;
     }
-    <h3>Options</h3>
-    <div class="checkbox">
-        <label>
-            @Html.EditorFor(x => x.GiftWrap)
-            Gift wrap these items
-        </label>
-    </div>
-    <div class="text-center">
-        <input class="btn btn-primary" type="submit" value="Complete order" />
-    </div>
-}
+</style>
+<h2>Cart Totals</h2>
+<table id="cartTable" class="table">
+    <thead>
+        <tr>
+            <th>Item</th>
+            <th class="text-right">Price</th>
+            <th>Quantity</th>
+            <th class="text-right">Subtotal</th>
+            <th>Testing</th>
+        </tr>
+    </thead>
+    <tbody>
+        @Html.ValidationSummary(false, "Checkout", new { @class = "text-danger" })
+        @foreach (MyNoddyStore.Entities.MergedCartLine line in Model)
+        {
+            <tr>
+                <td class="text-center">@line.Quantity</td>
+                <td class="text-left">@line.Product.Name</td>
+                <td class="text-right">@line.Product.Price.ToString("c")</td>
+                <td class="text-right">
+                    @((line.Quantity * line.Product.Price).ToString("c"))
+                </td>
+                <td class="text-center">@line.ComputedUserTotal.ToString("c")</td>
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="3" class="text-right">Total:</td>
+            <td class="text-right">
+                @(ViewBag.UserTotal.ToString("c")) hello @(ViewBag.AITotal.ToString("c"))
+            </td>
+        </tr>
+    </tfoot>
+</table>
+<div class="text-center">
+    @*<a class="btn btn-primary" href="@Model.ReturnUrl">Continue shopping</a>*@
+    @*@Html.ActionLink("Checkout now", "Checkout", null, new { @class = "btn btn-primary" })*@
+</div>

@@ -3,6 +3,7 @@ using System.Linq;
 using System.Diagnostics;
 using System.Web;
 using System.Web.Mvc;
+using System.Collections;
 using System.Collections.Generic;
 using MyNoddyStore.HtmlHelpers;
 using MyNoddyStore.Abstract;
@@ -133,182 +134,76 @@ namespace MyNoddyStore.Controllers
             return PartialView(cart);
         }
 
-        [HttpGet]
+        //[HttpGet]
+        ////[OutputCache(NoStore = true, Duration = 0, VaryByParam = "None")]
+        //public ViewResult Checkout()
+        //{
+        //    return View(new ShippingDetails());
+        //}
+
+        //[HttpPost]
         //[OutputCache(NoStore = true, Duration = 0, VaryByParam = "None")]
-        public ViewResult Checkout()
+        public ViewResult Checkout(Cart cart)
         {
-            return View(new ShippingDetails());
+            //Get new model object with merged cart lines
+            List<MergedCartLine> modelList = MergeCartLines(cart);
+
+            if (modelList.Count() == 0)
+            {
+                ModelState.AddModelError("", "Sorry, something went wrong with checkout!");
+            }
+
+            //Rather than trying some complex calculation in the view, we will pass the totals in a viewbag
+            ViewBag.UserTotal = modelList.Sum(x => x.ComputedUserTotal);
+            ViewBag.AITotal = modelList.Sum(x => x.ComputedAITotal);
+
+            //return View(cart);
+            return View(modelList);
         }
 
-        [HttpPost]
-        //[OutputCache(NoStore = true, Duration = 0, VaryByParam = "None")]
-        public ViewResult Checkout(Cart cart, ShippingDetails shippingDetails)
+
+        private List<MergedCartLine> MergeCartLines(Cart cart)
         {
-            if (cart.Lines.Count() == 0)
+            List<CartLine> cartLineList = cart.Lines.ToList<CartLine>();
+            List<CartLine> cartLineOtherList = cart.LinesOther.ToList<CartLine>();
+            List<MergedCartLine> list = new List<MergedCartLine>();
+            List<MergedCartLine> list2 = new List<MergedCartLine>();
+            List<MergedCartLine> mergedList = new List<MergedCartLine>();
+
+            //create two lists with zero quantities
+            foreach (CartLine item in cartLineList){
+                var mergeItem = new MergedCartLine { Product = item.Product, Quantity = 0, QuantityOther = 0 };
+                list.Add(mergeItem);}
+
+            foreach (CartLine item2 in cartLineOtherList){
+                var mergeItem2 = new MergedCartLine { Product = item2.Product, Quantity = 0, QuantityOther = 0 };
+                list2.Add(mergeItem2);}
+
+            mergedList = list2.Union(list, new SimpleCartLineComparer()).ToList< MergedCartLine>(); //this Union is performed on IEnumerable and must be cast to a list.
+
+            //if no list items then
+
+            //next loop thru and add the quantities
+            foreach (var item3 in mergedList.Reverse<MergedCartLine>()) //reverse the order as we may remove items.
             {
-                ModelState.AddModelError("", "Sorry, your cart is empty!");
+                foreach (var item4 in cartLineList)
+                {
+                    if ((item3.Product.ProductID) == (item3.Product.ProductID))
+                        item3.Quantity = item4.Quantity;
+                }
+                foreach (var item5 in cartLineOtherList)
+                {
+                    if ((item3.Product.ProductID) == (item5.Product.ProductID))
+                        item3.QuantityOther = item5.Quantity;
+                }
+                //todo finally remove any zero values rows (coding defensively)
+                if (item3.Quantity == 0 && item3.QuantityOther == 0)
+                {
+                    mergedList.Remove(item3); //todo investoigate this bit
+                }
             }
-            if (ModelState.IsValid)
-            {
-                //orderProcessor.ProcessOrder(cart, shippingDetails);
-                cart.Clear();
-                return View("Completed");
-            }
-            else
-            {
-                return View(shippingDetails);
-            }
+            return mergedList;
         }
-
-
-
-
-
-
-
-
-
-
-
-
-        ////Simulate another user shopping up to this point in time or until the end of the sweep time-period.
-        ////This method will add one item to cart per second of shopping allowed or remaining.
-        //private void SimulateSweepUser(Cart cart, bool shopToEnd = false)
-        //{
-        //    //System.Diagnostics.Debug.WriteLine("simulate sweep method entered");
-
-        //    int lastProdId = 0;
-        //    int numItemsToAdd = 0;
-
-        //    //ensure that the sweep user hasn't yet finished
-        //    bool sweepCompleted = Session.GetShoppingByOtherPlayerCompleted(); //todo set this somewhere else to remove null reference exception  - check for all other such objects.
-        //    if (sweepCompleted){
-        //        return;          //Operation has completed. No need to simulate shopping.
-        //    }
-
-        //    int maxItemLimit = HtmlHelpers.AdHocHelpers.simulatedShoppingItemLimit;
-        //    int totalMilliseconds = HtmlHelpers.AdHocHelpers.shoppingTimeMilliseconds;
-        //    int currentItemQuantity = SumOtherQuantity(cart);
-
-        //    //ensure we are within time. If so, calculate number of seconds of shopping time to simulate. If not, shop to end of period.
-        //    int remainingMilliseconds = Session.GetRemainingTime();
-        //    if (remainingMilliseconds <= 0){ //if shopping time has expired, then shop to the end of the time period (and set appropriate flags).
-        //        shopToEnd = true;
-        //    }
-
-        //    //if shopping to end, add all remaining items. Else add items with respect to the current-expired time only (as a simple ratio, say).
-        //    if (shopToEnd){
-        //        numItemsToAdd = maxItemLimit - currentItemQuantity; 
-        //    } else { // some casting ius req'd to stop integer ratios tending to zero.
-        //        numItemsToAdd = (int)(maxItemLimit * (((double)totalMilliseconds - (double)remainingMilliseconds) / (double)totalMilliseconds)) - currentItemQuantity;
-        //    }
-
-        //    //int x = Session.GetLastItemAddedByOtherPlayer();
-        //    //int z = Session.GetCountdownRandomizerValue();
-
-
-        //    //AdHocHelpers.LastItemAddedByOtherPlayer { get; set; }     //used to cycle through the products inventory. 
-        //    //AdHocHelpers.ShoppingByOtherPlayerCompleted { get; set; }
-
-        //    //set the two static properties.
-        //    Session.SetLastItemAddedByOtherPlayer(lastProdId);
-        //    if (shopToEnd) //if shopping time has completed, set appropriate flag.
-        //    { 
-        //        Session.SetShoppingByOtherPlayerCompleted(true);
-        //    }
-
-        //}
-
-        //private int SumOtherQuantity(Cart cart)
-        //{
-        //    int total = 0;
-        //    foreach (var item in cart.LinesOther)
-        //    {
-        //        total += item.Quantity;
-        //    }
-        //    return total;
-        //}
-
-        ////Balance stock and quantities in current cart update request.
-        //private string BalanceCartTransaction(Cart cart, Product product, int newQuantity){
-
-        //    //update the product stock details using the current cart.
-        //    BalanceCurrentProductStock(cart, product);
-
-        //    string messageString = "";
-
-        //    if (newQuantity < 0 || newQuantity > 5)
-        //    {
-        //        messageString = "invalid number of items";
-        //    }
-
-        //    //return product's current quantity to stock.
-        //    product.StockCount += product.MyQuantity;
-        //    product.MyQuantity = 0;
-        //    cart.RemoveLine(product);
-
-        //    //re-add new quantity where stock allows.
-        //    if (newQuantity > 0) { 
-        //        if (product.StockCount >= newQuantity) // the update can be done
-        //        {
-        //            product.MyQuantity = newQuantity;
-        //            product.StockCount -= newQuantity;
-        //            cart.AddItem(product);
-        //            messageString = "Updated";
-        //        }
-        //        else if (product.StockCount != 0)  // there is some stock. The update can be done only partially
-        //        {
-        //            product.MyQuantity = product.StockCount;
-        //            product.StockCount = 0;
-        //            cart.AddItem(product);
-        //            messageString = "Added partially (no stock)";
-        //        }
-        //        else  // the update can't be done. No stock.
-        //        {
-        //            messageString = "Failed (no stock)";
-        //        }
-        //    }
-
-        //    //todo if time expired. Append extra message text.
-
-        //    return messageString;
-        //}
-
-        ////Balance this product's stock details using cart info.
-        //private void BalanceCurrentProductStock(Cart cart, Product product)
-        //{
-        //    //update the product stock details using the current cart.
-        //    CartLine line = cart.Lines
-        //            .Where(p => p.Product.ProductID == product.ProductID)
-        //            .FirstOrDefault();
-        //    if (line == null)
-        //    {
-        //        //no matching item in cart
-        //        product.MyQuantity = 0;
-        //    }
-        //    else
-        //    {
-        //        //matching item found
-        //        product.MyQuantity = line.Quantity;
-        //    }
-
-        //    //also update any data from other line
-        //    CartLine lineOther = cart.LinesOther
-        //        .Where(p => p.Product.ProductID == product.ProductID)
-        //        .FirstOrDefault();
-        //    if (lineOther == null)
-        //    {
-        //        //no matching item in cart
-        //        product.OtherQuantity = 0;
-        //    }
-        //    else
-        //    {
-        //        //matching item found
-        //        product.OtherQuantity = lineOther.Quantity;
-        //    }
-
-        //    product.StockCount = product.InitialStockCount - product.MyQuantity - product.OtherQuantity;
-        //}
 
     }
 }

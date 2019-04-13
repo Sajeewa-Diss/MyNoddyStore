@@ -110,4 +110,36 @@ namespace MyNoddyStore.Entities
         public int Quantity { get; set; }       //note this property is an exact mirror of the product's MyQuanity or OtherQuantity property, 
                                                  //used by the user-player and AI-player respectively in their respective line collections.
     }
+
+    //a class to amalgamate user and AI shopping cart results.
+    public class MergedCartLine
+    {
+        public Product Product { get; set; }
+        public int Quantity { get; set; }
+        public int QuantityOther { get; set; }
+
+        public decimal ComputedUserTotal
+        {
+            get { return Product.Price * Quantity; }
+        }
+
+        public decimal ComputedAITotal
+        {
+            get { return Product.Price * QuantityOther; }
+        }
+    }
+
+    //simple IComparer for merging cartlines (a noddy demo of its use)
+    public class SimpleCartLineComparer : IEqualityComparer<MergedCartLine>
+    {
+        public bool Equals(MergedCartLine x, MergedCartLine y)
+        {
+            return x.Product.ProductID == y.Product.ProductID;
+        }
+
+        public int GetHashCode(MergedCartLine obj)
+        {
+            return obj.Product.ProductID.GetHashCode();
+        }
+    }
 }
