@@ -9,30 +9,30 @@
         vertical-align: middle;
     }
 </style>
+@Html.ValidationSummary(false, "Checkout", new { @class = "text-danger" })
 <h2>Cart Totals</h2>
 <table id="cartTable" class="table">
     <thead>
         <tr>
             <th>Item</th>
             <th class="text-right">Price</th>
-            <th>Quantity</th>
+            <th class="text-right">Quantity</th>
             <th class="text-right">Subtotal</th>
-            <th>Testing</th>
+            <th class="text-right">NPC Quantity</th>
+            <th class="text-right">NPC Subtotal</th>
         </tr>
     </thead>
     <tbody>
-        @Html.ValidationSummary(false, "Checkout", new { @class = "text-danger" })
         @foreach (MyNoddyStore.Entities.MergedCartLine line in Model)
         {
-            <tr>
-                <td class="text-center">@line.Quantity</td>
-                <td class="text-left">@line.Product.Name</td>
-                <td class="text-right">@line.Product.Price.ToString("c")</td>
-                <td class="text-right">
-                    @((line.Quantity * line.Product.Price).ToString("c"))
-                </td>
-                <td class="text-center">@line.ComputedUserTotal.ToString("c")</td>
-            </tr>
+        <tr>
+            <td class="text-left">@line.Product.Name</td>
+            <td class="text-right">@line.Product.Price.ToString("c")</td>
+            <td class="text-right">@line.Quantity</td>
+            <td class="text-right">@line.ComputedUserTotal.ToString("c")</td>
+            <td class="text-right">@line.QuantityOther</td>
+            <td class="text-right">@line.ComputedAITotal.ToString("c")</td>
+        </tr>
         }
     </tbody>
     <tfoot>

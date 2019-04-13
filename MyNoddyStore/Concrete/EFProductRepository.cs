@@ -21,7 +21,7 @@ namespace MyNoddyStore.Concrete
         {
             List<Product> productList = new List<Product>{
                 new Product { ProductID = 1, Name = "Aadvark", Description = "Customers who ordered this also ordered: Termite mounds.", ShortDescription = "Ant-free zone", Picture = "aadvark",
-                       Categories = new string[] { "Pets" }, Price = 900M, InitialStockCount = 4, StockCount = 4, MyQuantity = 0, OtherQuantity = 0 },
+                       Categories = new string[] { "Pets" }, Price = 750M, InitialStockCount = 4, StockCount = 4, MyQuantity = 0, OtherQuantity = 0 },
                 new Product { ProductID = 2, Name = "Camera", Description = "A single item in stock.", ShortDescription = "Digital SLR", Picture = "camera",
                        Categories = new string[] { "Gifts" }, Price = 450M, InitialStockCount = 1, StockCount = 1, MyQuantity = 0, OtherQuantity = 0 },
                 new Product { ProductID = 3, Name = "Caviar", Description = "Luxury Edition.", ShortDescription = "Beluga", Picture = "caviar",

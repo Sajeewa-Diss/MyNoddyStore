@@ -16,7 +16,7 @@ namespace MyNoddyStore.Controllers
     {
         //private readonly ICartService cartService;
         private IProductRepository repository;
-        private string messageString;
+        //private string messageString;
 
         public CartController(IProductRepository repo)
         {
@@ -46,7 +46,7 @@ namespace MyNoddyStore.Controllers
             return View(new CartIndexViewModel
             {
                 ReturnUrl = returnUrl,
-                UpdateMessage = messageString,
+                //UpdateMessage = messageString,
                 Cart = cart
             });
         }
@@ -181,14 +181,12 @@ namespace MyNoddyStore.Controllers
 
             mergedList = list2.Union(list, new SimpleCartLineComparer()).ToList< MergedCartLine>(); //this Union is performed on IEnumerable and must be cast to a list.
 
-            //if no list items then
-
             //next loop thru and add the quantities
-            foreach (var item3 in mergedList.Reverse<MergedCartLine>()) //reverse the order as we may remove items.
+            foreach (var item3 in mergedList.Reverse<MergedCartLine>()) //reverse the order as we may remove items without issues.
             {
                 foreach (var item4 in cartLineList)
                 {
-                    if ((item3.Product.ProductID) == (item3.Product.ProductID))
+                    if ((item3.Product.ProductID) == (item4.Product.ProductID))
                         item3.Quantity = item4.Quantity;
                 }
                 foreach (var item5 in cartLineOtherList)
@@ -199,7 +197,7 @@ namespace MyNoddyStore.Controllers
                 //todo finally remove any zero values rows (coding defensively)
                 if (item3.Quantity == 0 && item3.QuantityOther == 0)
                 {
-                    mergedList.Remove(item3); //todo investoigate this bit
+                    mergedList.Remove(item3);
                 }
             }
             return mergedList;
