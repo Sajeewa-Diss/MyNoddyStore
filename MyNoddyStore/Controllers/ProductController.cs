@@ -36,7 +36,7 @@ namespace MyNoddyStore.Controllers
         #endregion
 
 
-        //[OutputCache(NoStore = true, Duration = 0, VaryByParam = "None")]
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "None")]
         public ViewResult List(string category, int page = 1)
         {
             int remainingMilliseconds = Session.GetRemainingTimeOrSetDefault(); // countdown time variable. todo set this to get only? probably not.

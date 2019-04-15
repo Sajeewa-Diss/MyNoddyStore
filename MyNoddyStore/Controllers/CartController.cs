@@ -23,7 +23,7 @@ namespace MyNoddyStore.Controllers
             repository = repo;
         }
 
-        //[OutputCache(NoStore = true, Duration = 0, VaryByParam = "None")]
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "None")]
         public ViewResult Index(Cart cart, string returnUrl)
         {
 
@@ -147,7 +147,7 @@ namespace MyNoddyStore.Controllers
         //}
 
         //[HttpPost]
-        //[OutputCache(NoStore = true, Duration = 0, VaryByParam = "None")]
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "None")]
         public ViewResult Checkout(Cart cart)
         {
             //Get new model object with merged cart lines

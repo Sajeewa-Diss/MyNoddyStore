@@ -10,7 +10,8 @@ namespace MyNoddyStore.Entities
     {
         private List<CartLine> lineCollection = new List<CartLine>(); //todo keep this private??
         private List<CartLine> lineCollectionOther = new List<CartLine>();
-        
+
+        #region legacy pattern code
         //legacy method in original pattern
         //public void AddItem(Product product, int quantity)
         //{
@@ -30,67 +31,72 @@ namespace MyNoddyStore.Entities
         //        line.Quantity += quantity;
         //    }
         //}
+        #endregion
 
-        //note that both the product.MyQuantity property and line.Quantity property will be cross-checked within this method.
-        public void AddItem(Product product)
+        //Add or update product in the user cartline. 
+        //note all product object details has been cross-checked before this method call.
+        public void AddItem(Product productIn)
         {
             CartLine line = lineCollection
-            .Where(p => p.Product.ProductID == product.ProductID)
+            .Where(p => p.Product.ProductID == productIn.ProductID)
             .FirstOrDefault();
             if (line == null)
             {
                 lineCollection.Add(new CartLine
                 {
-                    Product = product,
-                    Quantity = product.MyQuantity //todo we should even balance the stock at this point no???
+                    Product = productIn,
+                    Quantity = productIn.MyQuantity 
                 });
             }
             else
             {
-                line.Quantity = product.MyQuantity; //we use MyQuantity value as a getter elsewhere.
+                line.Product = productIn;             //refresh the product data with values passed in. 
+                line.Quantity = productIn.MyQuantity; //we use MyQuantity value as a getter elsewhere.
             }
         }
 
-        //note that both the product.OtherQuantity property and line.Quantity property will be cross-checked within this method.
-        public void AddItemOther(Product product)
+        //Add or update product in the NPC cartline.
+        //note that all product object details have been cross-checked before this method call.
+        public void AddItemOther(Product productIn)
         {
             CartLine line = lineCollectionOther
-            .Where(p => p.Product.ProductID == product.ProductID)
+            .Where(p => p.Product.ProductID == productIn.ProductID)
             .FirstOrDefault();
             if (line == null)
             {
                 lineCollectionOther.Add(new CartLine
                 {
-                    Product = product,
-                    Quantity = product.OtherQuantity //todo we should even balance the stock at this point no???
+                    Product = productIn,               //refresh the product data with values passed in. 
+                    Quantity = productIn.OtherQuantity //we use OtherQuantity value as a getter elsewhere.
                 });
             }
             else
             {
-                line.Quantity = product.OtherQuantity; //we use OtherQuantity value as a getter elsewhere.
+                line.Product = productIn;             //refresh the product data with values passed in. 
+                line.Quantity = productIn.OtherQuantity; //we use OtherQuantity value as a getter elsewhere.
             }
         }
 
-        //This method is not req'd by the NPC so only applied to the user cart line (if they so wish).
-        public void RemoveLine(Product product)
+        //This method is not req'd by the NPC so only applied to the user cart line (if they choose to use it).
+        public void RemoveLine(Product productIn)
         {
-            lineCollection.RemoveAll(l => l.Product.ProductID == product.ProductID);
+            lineCollection.RemoveAll(l => l.Product.ProductID == productIn.ProductID);
         }
 
 
         //adds an empty line item to LineCollectionOther (if not already extant).
-        public void AddEmptyLineOther(Product product)
+        public void AddEmptyLineOther(Product productIn)
         {
             CartLine line = lineCollectionOther
-            .Where(p => p.Product.ProductID == product.ProductID)
+            .Where(p => p.Product.ProductID == productIn.ProductID)
             .FirstOrDefault();
             if (line == null)
             {
-                product.OtherQuantity = 0; //no items added yet.
+                productIn.OtherQuantity = 0; //no items added yet.
                 lineCollectionOther.Add(new CartLine
                 {
-                    Product = product,
-                    Quantity = product.OtherQuantity
+                    Product = productIn,
+                    Quantity = productIn.OtherQuantity
                 });
             }
             else
@@ -129,10 +135,10 @@ namespace MyNoddyStore.Entities
     {
         public Product Product { get; set; }
         public int Quantity { get; set; }       //note this property is an exact mirror of the product's MyQuanity or OtherQuantity property, 
-                                                 //used by the user-player and AI-player respectively in their respective line collections.
+                                                 //used by the user-player and NPC-player respectively in their respective line collections.
     }
 
-    //a class to amalgamate user and AI shopping cart results.
+    //a class to amalgamate user and NPC shopping cart results.
     public class MergedCartLine
     {
         public Product Product { get; set; }

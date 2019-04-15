@@ -188,8 +188,7 @@ namespace MyNoddyStore.HtmlHelpers
         //Balance stock and quantities in current cart update request.
         public static string BalanceCartTransaction(this Cart cart, Product product, int newQuantity)
         {
-
-            //update the product stock details using the current cart.
+            //first update the product stock details using the current cart.
             BalanceCurrentProductStock(cart, product);
 
             string messageString = "";
@@ -199,7 +198,7 @@ namespace MyNoddyStore.HtmlHelpers
                 messageString = "invalid number of items";
             }
 
-            //return product's current quantity to stock.
+            //return this product's current quantity to stock.
             product.StockCount += product.MyQuantity;
             product.MyQuantity = 0;
             cart.RemoveLine(product);
@@ -219,7 +218,7 @@ namespace MyNoddyStore.HtmlHelpers
                     product.MyQuantity = product.StockCount;
                     product.StockCount = 0;
                     cart.AddItem(product);
-                    messageString = "Added partially (no stock)";
+                    messageString = "Part added (no stock)";
                 }
                 else  // the update can't be done. No stock.
                 {
@@ -228,6 +227,8 @@ namespace MyNoddyStore.HtmlHelpers
             }
 
             //todo if time expired. Append extra message text.
+            //User is allowed to continue sweep after time has expired (just because this is a shopping demo). But a warning message is appended.
+            //the NPC cart would have stopped sweep, so only the success message will be updated in practice.
 
             return messageString;
         }
