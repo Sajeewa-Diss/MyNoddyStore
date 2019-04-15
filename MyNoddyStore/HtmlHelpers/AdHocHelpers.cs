@@ -237,6 +237,10 @@ namespace MyNoddyStore.HtmlHelpers
         private static int DoSweep(Cart cart, IEnumerable<Product> prodlist, int numItems, int lastProdIdAdded, int random1or2)
         {
             int numItemsRemaining = numItems;
+
+            //first balance the items in current repository with cart quantities (to update which items still in stock).
+            BalanceRepositoryWrtCart(cart, prodlist);
+
             //if no items yet in AI cartline, add five of the ten most expensive lines, randomly (but add no quantities yet). 
             if (cart.LinesOtherCount == 0)
             {
@@ -250,7 +254,7 @@ namespace MyNoddyStore.HtmlHelpers
             //Do this in each sweep in case user player has returned items to stock (just because they can).
             int returnedProdId = 0;
             bool allItemsAdded; // a param to store a success indicator.
-            returnedProdId = AddItemsToNpcCartlinesCyclically(out allItemsAdded, cart, ref numItemsRemaining, lastProdIdAdded);
+            returnedProdId = AddItemsToNpcCartlinesCyclically(out allItemsAdded, cart, prodlist, ref numItemsRemaining, lastProdIdAdded);
 
             int numItemsStillRemaining = numItemsRemaining;
 
@@ -258,7 +262,7 @@ namespace MyNoddyStore.HtmlHelpers
             //This time buy as many items as possible and so on until the required number has been reached.
             if (!allItemsAdded)
             {
-                returnedProdId = AddItemsToNpcCartlinesInBlocks(cart, numItemsStillRemaining, returnedProdId);
+                returnedProdId = AddItemsToNpcCartlinesInBlocks(cart, prodlist, numItemsStillRemaining, returnedProdId);
             }
 
             //rturn the id of the last item added to cart.
@@ -266,12 +270,12 @@ namespace MyNoddyStore.HtmlHelpers
         }
 
         //Add an item to each NPC cart cartline until the req'd number of items added, or until all possible items added.
-        private static int AddItemsToNpcCartlinesCyclically(out bool success, Cart cart, ref int numItems, int lastProdIdAdded)
+        private static int AddItemsToNpcCartlinesCyclically(out bool success, Cart cart, IEnumerable<Product> prodlist, ref int numItems, int lastProdIdAdded)
         {
             success = true; //todo make sure this is false initiallly
 
-            todo create som elogic in the same was as AddItemsToNpcCartlinesCyclically for human player.
-                then call AddItemOther with correct product object set up afaik.
+            //todo create some logic in the same was as AddItems for human player.
+            //    then call AddItemOther with correct product object set up afaik.
            
             return 0;
 
@@ -279,7 +283,7 @@ namespace MyNoddyStore.HtmlHelpers
         }
 
         //Add max possible items to a new NPC cartline until the required number is reached.
-        private static int AddItemsToNpcCartlinesInBlocks(Cart cart, int numItems, int lastProdIdAdded)
+        private static int AddItemsToNpcCartlinesInBlocks(Cart cart, IEnumerable<Product> prodlist, int numItems, int lastProdIdAdded)
         {
             //for (int i = function2(); i < 100 /*where 100 is the end or another function call to get the end*/; i = function2())
             //{
@@ -300,18 +304,15 @@ namespace MyNoddyStore.HtmlHelpers
         //Mirror the user cartlines in AI cartline (to mimic the cart-adding behaviour).
         private static void AddUserCartLinesToAICartLines(Cart cart)
         {
-            //first balance the items in current repository
             foreach (CartLine line in cart.Lines)
             {
                 cart.AddEmptyLineOther(line.Product);
             }
         }
 
+        //if no items yet in AI cartline, add five of the ten most expensive lines, randomly (but add no quantities yet). 
         private static void AddFiveNewItemsToNpcLine(Cart cart, IEnumerable<Product> prodlist, int random1or2)
         {
-            //first balance the items in current repository
-            BalanceRepositoryWrtCart(cart, prodlist);
-
             //next get the ten most expensive items still in stock.
             IEnumerable<Product> dearItems = prodlist.OrderByDescending(e => e.Price)
                         .Where(e => e.StockCount > 0)
@@ -393,7 +394,7 @@ namespace MyNoddyStore.HtmlHelpers
                 //matching item found
                 product.OtherQuantity = lineOther.Quantity;
             }
-
+            //finally balance the remaining stock value.
             product.StockCount = product.InitialStockCount - product.MyQuantity - product.OtherQuantity;
         }
         #endregion
