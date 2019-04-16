@@ -19,8 +19,8 @@
 </div>
 <div class="navbar-text navbar-right">
     <b class="hidden-xs">NPC cart:</b>
-    @ViewBag.xyz1 item(s),
-    @ViewBag.xyz2
+    @Model.LinesOther.Sum(x => x.Quantity) item(s),
+    @Model.ComputeTotalValueOther().ToString("c0")
 </div>
 <div class="navbar-text navbar-right">
     <b class="hidden-xs">Your cart:</b>

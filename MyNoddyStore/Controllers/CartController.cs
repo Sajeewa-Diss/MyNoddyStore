@@ -133,6 +133,11 @@ namespace MyNoddyStore.Controllers
                 line.Product.MyQuantity = line.Quantity;
             }
 
+            foreach (var line in cart.LinesOther)
+            {
+                line.Product.OtherQuantity = line.Quantity;
+            }
+
             int remainingMilliseconds = Session.GetRemainingTime();
             ViewBag.remainingTime = remainingMilliseconds;
 
