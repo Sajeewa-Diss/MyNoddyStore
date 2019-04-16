@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace MyNoddyStore.Entities
 {
+    //this object represents two carts, the user cart and the NPC cart.
     public class Cart
     {
         private List<CartLine> lineCollection = new List<CartLine>(); //todo keep this private??
@@ -110,6 +111,16 @@ namespace MyNoddyStore.Entities
             return lineCollection.Sum(e => e.Product.Price * e.Quantity);
         }
 
+        public decimal ComputeTotalQuantitiesOther()
+        {
+            return lineCollectionOther.Sum(e => e.Quantity);
+        }
+
+        public decimal ComputeTotalValueOther()
+        {
+            return lineCollectionOther.Sum(e => e.Product.Price * e.Quantity);
+        }
+
         public void Clear()
         {
             lineCollection.Clear();
@@ -123,6 +134,7 @@ namespace MyNoddyStore.Entities
         public IEnumerable<CartLine> LinesOther
         {
             get { return lineCollectionOther; }
+            set { lineCollectionOther = value.ToList(); } //todo maybe not req'd
         }
 
         public int LinesOtherCount
