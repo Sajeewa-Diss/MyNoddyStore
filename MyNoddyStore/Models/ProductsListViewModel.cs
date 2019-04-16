@@ -6,7 +6,7 @@ namespace MyNoddyStore.Models
     public class ProductsListViewModel
     {
         public IEnumerable<Product> Products { get; set; }
-        public Cart cart { get; set; }
+        //public Cart Cart1 { get; set; }               //todo remove??
         public PagingInfo PagingInfo { get; set; }
         public string CurrentCategory { get; set; }
         public double CountDownMilliseconds { get; set; }

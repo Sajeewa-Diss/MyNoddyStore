@@ -144,10 +144,10 @@ namespace MyNoddyStore.HtmlHelpers
             int totalMilliseconds = shoppingTimeMilliseconds;
             int currentTotalNpcQuantities = SumNpcQuantities(cart);
 
-            //if (currentTotalNpcQuantities == testNPCquantity) { return; } //todo remove
+            //if (currentTotalNpcQuantities >= testNPCquantity) { return; } //todo remove
 
             //ensure we are within time. If so, calculate number of seconds of shopping time to simulate. If not, shop to end of period.
-                int remainingMilliseconds = session.GetRemainingTime();
+            int remainingMilliseconds = session.GetRemainingTime();
             if (remainingMilliseconds <= 0)
             { //if shopping time has expired, then shop to the end of the time period (NPC always completes a full sweep successfully) and set appropriate flag later.
                 shopToEnd = true;
@@ -180,7 +180,7 @@ namespace MyNoddyStore.HtmlHelpers
             int rendom1or2 = session.GetCountdownRandomizerValue();  //set this variable from a session get.
             lastProdId = session.GetLastItemAddedByOtherPlayer();    //ditto
 
-            //call the sweep do method. An updated last prod id will be returned upon completion.
+            //call the sweep DO method. An updated last prod id will be returned upon completion.
 
             TimeSpan ts1 = new TimeSpan(DateTime.UtcNow.Ticks);
             double ms1 = ts1.TotalMilliseconds;

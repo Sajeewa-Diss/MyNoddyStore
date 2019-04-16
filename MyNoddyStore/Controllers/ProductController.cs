@@ -50,12 +50,18 @@ namespace MyNoddyStore.Controllers
             IEnumerable<Product> list = repository.Products.ToList<Product>();
             Session.RunNpcSweep(cart, list);
 
+            //var x = cart.LinesOther;
+
             // Check if "cartObj" key exists
             if (Session["cartObj"] != null)
             {
                 // get passed object
                 cart = (Cart)Session["cartObj"];
+
+                //if cart has no other lines we need to get the stored value above.
+                //cart.LinesOther = x;
             }
+
 
             // Check if "myDictionary" key exists
             if (TempData["myDictionary"] != null)
@@ -106,6 +112,7 @@ namespace MyNoddyStore.Controllers
                 },
                 CurrentCategory = category,
                 CountDownMilliseconds = remainingMilliseconds,
+                //Cart1 = cart,
                 UpdatedProductId = productId,
                 UpdatedMessage = updateMsg
             };
