@@ -65,7 +65,7 @@ namespace MyNoddyStore.HtmlHelpers
             session[key] = value;
         }
 
-        public static int GetLastItemAddedByOtherPlayer(this HttpSessionStateBase session)
+        public static int GetLastItemAddedByNpcPlayer(this HttpSessionStateBase session)
         {
             return session.GetDataFromSession<int>("lastItemAdded");
         }
@@ -129,10 +129,8 @@ namespace MyNoddyStore.HtmlHelpers
         //Simulate NPC shopping up to this point in time or until the end of the sweep time-period.
         //This method will add one items to cart at the rate specified by the constants above (currently an item per second).
         public static void RunNpcSweep(this HttpSessionStateBase session, Cart cart, IEnumerable<Product> repoProdList, bool shopToEnd = false)
-        {
-            //int testNPCquantity = 20;
-            
-            //ensure that the sweep user hasn't yet finished
+        {   
+            //ensure that the NPC sweep hasn't already finished.
             bool sweepCompleted = session.GetShoppingByNpcCompleted(); //todo set this somewhere else to remove null reference exception  - check for all other such objects.
             if (sweepCompleted)
             {
@@ -143,8 +141,6 @@ namespace MyNoddyStore.HtmlHelpers
             int maxItemLimit = NpcShoppingItemLimit;
             int totalMilliseconds = shoppingTimeMilliseconds;
             int currentTotalNpcQuantities = SumNpcQuantities(cart);
-
-            //if (currentTotalNpcQuantities >= testNPCquantity) { return; } //todo remove
 
             //ensure we are within time. If so, calculate number of seconds of shopping time to simulate. If not, shop to end of period.
             int remainingMilliseconds = session.GetRemainingTime();
@@ -160,7 +156,6 @@ namespace MyNoddyStore.HtmlHelpers
             }
 
             //initialise req'd variables
-            //List<Product> prodList = repoProdList.ToList<Product>();  //new List<Product>(); todo remove?????
             int lastProdId = 0;
             int numItemsToAdd = 0;
 
@@ -170,35 +165,27 @@ namespace MyNoddyStore.HtmlHelpers
                 numItemsToAdd = maxItemLimit - currentTotalNpcQuantities;
             }
             else
-            { // some casting is req'd to stop integer ratios tending to zero.
+            { // casting is req'd to stop integer ratios tending to zero.
                 numItemsToAdd = (int)(maxItemLimit * (((double)totalMilliseconds - (double)remainingMilliseconds) / (double)totalMilliseconds)) - currentTotalNpcQuantities;
             }
 
-            //numItemsToAdd = testNPCquantity;  //todo reset
-            //shopToEnd = false; //todo reset
-
             int rendom1or2 = session.GetCountdownRandomizerValue();  //set this variable from a session get.
-            lastProdId = session.GetLastItemAddedByOtherPlayer();    //ditto
+            lastProdId = session.GetLastItemAddedByNpcPlayer();    //ditto
 
             //call the sweep DO method. An updated last prod id will be returned upon completion.
-
             TimeSpan ts1 = new TimeSpan(DateTime.UtcNow.Ticks);
             double ms1 = ts1.TotalMilliseconds;
-            //System.Diagnostics.Debug.WriteLine("start of calling dosweep" + DateTime.Now.Ticks.ToString());
             lastProdId = DoSweep(cart, repoProdList, numItemsToAdd, lastProdId, rendom1or2);
             TimeSpan ts2 = new TimeSpan(DateTime.UtcNow.Ticks);
             double ms2 = ts2.TotalMilliseconds;
+            System.Diagnostics.Debug.WriteLine("timespan milliseconds: " + (ms2 - ms1).ToString());  //todo remove perf query
 
-            System.Diagnostics.Debug.WriteLine("timespan milliseconds: " + (ms2 - ms1).ToString());
-
-
-            //set session properties if req'd.
+            //set session properties where req'd.
             session.SetLastItemAddedByAIPlayer(lastProdId);
             if (shopToEnd) //if shopping time has completed, set appropriate flag.
             {
                 session.SetShoppingByNpcCompleted(true);
             }
-
         }
 
         //Balance stock and quantities in current cart update request.
@@ -251,11 +238,11 @@ namespace MyNoddyStore.HtmlHelpers
 
         #region private methods
         //Add the specified number of items to the AI user's cartline.
-        private static int DoSweep(Cart cart, IEnumerable<Product> prodlist, int numItems, int lastProdIdAdded, int random1or2)
+        private static int DoSweep(Cart cart, IEnumerable<Product> prodlist, int numItemsToAdd, int lastProdIdAdded, int random1or2)
         {
-            int numItemsRemaining = numItems;
+            int numItemsRemaining = numItemsToAdd;
 
-            //first balance the items in current repository with cart quantities (to update which items still in stock).
+            //first balance the items in current repository with cart quantities (to update which items are still in stock).
             BalanceRepositoryWrtCart(cart, prodlist);
 
             //if no items yet in AI cartline, add five of the ten most expensive lines, randomly (but add no quantities yet). 
@@ -267,37 +254,37 @@ namespace MyNoddyStore.HtmlHelpers
             //Also add all current cartlines in human user's cart to AI cart (but add no quantities yet).
             AddUserCartLinesToAICartLines(cart);
 
-            //Cycle through cartlines already created (from correct continue position) buying one item from each line until required number of items have been added.
-            //Do this in each sweep in case user player has returned items to stock (just because they can).
+            //Cycle through cartlines already created (from the session continue position) buying one item from each line until required number of items have been added.
+            //Do this for all items in each sweep in case user player has returned items to stock (just because they can).
             int returnedProdId = 0;
-            returnedProdId = AddItemsToNpcCartlinesCyclically(cart, prodlist, ref numItemsRemaining, lastProdIdAdded);
-
-            //int numItemsStillRemaining = numItemsRemaining;
+            //returnedProdId = AddItemsToNpcCartlinesCyclically(cart, prodlist, ref numItemsRemaining, lastProdIdAdded); todo remove this line
+            returnedProdId = AddItemsToNpcCartlinesCyclically(cart, ref numItemsRemaining, lastProdIdAdded);
 
             //if no more items possible to buy (if max limit or stockcount has been used), choose next product not on list and add it to cartline.
-            //This time buy as many items as possible and so on until the required number has been reached.
+            //This time add as many items as possible and so on until the required number has been reached.
             if (numItemsRemaining > 0)
             {
                 returnedProdId = AddItemsToNpcCartlinesInBlocks(cart, prodlist, numItemsRemaining, returnedProdId);
             }
 
-            //rturn the id of the last item added to cart.
+            //return the id of the last item added to cart.
             return returnedProdId;
         }
 
         //Add an item to each current NPC cartline until the req'd number of items added, or until all possible items added.
-        //returns the last prod id successfully added to NPC cart.
-        private static int AddItemsToNpcCartlinesCyclically(Cart cart, IEnumerable<Product> prodlist, ref int numItemsRemaining, int lastProdIdAdded)     //todo remove prodlist argument??
+        //Returns the last prod id successfully added to NPC cart.
+        //private static int AddItemsToNpcCartlinesCyclically(Cart cart, IEnumerable<Product> prodlist, ref int numItemsRemaining, int lastProdIdAdded)     //todo remove prodlist argument??
+        private static int AddItemsToNpcCartlinesCyclically(Cart cart, ref int numItemsToAdd, int lastProdIdAdded)
         {
-            int numItemsToAdd = numItemsRemaining;
+            int numItemsRemaining = numItemsToAdd;
             int numItemsAdded = 0;
             int previousProdId = lastProdIdAdded;
 
-            while (numItemsToAdd != numItemsAdded)
+            while (numItemsRemaining != numItemsAdded)
             {
                 //deduce the next NPC cartline to try to increment
                 CartLine nextLineOther = (CartLine)cart.LinesOther 
-                    .Where(c => c.Product.ProductID > previousProdId) //todo question how to cycle from end back to begining of prod list??
+                    .Where(c => c.Product.ProductID > previousProdId)
                     .Where(c => c.Product.OtherQuantity < maxCartLineItemLimit)
                     .Where(c => c.Product.StockCount > 0)
                     .OrderBy(c =>c.Product.ProductID)
@@ -305,10 +292,8 @@ namespace MyNoddyStore.HtmlHelpers
 
                 if (nextLineOther != null)
                 {
-                    //get the product to add.
-                    Product prodToAdd = nextLineOther.Product;
-                    //when adding to NPC cart cyclically, we always increment in steps of one only.
-                    int returnIncr = cart.TryIncrementNpcCart(prodToAdd, 1);
+                    Product prodToAdd = nextLineOther.Product;                 //get the product to add.
+                    int returnIncr = cart.TryIncrementNpcCart(prodToAdd, 1);   //when adding to NPC cart cyclically, we always increment in steps of one only.
                     if (returnIncr == 1)
                     {
                         numItemsAdded += 1;
@@ -327,29 +312,73 @@ namespace MyNoddyStore.HtmlHelpers
                     previousProdId = 0; //go back to start of list
                     System.Diagnostics.Debug.WriteLine("back to top of list");
                 }
-                //previousProdId += 1; //in each iteration, increment the product id, reset from end of list if req'd.
-                //previousProdId = ((previousProdId + 1) % prodlist.Count()) - 1; //Warning! This expression relies on all items in inventory being numbered from 1 to n with no gaps.
-                
-            
-            /*
-                 Product prodToAdd = cart.LinesOther.pr .p.(p => p.Product.ProductID == product.ProductID)
-               //no matching item in cart
-               product.OtherQuantity = 0;
-            else
-               //matching item found
-               product.OtherQuantity = lineOther.Quantity;
-            product.StockCount = product.InitialStockCount - product.MyQuantity - product.OtherQuantity;
-                                */
             }
-            numItemsRemaining = numItemsToAdd - numItemsAdded; //this result is passed back by ref.
-            return lastProdIdAdded;
+            numItemsToAdd = numItemsRemaining - numItemsAdded; //this value is passed back by ref.
+            return lastProdIdAdded;                             //this value is passed back as a rtn value.
+        }
+
+        //Add max possible items to each new NPC cartline until the required number is reached.
+        //Returns the last prod id successfully added to NPC cart.
+        //This code is only called when NPC has run out of high value items to add to cart and also can't add any items of the user cartlines (slow user activity, say).
+        //The next product to add is chosen randomly (gives the user player a chance to catch up on adding high value items of their own). 
+        private static int AddItemsToNpcCartlinesInBlocks(Cart cart, IEnumerable<Product> prodlist, int numItemsToAdd, int lastProdIdAdded)
+        {
+            int numItemsRemaining = numItemsToAdd;
+            int numItemsAdded = 0;
+            int previousProdId = lastProdIdAdded;
+
+            //todo test with prod id near end of list.
+
+            while (numItemsToAdd > numItemsAdded)
+            {
+                //deduce the next NPC cartline to add (next lowest prod id with a valid item stock that isn't yet in the NPC cartline).
+                //var existingProdsListInCart = (IEnumerable<Product>)prodlist.Where(p => cart.LinesOther.Any(c => c.Product.ProductID == p.ProductID)); //demo of how you would write this.
+                IEnumerable<Product> existingProdsListNotInCart = prodlist.Where(p => !cart.LinesOther.Any(c => c.Product.ProductID == p.ProductID));
+
+                //get the product with next lowest prod id of items still in stock
+                Product prodToAdd = existingProdsListNotInCart
+                    .Where(p => p.ProductID > previousProdId)
+                    .Where(p => p.StockCount > 0)
+                    .OrderBy(p => p.ProductID)
+                    .FirstOrDefault();
+
+                if (prodToAdd != null)
+                {
+                    cart.AddEmptyLineOther(prodToAdd);
+
+                    //check how many items we need to add of this product (when adding to NPC cart in blocks, increment as many as possible).
+                    numItemsRemaining = numItemsToAdd - numItemsAdded;
+                    int numOfThisProdToAdd = Math.Min(numItemsRemaining, maxCartLineItemLimit);
+
+                    int returnIncr = cart.TryIncrementNpcCart(prodToAdd, numOfThisProdToAdd); 
+                    if (returnIncr != 0)           // the actual product increment will be based on stock-availability.
+                    {
+                        numItemsAdded += returnIncr;
+                        previousProdId = prodToAdd.ProductID;
+                        lastProdIdAdded = prodToAdd.ProductID;
+                    }
+                }
+                else //no qualifying products found that can be added.
+                {
+                    //check if previousProdId is zero (then we have cycled all the way through the cart line without finding a line to incremenet).
+                    if (previousProdId == 0)
+                    {
+                        System.Diagnostics.Debug.WriteLine("break out of loop (block)"); //todo remove all debug.writeline statements.
+                        break;
+                    }
+                    previousProdId = 0; //go back to start of product list
+                    System.Diagnostics.Debug.WriteLine("back to top of list (block)");
+                }
+            }
+            //numItemsToAdd = numItemsRemaining - numItemsAdded; //this value is passed back by ref.
+            return lastProdIdAdded;                             //this value is passed back as a rtn value.
         }
 
         //Increment NPC cart with a product and additional quantity and then return the actual additional quantity successfully added.
         private static int TryIncrementNpcCart(this Cart cart, Product product, int increment)
         {
-            ////first update the product stock details using the current cart.
-            ////BalanceCurrentProductStockWrtCart(cart, product);
+            //first update the product stock details using the current cart.
+            ////BalanceCurrentProductStockWrtCart(cart, product); //todo remove this line??
             int returnIncrement = 0;
 
             while (returnIncrement != increment) //loop until we have incremented the req'd amount.
@@ -373,49 +402,9 @@ namespace MyNoddyStore.HtmlHelpers
                 product.StockCount -= 1;
                 returnIncrement += 1;
                 cart.AddItemOther(product);
-                //lastProdIdAdded = product.ProductID;
             }
-            //todo if time expired. Append extra message text.
-            //User is allowed to continue sweep after time has expired (just because this is a shopping demo). But a warning message is appended.
-            //the NPC cart would have stopped sweep, so only the success message will be updated in practice.
-
             return returnIncrement;
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        //Add max possible items to a new NPC cartline until the required number is reached.
-        private static int AddItemsToNpcCartlinesInBlocks(Cart cart, IEnumerable<Product> prodlist, int numItems, int lastProdIdAdded)
-        {
-            //for (int i = function2(); i < 100 /*where 100 is the end or another function call to get the end*/; i = function2())
-            //{
-
-            //    try
-            //    {
-            //        //ToDo
-            //    }
-            //    catch { continue; }
-            //}
-
-            return 1;
-
-
-        }
-
 
         //Mirror the user cartlines in AI cartline (to mimic the cart-adding behaviour).
         private static void AddUserCartLinesToAICartLines(Cart cart)
@@ -452,6 +441,8 @@ namespace MyNoddyStore.HtmlHelpers
             }
         }
 
+        //We use this function to return either int 1 or 2 per session. The effect is to make the 
+        //product list random w.r.t. this session only and prevent having too much product variety in the NPC cart.
         private static int GetCountdownRandomizerValue(this HttpSessionStateBase session)
         {
             //returns 1 or 2 randomly based on the session countdown start time.
