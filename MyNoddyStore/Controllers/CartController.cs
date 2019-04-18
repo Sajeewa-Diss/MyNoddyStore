@@ -126,12 +126,12 @@ namespace MyNoddyStore.Controllers
         public PartialViewResult Summary(Cart cart)
         {
             //update product quantity using cartline
-            foreach (var line in cart.Lines)
+            foreach (var line1 in cart.Lines)
             {
-                line.Product.MyQuantity = line.Quantity;
+                line1.Product.MyQuantity = line1.Quantity;
             }
 
-            if (TempData["npcCart"] != null) //we use this workaround because the Product List page doesn't have a model to update the cart info.
+            if (TempData["npcCart"] != null)      //we use this workaround because the Product List page doesn't have a workable model to update the cart info.
             {
                 cart.LinesOther = (IEnumerable<CartLine>)TempData["npcCart"];
             }
@@ -140,12 +140,10 @@ namespace MyNoddyStore.Controllers
                 TempData["npcCart"] = cart.LinesOther;
             }
 
-
-            foreach (var line in cart.LinesOther)
+            foreach (var line2 in cart.LinesOther)
             {
-                line.Product.OtherQuantity = line.Quantity;
+                line2.Product.OtherQuantity = line2.Quantity;
             }
-
 
             int remainingMilliseconds = Session.GetRemainingTime();
             ViewBag.remainingTime = remainingMilliseconds;

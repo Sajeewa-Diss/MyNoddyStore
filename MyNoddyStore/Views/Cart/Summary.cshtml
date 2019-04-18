@@ -17,11 +17,6 @@
         <span class="glyphicon glyphicon-shopping-cart"></span>
     </a>
 </div>
-@*<div class="navbar-text navbar-right">
-    <b class="hidden-xs">NPC cart1:</b>
-    @ViewBag.npcCartQuantities.ToString() item(s),
-    @ViewBag.npcCartValue.ToString("c0")
-</div>*@
 <div class="navbar-text navbar-right">
     <b class="hidden-xs">NPC cart:</b>
     @Model.LinesOther.Sum(x => x.Quantity) item(s),
