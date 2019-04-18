@@ -48,7 +48,7 @@ namespace MyNoddyStore.HtmlHelpers
         }
         
         //Helper methods using the session object.
-        public static T GetDataFromSession<T>(this HttpSessionStateBase session, string key)  //todo use this values and change this class name or delete these methods
+        public static T GetDataFromSession<T>(this HttpSessionStateBase session, string key)
         {
             try { return (T)session[key]; }
             catch { return default(T); }
@@ -257,7 +257,6 @@ namespace MyNoddyStore.HtmlHelpers
             //Cycle through cartlines already created (from the session continue position) buying one item from each line until required number of items have been added.
             //Do this for all items in each sweep in case user player has returned items to stock (just because they can).
             int returnedProdId = 0;
-            //returnedProdId = AddItemsToNpcCartlinesCyclically(cart, prodlist, ref numItemsRemaining, lastProdIdAdded); todo remove this line
             returnedProdId = AddItemsToNpcCartlinesCyclically(cart, ref numItemsRemaining, lastProdIdAdded);
 
             //if no more items possible to buy (if max limit or stockcount has been used), choose next product not on list and add it to cartline.
@@ -273,7 +272,6 @@ namespace MyNoddyStore.HtmlHelpers
 
         //Add an item to each current NPC cartline until the req'd number of items added, or until all possible items added.
         //Returns the last prod id successfully added to NPC cart.
-        //private static int AddItemsToNpcCartlinesCyclically(Cart cart, IEnumerable<Product> prodlist, ref int numItemsRemaining, int lastProdIdAdded)     //todo remove prodlist argument??
         private static int AddItemsToNpcCartlinesCyclically(Cart cart, ref int numItemsToAdd, int lastProdIdAdded)
         {
             int numItemsRemaining = numItemsToAdd;
@@ -326,8 +324,6 @@ namespace MyNoddyStore.HtmlHelpers
             int numItemsRemaining = numItemsToAdd;
             int numItemsAdded = 0;
             int previousProdId = lastProdIdAdded;
-
-            //todo test with prod id near end of list.
 
             while (numItemsToAdd > numItemsAdded)
             {
@@ -447,8 +443,7 @@ namespace MyNoddyStore.HtmlHelpers
         {
             //returns 1 or 2 randomly based on the session countdown start time.
             int milliseconds = session.GetDataFromSession<DateTime>("countdownTimeCsKey").Millisecond;
-            return new System.Random(milliseconds).Next(0, 2) + 1; //todo reset
-            //return 1; //todo remove
+            return new System.Random(milliseconds).Next(0, 2) + 1;
         }
 
         //balance repository items for all products
@@ -508,7 +503,7 @@ namespace MyNoddyStore.HtmlHelpers
         #endregion
 
         #region redundant methods. Keep as reference
-        //public static void SetObjectAsJson(this ISession session, string key, object value) //todo use this values and change this class name or delete these methods
+        //public static void SetObjectAsJson(this ISession session, string key, object value)
         //{
         //    session.SetString(key, JsonConvert.SerializeObject(value));
         //}

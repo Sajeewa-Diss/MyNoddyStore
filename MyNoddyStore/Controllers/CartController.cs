@@ -14,9 +14,7 @@ namespace MyNoddyStore.Controllers
 {
     public class CartController : Controller
     {
-        //private readonly ICartService cartService;
         private IProductRepository repository;
-        //private string messageString;
 
         public CartController(IProductRepository repo)
         {
@@ -62,9 +60,6 @@ namespace MyNoddyStore.Controllers
         //    {
         //        //cart.AddItem(product, 1);
         //        cart.AddItem(product, MyQuantity);
-
-        //        //todo decide how to correlate cart line and updated values.
-        //        messageString = "Update successful";
         //    }
         //    return RedirectToAction("Index", new { returnUrl });
         //}
@@ -76,7 +71,7 @@ namespace MyNoddyStore.Controllers
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "None")]
         public RedirectToRouteResult UpdateCart(Cart cart, int productId, int MyQuantity, string returnUrl, int pageNumber, string categoryString, string submitUpdate) //, string submitCheckout)
         {
-            string updateMsg = ""; //todo handle when time expired with a suitable update message.
+            string updateMsg = "";
 
             //When returning to the controller, always update the cart with simulated activity by the NPC.
             IEnumerable<Product> list = repository.Products.ToList<Product>();
@@ -85,7 +80,7 @@ namespace MyNoddyStore.Controllers
             //store the pageNumber and categoryString params in temp data (this is kind of a bodge). Add any other necessary data.
             Dictionary<string, object> dict = new Dictionary<string, object>();
             dict.Add("page", pageNumber);
-            dict.Add("category", categoryString);  //todo handle null
+            dict.Add("category", categoryString);
 
             if (submitUpdate == null) { // User has selected "View Cart"
                 dict.Add("productId", 0);
@@ -163,6 +158,10 @@ namespace MyNoddyStore.Controllers
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "None")]
         public ViewResult Checkout(Cart cart)
         {
+            //When checking out, always update the cart with simulated activity by the NPC.
+            IEnumerable<Product> list = repository.Products.ToList<Product>();
+            Session.RunNpcSweep(cart, list, true); //shopToEnd indicator set
+
             //Get new model object with merged cart lines
             List<MergedCartLine> modelList = MergeCartLines(cart);
 
@@ -212,7 +211,8 @@ namespace MyNoddyStore.Controllers
                     if ((item3.Product.ProductID) == (item5.Product.ProductID))
                         item3.QuantityOther = item5.Quantity;
                 }
-                //todo finally remove any zero values rows (coding defensively)
+
+                //finally remove any zero values rows (coding defensively)
                 if (item3.Quantity == 0 && item3.QuantityOther == 0)
                 {
                     mergedList.Remove(item3);
