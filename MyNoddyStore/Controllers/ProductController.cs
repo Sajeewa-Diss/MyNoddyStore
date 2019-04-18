@@ -50,6 +50,8 @@ namespace MyNoddyStore.Controllers
             IEnumerable<Product> list = repository.Products.ToList<Product>();
             Session.RunNpcSweep(cart, list);
 
+
+            //Session["npcCart"] = cart.LinesOther;
             //var x = cart.LinesOther;
 
             // Check if "cartObj" key exists
@@ -61,7 +63,7 @@ namespace MyNoddyStore.Controllers
                 //if cart has no other lines we need to get the stored value above.
                 //cart.LinesOther = x;
             }
-
+            TempData["npcCart"] = cart.LinesOther;
 
             // Check if "myDictionary" key exists
             if (TempData["myDictionary"] != null)
@@ -101,6 +103,8 @@ namespace MyNoddyStore.Controllers
 
             MergeProductsStockWithCart(productList, cart);
 
+            int totalNpcQuantity = cart.ComputeTotalQuantitiesOther();
+
             ProductsListViewModel model = new ProductsListViewModel
             {
                 Products = productList,
@@ -112,7 +116,7 @@ namespace MyNoddyStore.Controllers
                 },
                 CurrentCategory = category,
                 CountDownMilliseconds = remainingMilliseconds,
-                //Cart1 = cart,
+                TotalQuantity = totalNpcQuantity,
                 UpdatedProductId = productId,
                 UpdatedMessage = updateMsg
             };

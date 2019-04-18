@@ -5,20 +5,23 @@
 @*@Scripts.Render("/Scripts/incrementing.js")*@
 @{
     ViewBag.Title = "Products";
+    //ViewBag.IDX = Model.TotalQuantity;
+    //Layout = "~/Views/Product/_productLayout.cshtml";
 }
+
 @foreach (var pr in Model.Products)
 {
     //@Html.Partial("ProductSummary", pr)
     @Html.Partial("ProductSummary", pr, new ViewDataDictionary { {"pageNumber", Model.PagingInfo.CurrentPage },
-                                                                 {"categoryString", Model.CurrentCategory }}) //we are adding the current page and category to each partial view
+                                                                 {"categoryString", Model.CurrentCategory }})//we are adding the current page and category to each partial view
 }
-    <div class="btn-group pull-right">
-        @Html.PageLinks(Model.PagingInfo, x => Url.Action("List", new { category = Model.CurrentCategory, page = x }))
-    </div>
+<div class="btn-group pull-right">
+    @Html.PageLinks(Model.PagingInfo, x => Url.Action("List", new { category = Model.CurrentCategory, page = x }))
+</div>
 
-    @*This script manipulates items on the page. Whereas it may seem more pertinent to add this script per ProductSummary partial-view form, in practice 
-        that may cause issues with multiple events being bound to the forms (one for each time a child form is loaded) *@
-    <script type="text/javascript">
+@*This script manipulates items on the page. Whereas it may seem more pertinent to add this script per ProductSummary partial-view form, in practice
+    that may cause issues with multiple events being bound to the forms (one for each time a child form is loaded) *@
+<script type="text/javascript">
 
         const successMessage = "Updated";
         const maxCartLineItemLimit = 5;
@@ -221,6 +224,6 @@
 
 //#endregion
 
-    </script>
+</script>
 
 

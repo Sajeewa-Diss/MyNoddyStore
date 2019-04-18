@@ -42,8 +42,10 @@ namespace MyNoddyStore.Controllers
             IEnumerable<Product> list = repository.Products.ToList<Product>();
             Session.RunNpcSweep(cart, list);
 
-            ViewBag.remainingTime = 50000; //todo set this
-
+            TempData["npcCart"] = cart.LinesOther;
+            //Session["npcCart"] = cart.LinesOther;
+            //ViewBag.remainingTime = 50000; //todo set this
+            Session["cartObj"] = cart;
 
             //ViewBag.SomeData = cartService.GetSomeData();
 
@@ -85,6 +87,9 @@ namespace MyNoddyStore.Controllers
             IEnumerable<Product> list = repository.Products.ToList<Product>();
             Session.RunNpcSweep(cart, list);
 
+            //TempData["npcCart"] = cart.LinesOther;
+            //Session["npcCart"]= cart.LinesOther;
+
             //store the pageNumber and categoryString params in temp data (this is kind of a bodge). Add any other necessary data.
             Dictionary<string, object> dict = new Dictionary<string, object>();
             dict.Add("page", pageNumber);
@@ -113,6 +118,7 @@ namespace MyNoddyStore.Controllers
             }
         }
 
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "None")]
         public RedirectToRouteResult RemoveFromCart(Cart cart, int productId, string returnUrl)
         {
             Product product = repository.Products
@@ -123,8 +129,9 @@ namespace MyNoddyStore.Controllers
             }
             return RedirectToAction("Index", new { returnUrl });
         }
-   
 
+        //[OutputCache(NoStore = true, Duration = 0, VaryByParam = "None")]
+        [OutputCache(Duration = 1, VaryByParam = "None")]
         public PartialViewResult Summary(Cart cart)
         {
             //update product quantity using cartline
@@ -133,10 +140,20 @@ namespace MyNoddyStore.Controllers
                 line.Product.MyQuantity = line.Quantity;
             }
 
+            //if (Session["npcCart"] != null)
+            if (TempData["npcCart"] != null)
+            {
+                cart.LinesOther = (IEnumerable<CartLine>)TempData["npcCart"];
+                //cart.LinesOther = (IEnumerable<CartLine>)Session["npcCart"];
+            }
+
             foreach (var line in cart.LinesOther)
             {
                 line.Product.OtherQuantity = line.Quantity;
             }
+
+            ViewBag.npcCartQuantities = cart.ComputeTotalQuantitiesOther();
+            ViewBag.npcCartValue = cart.ComputeTotalValueOther();
 
             int remainingMilliseconds = Session.GetRemainingTime();
             ViewBag.remainingTime = remainingMilliseconds;
