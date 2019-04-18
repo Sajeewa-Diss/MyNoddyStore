@@ -332,7 +332,7 @@ namespace MyNoddyStore.HtmlHelpers
             while (numItemsToAdd > numItemsAdded)
             {
                 //deduce the next NPC cartline to add (next lowest prod id with a valid item stock that isn't yet in the NPC cartline).
-                //var existingProdsListInCart = (IEnumerable<Product>)prodlist.Where(p => cart.LinesOther.Any(c => c.Product.ProductID == p.ProductID)); //demo of how you would write this.
+                //var existingProdsListInCart = (IEnumerable<Product>)prodlist.Where(p => cart.LinesOther.Any(c => c.Product.ProductID == p.ProductID)); //demo of how you would write this for matching items.
                 IEnumerable<Product> existingProdsListNotInCart = prodlist.Where(p => !cart.LinesOther.Any(c => c.Product.ProductID == p.ProductID));
 
                 //get the product with next lowest prod id of items still in stock
@@ -377,8 +377,8 @@ namespace MyNoddyStore.HtmlHelpers
         //Increment NPC cart with a product and additional quantity and then return the actual additional quantity successfully added.
         private static int TryIncrementNpcCart(this Cart cart, Product product, int increment)
         {
-            //first update the product stock details using the current cart.
-            ////BalanceCurrentProductStockWrtCart(cart, product); //todo remove this line??
+            //first update the product stock details using the current cart (being defensive).
+            BalanceCurrentProductStockWrtCart(cart, product);
             int returnIncrement = 0;
 
             while (returnIncrement != increment) //loop until we have incremented the req'd amount.
@@ -447,7 +447,8 @@ namespace MyNoddyStore.HtmlHelpers
         {
             //returns 1 or 2 randomly based on the session countdown start time.
             int milliseconds = session.GetDataFromSession<DateTime>("countdownTimeCsKey").Millisecond;
-            return new System.Random(milliseconds).Next(0, 2) + 1;
+            return new System.Random(milliseconds).Next(0, 2) + 1; //todo reset
+            //return 1; //todo remove
         }
 
         //balance repository items for all products

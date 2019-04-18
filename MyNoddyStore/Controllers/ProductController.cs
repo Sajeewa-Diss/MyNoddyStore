@@ -57,6 +57,7 @@ namespace MyNoddyStore.Controllers
                 cart = (Cart)Session["cartObj"];
             }
             TempData["npcCart"] = cart.LinesOther;
+            //Session["npcCart"] = cart.LinesOther;
 
             // Check if "myDictionary" key exists
             if (TempData["myDictionary"] != null)

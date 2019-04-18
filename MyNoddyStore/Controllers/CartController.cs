@@ -121,7 +121,7 @@ namespace MyNoddyStore.Controllers
             return RedirectToAction("Index", new { returnUrl });
         }
 
-        //[OutputCache(NoStore = true, Duration = 0, VaryByParam = "None")]
+
         [OutputCache(Duration = 1, VaryByParam = "None")]
         public PartialViewResult Summary(Cart cart)
         {
@@ -135,6 +135,11 @@ namespace MyNoddyStore.Controllers
             {
                 cart.LinesOther = (IEnumerable<CartLine>)TempData["npcCart"];
             }
+            else
+            {
+                TempData["npcCart"] = cart.LinesOther;
+            }
+
 
             foreach (var line in cart.LinesOther)
             {
