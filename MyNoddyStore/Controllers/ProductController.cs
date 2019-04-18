@@ -50,13 +50,18 @@ namespace MyNoddyStore.Controllers
             IEnumerable<Product> list = repository.Products.ToList<Product>();
             Session.RunNpcSweep(cart, list);
 
-            // Check if "cartObj" key exists
+            // Check if "cartObj" key exists and get it back.
             if (Session["cartObj"] != null)
             {
+                TempData["npcCart"] = cart.LinesOther; //store NPC cart
                 // get passed object
                 cart = (Cart)Session["cartObj"];
             }
-            TempData["npcCart"] = cart.LinesOther;
+            else
+            {
+                TempData["npcCart"] = cart.LinesOther;  //store NPC cart anyway.
+            }
+            cart.LinesOther = (IEnumerable<CartLine>)TempData["npcCart"]; //update the NPC cart.
 
             // Check if "myDictionary" key exists
             if (TempData["myDictionary"] != null)
