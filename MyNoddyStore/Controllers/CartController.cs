@@ -38,16 +38,11 @@ namespace MyNoddyStore.Controllers
             #endregion
 
             //When returning to the controller, always update the cart with simulated activity by the NPC.
-            //todo also investigate how much time the AI sweep call costs.
             IEnumerable<Product> list = repository.Products.ToList<Product>();
             Session.RunNpcSweep(cart, list);
 
-            TempData["npcCart"] = cart.LinesOther;
-            //Session["npcCart"] = cart.LinesOther;
             //ViewBag.remainingTime = 50000; //todo set this
             Session["cartObj"] = cart;
-
-            //ViewBag.SomeData = cartService.GetSomeData();
 
             return View(new CartIndexViewModel
             {
@@ -87,9 +82,6 @@ namespace MyNoddyStore.Controllers
             IEnumerable<Product> list = repository.Products.ToList<Product>();
             Session.RunNpcSweep(cart, list);
 
-            //TempData["npcCart"] = cart.LinesOther;
-            //Session["npcCart"]= cart.LinesOther;
-
             //store the pageNumber and categoryString params in temp data (this is kind of a bodge). Add any other necessary data.
             Dictionary<string, object> dict = new Dictionary<string, object>();
             dict.Add("page", pageNumber);
@@ -108,7 +100,6 @@ namespace MyNoddyStore.Controllers
                 if (product != null)
                 {
                     updateMsg = cart.BalanceCartTransaction(product, MyQuantity);
-                    //ViewBag.testMessage = updateMsg;
                 }
                 dict.Add("productId", productId);
                 dict.Add("message", updateMsg);
@@ -140,11 +131,9 @@ namespace MyNoddyStore.Controllers
                 line.Product.MyQuantity = line.Quantity;
             }
 
-            //if (Session["npcCart"] != null)
-            if (TempData["npcCart"] != null)
+            if (TempData["npcCart"] != null) //we use this workaround because the Product List page doesn't have a model to update the cart info.
             {
                 cart.LinesOther = (IEnumerable<CartLine>)TempData["npcCart"];
-                //cart.LinesOther = (IEnumerable<CartLine>)Session["npcCart"];
             }
 
             foreach (var line in cart.LinesOther)
@@ -152,8 +141,6 @@ namespace MyNoddyStore.Controllers
                 line.Product.OtherQuantity = line.Quantity;
             }
 
-            ViewBag.npcCartQuantities = cart.ComputeTotalQuantitiesOther();
-            ViewBag.npcCartValue = cart.ComputeTotalValueOther();
 
             int remainingMilliseconds = Session.GetRemainingTime();
             ViewBag.remainingTime = remainingMilliseconds;
@@ -161,12 +148,13 @@ namespace MyNoddyStore.Controllers
             return PartialView(cart);
         }
 
+        #region legacy pattern
         //[HttpGet]
-        ////[OutputCache(NoStore = true, Duration = 0, VaryByParam = "None")]
         //public ViewResult Checkout()
         //{
         //    return View(new ShippingDetails());
         //}
+        #endregion
 
         //[HttpPost]
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "None")]
@@ -184,7 +172,7 @@ namespace MyNoddyStore.Controllers
             ViewBag.UserTotal = modelList.Sum(x => x.ComputedUserTotal);
             ViewBag.AITotal = modelList.Sum(x => x.ComputedAITotal);
 
-            //return View(cart);
+            //return View(cart); //legacy code
             return View(modelList);
         }
 

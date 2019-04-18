@@ -2,11 +2,8 @@
 @using MyNoddyStore.Entities
 @model MyNoddyStore.Models.ProductsListViewModel
 @Scripts.Render("~/Scripts/jquery-3.3.1.js")
-@*@Scripts.Render("/Scripts/incrementing.js")*@
 @{
     ViewBag.Title = "Products";
-    //ViewBag.IDX = Model.TotalQuantity;
-    //Layout = "~/Views/Product/_productLayout.cshtml";
 }
 
 @foreach (var pr in Model.Products)
@@ -26,7 +23,6 @@
         const successMessage = "Updated";
         const maxCartLineItemLimit = 5;
         var modelProducts; // initial products in cart
-        //var countdownVal;
         //todo make sure this view doesn't oscillate as time changes. todo add flashing buttons
 
         $('.plus-btn').on('click', function (e) {

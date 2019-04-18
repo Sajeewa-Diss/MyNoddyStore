@@ -15,8 +15,8 @@ namespace MyNoddyStore.Controllers
         private IProductRepository repository;        // a private object that implements IProductRepository 
         public int PageSize = 5;
 
-        public ProductController(IProductRepository productRepository)
-        {  // constructor supplying the product list
+        public ProductController(IProductRepository productRepository) // constructor supplying the product list
+        {  
             this.repository = productRepository;
         }
 
@@ -50,18 +50,11 @@ namespace MyNoddyStore.Controllers
             IEnumerable<Product> list = repository.Products.ToList<Product>();
             Session.RunNpcSweep(cart, list);
 
-
-            //Session["npcCart"] = cart.LinesOther;
-            //var x = cart.LinesOther;
-
             // Check if "cartObj" key exists
             if (Session["cartObj"] != null)
             {
                 // get passed object
                 cart = (Cart)Session["cartObj"];
-
-                //if cart has no other lines we need to get the stored value above.
-                //cart.LinesOther = x;
             }
             TempData["npcCart"] = cart.LinesOther;
 
@@ -120,9 +113,6 @@ namespace MyNoddyStore.Controllers
                 UpdatedProductId = productId,
                 UpdatedMessage = updateMsg
             };
-
-            //ViewBag.productId = (int)productId; //todo remove these two viewbag data (check not used).
-            //ViewBag.statusMsg = (string)updateMsg;
             return View(model);
         }
 

@@ -17,13 +17,13 @@
         <span class="glyphicon glyphicon-shopping-cart"></span>
     </a>
 </div>
-<div class="navbar-text navbar-right">
+@*<div class="navbar-text navbar-right">
     <b class="hidden-xs">NPC cart1:</b>
     @ViewBag.npcCartQuantities.ToString() item(s),
     @ViewBag.npcCartValue.ToString("c0")
-</div>
+</div>*@
 <div class="navbar-text navbar-right">
-    <b class="hidden-xs">NPC cart2:</b>
+    <b class="hidden-xs">NPC cart:</b>
     @Model.LinesOther.Sum(x => x.Quantity) item(s),
     @Model.ComputeTotalValueOther().ToString("c0")
 </div>
