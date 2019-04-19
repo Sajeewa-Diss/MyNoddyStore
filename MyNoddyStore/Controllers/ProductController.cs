@@ -35,11 +35,31 @@ namespace MyNoddyStore.Controllers
         //}
         #endregion
 
+        [OutputCache(NoStore = true, Duration = 1)] //todo set this wherever..
+        public ActionResult Restart()
+        {
+            //clear out any game baggage and then call the default controller entry point..
+            Session.Clear();
+            TempData["navDictionary"] = null;
+            TempData["npcCart"] = null;
+
+            Session.SetGameInProgress(true);
+            int remainingMilliseconds = Session.GetRemainingTimeOrSetDefault(); //reset the timer.
+            return RedirectToAction("List");   //in this method the first param is action, not controller!
+        }
 
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "None")]
-        public ViewResult List(string category, int page = 1)
+        //public ViewResult List(string category, int page = 1)
+        public ActionResult List(string category, int page = 1)
         {
+            //if no game in progress then go back to the intro page.
+            if (!Session.GetGameInProgress()) //this variable is always true or null
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             int remainingMilliseconds = Session.GetRemainingTimeOrSetDefault(); // countdown time variable. todo set this to get only? probably not.
+            
             Cart cart = new Cart();
 
             int productId = 0;
@@ -56,6 +76,7 @@ namespace MyNoddyStore.Controllers
                 TempData["npcCart"] = cart.LinesOther; //store NPC cart
                 // get passed object
                 cart = (Cart)Session["cartObj"];
+                //cart.LinesOther = (IEnumerable<CartLine>)TempData["npcCart"]; //update the NPC cart
             }
             else
             {
@@ -63,11 +84,11 @@ namespace MyNoddyStore.Controllers
             }
             cart.LinesOther = (IEnumerable<CartLine>)TempData["npcCart"]; //update the NPC cart.
 
-            // Check if "myDictionary" key exists
-            if (TempData["myDictionary"] != null)
+            // Check if "navDictionary" key exists
+            if (TempData["navDictionary"] != null)
             {
                 // get category and page
-                Dictionary<string, object> dict = TempData["myDictionary"] as Dictionary<string, object>;
+                Dictionary<string, object> dict = TempData["navDictionary"] as Dictionary<string, object>;
                 category = ((string)dict["category"] == string.Empty ? null : (string)dict["category"]); //set this to null if empty string
                 page = (int)dict["page"];
                 productId = (int)dict["productId"];

@@ -25,14 +25,14 @@
     <tbody>
         @foreach (MyNoddyStore.Entities.MergedCartLine line in Model)
         {
-        <tr>
-            <td class="text-left">@line.Product.Name</td>
-            <td class="text-right">@line.Product.Price.ToString("c")</td>
-            <td class="text-right">@line.Quantity</td>
-            <td class="text-right">@line.ComputedUserTotal.ToString("c")</td>
-            <td class="text-right">@line.QuantityOther</td>
-            <td class="text-right">@line.ComputedAITotal.ToString("c")</td>
-        </tr>
+            <tr>
+                <td class="text-left">@line.Product.Name</td>
+                <td class="text-right">@line.Product.Price.ToString("c")</td>
+                <td class="text-right">@line.Quantity</td>
+                <td class="text-right">@line.ComputedUserTotal.ToString("c")</td>
+                <td class="text-right">@line.QuantityOther</td>
+                <td class="text-right">@line.ComputedAITotal.ToString("c")</td>
+            </tr>
         }
     </tbody>
     <tfoot>
@@ -45,6 +45,7 @@
     </tfoot>
 </table>
 <div class="text-center">
-    @*<a class="btn btn-primary" href="@Model.ReturnUrl">Continue shopping</a>*@
-    @*@Html.ActionLink("Checkout now", "Checkout", null, new { @class = "btn btn-primary" })*@
+    @Html.ActionLink(linkText: "Play again", actionName: "Restart", controllerName: "Product", routeValues: null, htmlAttributes: new { @class = "btn btn-primary" })
+    @Html.ActionLink(linkText: "Back to Intro", actionName: "Index", controllerName: "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-primary" })
+    @Html.ActionLink(linkText: "Close", actionName: "Restart", controllerName: "Product", routeValues: null, htmlAttributes: new { @class = "btn btn-primary" })
 </div>

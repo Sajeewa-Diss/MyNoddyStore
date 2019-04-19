@@ -22,18 +22,24 @@ namespace MyNoddyStore.Controllers
         }
 
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "None")]
-        public ViewResult Index(Cart cart, string returnUrl)
+        public ActionResult Index(Cart cart, string returnUrl)
         {
 
             #region legacy pattern code
-            //if (TempData["myDictionary"] != null)
+            //if (TempData["navDictionary"] != null)
             //{
             //    // get category and page
-            //    Dictionary<string, object> dict = TempData["myDictionary"] as Dictionary<string, object>;
+            //    Dictionary<string, object> dict = TempData["navDictionary"] as Dictionary<string, object>;
             //    category = ((string)dict["category"] == string.Empty ? null : (string)dict["category"]); //set this to null if empty string
             //    page = (int)dict["page"];
             //}
             #endregion
+
+            //if no game in progress then go back to the intro page.
+            if (!Session.GetGameInProgress()) //this variable is always true or null
+            {
+                return RedirectToAction("Index", "Home");
+            }
 
             //When returning to the controller, always update the cart with simulated activity by the NPC.
             IEnumerable<Product> list = repository.Products.ToList<Product>();
@@ -85,7 +91,7 @@ namespace MyNoddyStore.Controllers
             if (submitUpdate == null) { // User has selected "View Cart"
                 dict.Add("productId", 0);
                 dict.Add("message", string.Empty);
-                TempData["myDictionary"] = dict;       // Store it in the TempData.
+                TempData["navDictionary"] = dict;       // Store it in the TempData.
                 Session["cartObj"] = cart;
                 return RedirectToAction("Index", new { returnUrl });
             }
@@ -98,7 +104,7 @@ namespace MyNoddyStore.Controllers
                 }
                 dict.Add("productId", productId);
                 dict.Add("message", updateMsg);
-                TempData["myDictionary"] = dict;       // Store it in the TempData
+                TempData["navDictionary"] = dict;       // Store it in the TempData
                 Session["cartObj"] = cart;
                 return RedirectToAction("List", "Product");
             }
@@ -156,8 +162,14 @@ namespace MyNoddyStore.Controllers
 
         //[HttpPost]
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "None")]
-        public ViewResult Checkout(Cart cart)
+        public ActionResult Checkout(Cart cart)
         {
+            //if no game in progress then go back to the intro page.
+            if (!Session.GetGameInProgress()) //this variable is always true or null
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             //When checking out, always update the cart with simulated activity by the NPC.
             IEnumerable<Product> list = repository.Products.ToList<Product>();
             Session.RunNpcSweep(cart, list, true); //shopToEnd indicator set
@@ -167,12 +179,17 @@ namespace MyNoddyStore.Controllers
 
             if (modelList.Count() == 0)
             {
-                ModelState.AddModelError("", "Sorry, something went wrong with checkout!");
+                ModelState.AddModelError("", "Sorry, no items in either cart!");
             }
 
             //Rather than trying some complex calculation in the view, we will pass the totals in a viewbag
             ViewBag.UserTotal = modelList.Sum(x => x.ComputedUserTotal);
             ViewBag.AITotal = modelList.Sum(x => x.ComputedAITotal);
+
+            //clear out any game baggage.
+            Session.Clear();
+            TempData["navDictionary"] = null;
+            TempData["npcCart"] = null;
 
             //return View(cart); //legacy code
             return View(modelList);

@@ -129,6 +129,7 @@ namespace MyNoddyStore.Entities
         public IEnumerable<CartLine> Lines
         {
             get { return lineCollection; }
+            set { lineCollection = value.ToList(); } //todo maybe not req'd
         }
 
         public IEnumerable<CartLine> LinesOther

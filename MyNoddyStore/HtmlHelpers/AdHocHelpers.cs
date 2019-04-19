@@ -75,6 +75,15 @@ namespace MyNoddyStore.HtmlHelpers
             session.SetDataToSession<int>("lastItemAdded", value);
         }
 
+        public static bool GetGameInProgress(this HttpSessionStateBase session)
+        {
+            return session.GetDataFromSession<bool>("gameInProgress");
+        }
+
+        public static void SetGameInProgress(this HttpSessionStateBase session, bool value)
+        {
+            session.SetDataToSession<bool>("gameInProgress", value);
+        }
 
         public static bool GetShoppingByNpcCompleted(this HttpSessionStateBase session)
         {
@@ -103,6 +112,7 @@ namespace MyNoddyStore.HtmlHelpers
             {
                 TimeSpan tsRemaining = countdownTime - DateTime.Now;
                 remainingMilliseconds = (int)tsRemaining.TotalMilliseconds;  //convert to integer for passing to view.
+                remainingMilliseconds = Math.Max(remainingMilliseconds, -1);  //if time expired just return -1.
             }
             return remainingMilliseconds;
         }
@@ -121,6 +131,7 @@ namespace MyNoddyStore.HtmlHelpers
             {
                 TimeSpan tsRemaining = countdownTime - DateTime.Now;
                 remainingMilliseconds = (int)tsRemaining.TotalMilliseconds;  //convert to integer for passing to view.
+                remainingMilliseconds = Math.Max(remainingMilliseconds, -1);  //if time expired just return -1.
             }
             return remainingMilliseconds;
         }
@@ -374,7 +385,7 @@ namespace MyNoddyStore.HtmlHelpers
         private static int TryIncrementNpcCart(this Cart cart, Product product, int increment)
         {
             //first update the product stock details using the current cart (being defensive).
-            BalanceCurrentProductStockWrtCart(cart, product);
+            //BalanceCurrentProductStockWrtCart(cart, product); //todo remove line??
             int returnIncrement = 0;
 
             while (returnIncrement != increment) //loop until we have incremented the req'd amount.
@@ -443,7 +454,8 @@ namespace MyNoddyStore.HtmlHelpers
         {
             //returns 1 or 2 randomly based on the session countdown start time.
             int milliseconds = session.GetDataFromSession<DateTime>("countdownTimeCsKey").Millisecond;
-            return new System.Random(milliseconds).Next(0, 2) + 1;
+            //return new System.Random(milliseconds).Next(0, 2) + 1;
+            return 1;
         }
 
         //balance repository items for all products

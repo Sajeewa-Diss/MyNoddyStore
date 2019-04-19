@@ -30,9 +30,11 @@
                 enables a clean separation of concerns and gives you full control over markup
                 for enjoyable, agile development.
             </p>
-            <p>
-                @Html.ActionLink(linkText: "Start", actionName: "List", controllerName: "Product", routeValues: null, htmlAttributes: new { @class = "btn btn-success" })
-            </p>
+
+            <div class="text-center">
+                @Html.ActionLink(linkText: "Start", actionName: "List", controllerName: "Product", routeValues: null, htmlAttributes: new { @class = "btn btn-primary" })
+                @Html.ActionLink(linkText: "Restart", actionName: "Restart", controllerName: "Product", routeValues: null, htmlAttributes: new { @class = "btn btn-primary" })
+            </div>
 
             <div>
                 <span id="countdownClock"></span>
