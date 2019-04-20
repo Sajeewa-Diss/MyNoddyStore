@@ -84,4 +84,11 @@ span.status-message.redmessage {
     color: red;
 }
 
+span.stock-message {
+    font-size: 0.75em;
+    color: red;
+    padding-right: 80px;
+    padding-bottom: 0px;
+}
+
 

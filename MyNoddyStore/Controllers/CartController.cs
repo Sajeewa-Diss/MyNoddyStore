@@ -42,7 +42,6 @@ namespace MyNoddyStore.Controllers
             }
 
             int remainingMilliseconds = Session.GetRemainingTime();
-            //ViewBag.remainingTime = 50000; //todo set this
 
             //When returning to the controller, always update the cart with simulated activity by the NPC.
             IEnumerable<Product> list = repository.Products.ToList<Product>();
@@ -97,7 +96,6 @@ namespace MyNoddyStore.Controllers
                 dict.Add("productId", 0);
                 dict.Add("message", string.Empty);
                 TempData["navDictionary"] = dict;       // Store it in the TempData.
-                //Session["cartObj"] = cart; todo remove me
                 return RedirectToAction("Index", new { returnUrl });
             }
             else // User has selected "Update Cart"
@@ -105,12 +103,11 @@ namespace MyNoddyStore.Controllers
                 Product product = repository.Products.FirstOrDefault(p => p.ProductID == productId);
                 if (product != null)
                 {
-                    updateMsg = cart.BalanceCartTransaction(product, MyQuantity);
+                    updateMsg = cart.BalanceCartTransaction(product, MyQuantity, Session.GetRemainingTime());
                 }
                 dict.Add("productId", productId);
                 dict.Add("message", updateMsg);
                 TempData["navDictionary"] = dict;       // Store it in the TempData
-                //Session["cartObj"] = cart;  todo remove me
                 return RedirectToAction("List", "Product");
             }
         }

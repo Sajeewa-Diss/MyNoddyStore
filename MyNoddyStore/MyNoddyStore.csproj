@@ -178,8 +178,6 @@
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="Concrete\EFDbContext.cs" />
     <Compile Include="Concrete\EFProductRepository.cs" />
-    <Compile Include="Concrete\EmailOrderProcessor.cs" />
-    <Compile Include="Concrete\MyCartService.cs" />
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\NavController.cs" />

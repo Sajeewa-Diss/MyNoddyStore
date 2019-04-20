@@ -151,7 +151,7 @@ namespace MyNoddyStore.HtmlHelpers
             int delayMilliseconds = shoppingStartDelayMilliseconds;
             int maxItemLimit = NpcShoppingItemLimit;
             int totalMilliseconds = shoppingTimeMilliseconds;
-            int currentTotalNpcQuantities = SumNpcQuantities(cart);
+            int currentTotalNpcQuantities = cart.ComputeTotalQuantitiesOther();
 
             //ensure we are within time. If so, calculate number of seconds of shopping time to simulate. If not, shop to end of period.
             int remainingMilliseconds = session.GetRemainingTime();
@@ -200,7 +200,7 @@ namespace MyNoddyStore.HtmlHelpers
         }
 
         //Balance stock and quantities in current cart update request.
-        public static string BalanceCartTransaction(this Cart cart, Product product, int newQuantity)
+        public static string BalanceCartTransaction(this Cart cart, Product product, int newQuantity, int remainingTime)
         {
             //first update the product stock details using the current cart.
             BalanceCurrentProductStockWrtCart(cart, product);
@@ -240,10 +240,12 @@ namespace MyNoddyStore.HtmlHelpers
                 }
             }
 
-            //todo if time expired. Append extra message text.
             //User is allowed to continue sweep after time has expired (just because this is a shopping demo). But a warning message is appended.
-            //the NPC cart would have stopped sweep, so only the success message will be updated in practice.
-
+            //the NPC cart would have stopped sweep, so only the success message will be updated in practice (all other warning messages above occur because of stock contention).
+            if (remainingTime < 0)
+            {
+                messageString += " (game over)";
+            }
             return messageString;
         }
 
@@ -377,7 +379,6 @@ namespace MyNoddyStore.HtmlHelpers
                     System.Diagnostics.Debug.WriteLine("back to top of list (block)");
                 }
             }
-            //numItemsToAdd = numItemsRemaining - numItemsAdded; //this value is passed back by ref.
             return lastProdIdAdded;                             //this value is passed back as a rtn value.
         }
 
@@ -385,7 +386,6 @@ namespace MyNoddyStore.HtmlHelpers
         private static int TryIncrementNpcCart(this Cart cart, Product product, int increment)
         {
             //first update the product stock details using the current cart (being defensive).
-            //BalanceCurrentProductStockWrtCart(cart, product); //todo remove line??
             int returnIncrement = 0;
 
             while (returnIncrement != increment) //loop until we have incremented the req'd amount.
@@ -435,7 +435,6 @@ namespace MyNoddyStore.HtmlHelpers
             int nth = 2; //.i.e. every second item.
             int skipper = random1or2 - 1; //we either skip 1 item or skip zero.
             IEnumerable<Product>  npcFiveItems = dearItems.Skip(skipper).Where((x, i) => i % nth == 0);
-            //.Select(e => new { e.Name, e.Price });
             AddEmptyLinesToOtherCart(cart, npcFiveItems);
         }
 
@@ -454,8 +453,7 @@ namespace MyNoddyStore.HtmlHelpers
         {
             //returns 1 or 2 randomly based on the session countdown start time.
             int milliseconds = session.GetDataFromSession<DateTime>("countdownTimeCsKey").Millisecond;
-            //return new System.Random(milliseconds).Next(0, 2) + 1;
-            return 1;// todo reset
+            return new System.Random(milliseconds).Next(0, 2) + 1;
         }
 
         //balance repository items for all products
@@ -465,16 +463,6 @@ namespace MyNoddyStore.HtmlHelpers
             {
                 BalanceCurrentProductStockWrtCart(cart, pr);
             }
-        }
-
-        private static int SumNpcQuantities(Cart cart)
-        {
-            int total = 0;
-            foreach (var item in cart.LinesOther)
-            {
-                total += item.Quantity;
-            }
-            return total;
         }
 
         //Balance this product's stock details using cart info.

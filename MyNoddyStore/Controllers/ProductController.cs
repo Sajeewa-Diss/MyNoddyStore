@@ -42,9 +42,9 @@ namespace MyNoddyStore.Controllers
             Session.Clear();
             TempData["navDictionary"] = null;
             TempData["npcCart"] = null;
-            //TempData["userCart"] = null;
 
             Session.SetGameInProgress(true);
+            Session.SetShoppingByNpcCompleted(false);
             int remainingMilliseconds = Session.GetRemainingTimeOrSetDefault(); //reset the timer.
             return RedirectToAction("List");   //in this method the first param is action, not controller!
         }
@@ -155,10 +155,6 @@ namespace MyNoddyStore.Controllers
                 {
                     if (item.Product.ProductID == pr.ProductID)
                     {
-                        if (item.Quantity != item.Product.OtherQuantity)
-                        {
-                            Debug.WriteLine("pete tong *******     ******      ******      ******     ******      *****     *****     *****      *****     ******     *****");
-                        }
                         pr.OtherQuantity = item.Product.OtherQuantity;
                     }
                 }
