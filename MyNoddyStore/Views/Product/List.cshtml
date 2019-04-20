@@ -146,8 +146,8 @@
         var countDownDate = new Date();
         countDownDate.setMilliseconds(countDownDate.getMilliseconds() + remaining);
 
-        // Update the count down every 1 second
-        var x = setInterval(RunCountdown, 1000);
+        // Update the count down every tenth of a second (otherwise lags between page redirects)
+        var x = setInterval(RunCountdown, 100);
 
         function RunCountdown() {
             // Get todays date and time

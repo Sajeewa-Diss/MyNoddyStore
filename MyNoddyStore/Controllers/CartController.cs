@@ -41,17 +41,19 @@ namespace MyNoddyStore.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
+            int remainingMilliseconds = Session.GetRemainingTime();
+            //ViewBag.remainingTime = 50000; //todo set this
+
             //When returning to the controller, always update the cart with simulated activity by the NPC.
             IEnumerable<Product> list = repository.Products.ToList<Product>();
             Session.RunNpcSweep(cart, list);
 
-            //ViewBag.remainingTime = 50000; //todo set this
             Session["cartObj"] = cart;
 
             return View(new CartIndexViewModel
             {
                 ReturnUrl = returnUrl,
-                //UpdateMessage = messageString,
+                CountDownMilliseconds = remainingMilliseconds,
                 Cart = cart
             });
         }
@@ -83,6 +85,9 @@ namespace MyNoddyStore.Controllers
             IEnumerable<Product> list = repository.Products.ToList<Product>();
             Session.RunNpcSweep(cart, list);
 
+            //store the cart in session.
+            Session["cartObj"] = cart;
+
             //store the pageNumber and categoryString params in temp data (this is kind of a bodge). Add any other necessary data.
             Dictionary<string, object> dict = new Dictionary<string, object>();
             dict.Add("page", pageNumber);
@@ -92,7 +97,7 @@ namespace MyNoddyStore.Controllers
                 dict.Add("productId", 0);
                 dict.Add("message", string.Empty);
                 TempData["navDictionary"] = dict;       // Store it in the TempData.
-                Session["cartObj"] = cart;
+                //Session["cartObj"] = cart; todo remove me
                 return RedirectToAction("Index", new { returnUrl });
             }
             else // User has selected "Update Cart"
@@ -105,7 +110,7 @@ namespace MyNoddyStore.Controllers
                 dict.Add("productId", productId);
                 dict.Add("message", updateMsg);
                 TempData["navDictionary"] = dict;       // Store it in the TempData
-                Session["cartObj"] = cart;
+                //Session["cartObj"] = cart;  todo remove me
                 return RedirectToAction("List", "Product");
             }
         }
@@ -132,7 +137,7 @@ namespace MyNoddyStore.Controllers
                 line1.Product.MyQuantity = line1.Quantity;
             }
 
-            if (TempData["npcCart"] != null)      //we use this workaround because the Product List page doesn't have a workable model to update the cart info.
+            if (TempData["npcCart"] != null)      //we use this workaround to pass data because the Product List page doesn't have a workable model to update the cart info.
             {
                 cart.LinesOther = (IEnumerable<CartLine>)TempData["npcCart"];
             }
@@ -141,9 +146,9 @@ namespace MyNoddyStore.Controllers
                 TempData["npcCart"] = cart.LinesOther;
             }
 
-            foreach (var line2 in cart.LinesOther)
+            foreach (var lineOther in cart.LinesOther)
             {
-                line2.Product.OtherQuantity = line2.Quantity;
+                lineOther.Product.OtherQuantity = lineOther.Quantity;
             }
 
             int remainingMilliseconds = Session.GetRemainingTime();
@@ -172,11 +177,10 @@ namespace MyNoddyStore.Controllers
 
             //When checking out, always update the cart with simulated activity by the NPC.
             IEnumerable<Product> list = repository.Products.ToList<Product>();
-            Session.RunNpcSweep(cart, list, true); //shopToEnd indicator set
+            Session.RunNpcSweep(cart, list, true);                             //shopToEnd indicator set true!
 
             //Get new model object with merged cart lines
             List<MergedCartLine> modelList = MergeCartLines(cart);
-
             if (modelList.Count() == 0)
             {
                 ModelState.AddModelError("", "Sorry, no items in either cart!");

@@ -46,7 +46,7 @@ namespace MyNoddyStore.HtmlHelpers
                 return sequence;
             }
         }
-        
+
         //Helper methods using the session object.
         public static T GetDataFromSession<T>(this HttpSessionStateBase session, string key)
         {
@@ -140,7 +140,7 @@ namespace MyNoddyStore.HtmlHelpers
         //Simulate NPC shopping up to this point in time or until the end of the sweep time-period.
         //This method will add one items to cart at the rate specified by the constants above (currently an item per second).
         public static void RunNpcSweep(this HttpSessionStateBase session, Cart cart, IEnumerable<Product> repoProdList, bool shopToEnd = false)
-        {   
+        {
             //ensure that the NPC sweep hasn't already finished.
             bool sweepCompleted = session.GetShoppingByNpcCompleted(); //todo set this somewhere else to remove null reference exception  - check for all other such objects.
             if (sweepCompleted)
@@ -160,9 +160,9 @@ namespace MyNoddyStore.HtmlHelpers
                 shopToEnd = true;
             } else {
                 //Delay NPC sweep until set time from start.
-                if(delayMilliseconds > totalMilliseconds - remainingMilliseconds)
+                if (delayMilliseconds > totalMilliseconds - remainingMilliseconds)
                 {
-                    return; 
+                    return;
                 }
             }
 
@@ -455,7 +455,7 @@ namespace MyNoddyStore.HtmlHelpers
             //returns 1 or 2 randomly based on the session countdown start time.
             int milliseconds = session.GetDataFromSession<DateTime>("countdownTimeCsKey").Millisecond;
             //return new System.Random(milliseconds).Next(0, 2) + 1;
-            return 1;
+            return 1;// todo reset
         }
 
         //balance repository items for all products
@@ -478,39 +478,49 @@ namespace MyNoddyStore.HtmlHelpers
         }
 
         //Balance this product's stock details using cart info.
-        private static void BalanceCurrentProductStockWrtCart(Cart cart, Product product)
+        private static void BalanceCurrentProductStockWrtCart(Cart cart, Product productObj)
         {
             //update the product stock details using the current cart.
             CartLine line = cart.Lines
-                    .Where(p => p.Product.ProductID == product.ProductID)
+                    .Where(p => p.Product.ProductID == productObj.ProductID)
                     .FirstOrDefault();
             if (line == null)
             {
                 //no matching item in cart
-                product.MyQuantity = 0;
+                productObj.MyQuantity = 0;
             }
             else
             {
                 //matching item found
-                product.MyQuantity = line.Quantity;
+                productObj.MyQuantity = line.Quantity;
             }
 
             //also update any data from NPC line
             CartLine lineOther = cart.LinesOther
-                .Where(p => p.Product.ProductID == product.ProductID)
+                .Where(p => p.Product.ProductID == productObj.ProductID)
                 .FirstOrDefault();
             if (lineOther == null)
             {
                 //no matching item in cart
-                product.OtherQuantity = 0;
+                productObj.OtherQuantity = 0;
             }
             else
             {
                 //matching item found
-                product.OtherQuantity = lineOther.Quantity;
+                productObj.OtherQuantity = lineOther.Quantity;
             }
-            //finally balance the remaining stock value.
-            product.StockCount = product.InitialStockCount - product.MyQuantity - product.OtherQuantity;
+            // balance the remaining stock value.
+            productObj.StockCount = productObj.InitialStockCount - productObj.MyQuantity - productObj.OtherQuantity;
+
+            //finally update the cart lines with product details
+            if (line != null)
+            {
+                line.Product = productObj;
+            }
+            if (lineOther != null)
+            {
+                lineOther.Product = productObj;
+            }
         }
         #endregion
 

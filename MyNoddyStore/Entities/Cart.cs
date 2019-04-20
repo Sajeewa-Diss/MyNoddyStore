@@ -138,6 +138,11 @@ namespace MyNoddyStore.Entities
             set { lineCollectionOther = value.ToList(); } //todo maybe not req'd
         }
 
+        public int LinesCount
+        {
+            get { return lineCollection.Count(); }
+        }
+
         public int LinesOtherCount
         {
             get { return lineCollectionOther.Count(); }

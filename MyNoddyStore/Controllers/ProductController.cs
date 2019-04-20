@@ -42,6 +42,7 @@ namespace MyNoddyStore.Controllers
             Session.Clear();
             TempData["navDictionary"] = null;
             TempData["npcCart"] = null;
+            //TempData["userCart"] = null;
 
             Session.SetGameInProgress(true);
             int remainingMilliseconds = Session.GetRemainingTimeOrSetDefault(); //reset the timer.
@@ -49,7 +50,6 @@ namespace MyNoddyStore.Controllers
         }
 
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "None")]
-        //public ViewResult List(string category, int page = 1)
         public ActionResult List(string category, int page = 1)
         {
             //if no game in progress then go back to the intro page.
@@ -58,31 +58,26 @@ namespace MyNoddyStore.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            int remainingMilliseconds = Session.GetRemainingTimeOrSetDefault(); // countdown time variable. todo set this to get only? probably not.
-            
-            Cart cart = new Cart();
-
+            int remainingMilliseconds = Session.GetRemainingTime(); // countdown time variable. todo set this to get only? probably not.
+            Cart cart;
             int productId = 0;
             string updateMsg = string.Empty;
-            //ViewBag.remainingTime = remainingMilliseconds;
+
+            // Check if "cartObj" key exists and get it back.
+            if (Session["cartObj"] != null)
+            {
+                cart = (Cart)Session["cartObj"];
+            }
+            else
+            {
+                cart = new Cart();
+            }
 
             // simulate further shopping by the NPC
             IEnumerable<Product> list = repository.Products.ToList<Product>();
             Session.RunNpcSweep(cart, list);
 
-            // Check if "cartObj" key exists and get it back.
-            if (Session["cartObj"] != null)
-            {
-                TempData["npcCart"] = cart.LinesOther; //store NPC cart
-                // get passed object
-                cart = (Cart)Session["cartObj"];
-                //cart.LinesOther = (IEnumerable<CartLine>)TempData["npcCart"]; //update the NPC cart
-            }
-            else
-            {
-                TempData["npcCart"] = cart.LinesOther;  //store NPC cart anyway.
-            }
-            cart.LinesOther = (IEnumerable<CartLine>)TempData["npcCart"]; //update the NPC cart.
+            TempData["npcCart"] = cart.LinesOther; //store NPC cart
 
             // Check if "navDictionary" key exists
             if (TempData["navDictionary"] != null)
