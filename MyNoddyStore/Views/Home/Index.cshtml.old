@@ -1,0 +1,97 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+    Layout = "~/Views/Home/_LayoutIntro.cshtml"; ;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    <link href="~/Content/ErrorStyles.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+
+    <div class="jumbotron">
+        <h1>ASP.NET</h1>
+        <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
+        <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <h2>Getting started</h2>
+            <p>
+                ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
+                enables a clean separation of concerns and gives you full control over markup
+                for enjoyable, agile development.
+            </p>
+
+            <div class="text-center">
+                @Html.ActionLink(linkText: "Start", actionName: "List", controllerName: "Product", routeValues: null, htmlAttributes: new { @class = "btn btn-primary" })
+                @Html.ActionLink(linkText: "Restart", actionName: "Restart", controllerName: "Product", routeValues: null, htmlAttributes: new { @class = "btn btn-primary" })
+            </div>
+
+            <div>
+                <span id="countdownClock"></span>
+            </div>
+
+            <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+        </div>
+        <div class="col-md-4">
+            <h2>Get more libraries</h2>
+            <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
+            <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+        </div>
+        <div class="col-md-4">
+            <h2>Web Hosting</h2>
+            <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
+            <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+        </div>
+    </div>
+
+    <script>
+
+    var countdownCtrl = document.getElementById("countdownClock");
+    var remaining = @ViewBag.remainingTime; //todo if this has a value, show this in start screen and modify button caption.
+    var countDownDate = new Date(); //.getTime();
+    countDownDate.setMilliseconds(countDownDate.getMilliseconds() + remaining);
+
+    // Update the count down every 1 second
+    var x = setInterval(RunCountdown, 1000);
+
+    function RunCountdown() {
+        // Get todays date and time
+        var now = new Date().getTime();
+
+        // Find the duration between now and the count down date
+        var duration = countDownDate - now;
+
+        // Time calculations for days, hours, minutes and seconds
+        //var days = Math.floor(duration / (1000 * 60 * 60 * 24));
+        //var hours = Math.floor((duration % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        //var minutes = Math.floor((duration % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((duration % (1000 * 60)) / 1000);
+        var formattedSeconds = seconds.toString().padStart(2, '0');
+
+
+        // Display the result in the element with id="demo"
+        countdownCtrl.innerHTML = "Checkout1 within " + formattedSeconds + "s";
+
+        // If the count down is finished, write some text
+        if (duration < 0) {
+            clearInterval(x);
+            countdownCtrl.innerHTML = "EXPIRED"; //todo countdown at this point
+        }
+    }
+
+    </script>
+
+    @*todo number of seconds for game should be using constant.*@
+
+</body>
+</html>

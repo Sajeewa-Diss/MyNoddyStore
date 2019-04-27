@@ -35,7 +35,7 @@ namespace MyNoddyStore.Controllers
         //}
         #endregion
 
-        [OutputCache(NoStore = true, Duration = 1)] //todo set this wherever..
+        [OutputCache(NoStore = true, Duration = 0)]
         public ActionResult Restart()
         {
             //clear out any game baggage and then call the default controller entry point..
@@ -43,6 +43,7 @@ namespace MyNoddyStore.Controllers
             TempData["navDictionary"] = null;
             TempData["npcCart"] = null;
 
+            //Session.SetUserJustClickedCheckout(false); //todo maybe remove
             Session.SetGameInProgress(true);
             Session.SetShoppingByNpcCompleted(false);
             int remainingMilliseconds = Session.GetRemainingTimeOrSetDefault(); //reset the timer.

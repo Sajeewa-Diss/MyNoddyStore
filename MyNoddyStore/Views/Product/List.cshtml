@@ -25,6 +25,10 @@
     var modelProducts; // initial products in cart
     //todo make sure this view doesn't oscillate as time changes. todo add flashing buttons
 
+    function preventBack() { window.history.forward(); }
+    setTimeout("preventBack()", 0);
+    window.onunload = function () { null };
+
     $('.plus-btn').on('click', function (e) {
         e.preventDefault();
         var $this = $(this);
@@ -121,8 +125,8 @@
     var countDownDate = new Date();
     countDownDate.setMilliseconds(countDownDate.getMilliseconds() + remaining);
 
-    // Update the count down every tenth of a second (otherwise lags between page redirects)
-    var x = setInterval(RunCountdown, 100);
+    // Update the countdown every quarter of a second (otherwise it lags between page redirects)
+    var x = setInterval(RunCountdown, 250);
 
     function RunCountdown() {
         // Get todays date and time
@@ -175,7 +179,7 @@
         }
         //Call the JQuery function that flashes our message.
         $('.stock-message').flash_fast_message({
-            text: "No stock",
+            text: "No more stock",
             how: 'append'
         });
     }

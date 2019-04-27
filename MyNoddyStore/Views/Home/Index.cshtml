@@ -1,97 +1,139 @@
 ﻿@{
     ViewBag.Title = "Home Page";
-    Layout = "~/Views/Home/_LayoutIntro.cshtml"; ;
+    //Layout = "~/Views/Home/_LayoutIntro.cshtml"; 
+    Layout = null;
 }
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="utf-8" />
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--<meta http-equiv="X-UA-Compatible" content="ie=edge">-->
     <link href="~/Content/bootstrap.css" rel="stylesheet" />
     <link href="~/Content/Site.css" rel="stylesheet" />
     <link href="~/Content/ErrorStyles.css" rel="stylesheet" />
     <script src="~/Scripts/jquery-3.3.1.js"></script>
     <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="~/Content/main.css" />
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 </head>
 <body>
+    <main class="wrapper">
+        <section class="hero">
+            <h1>You thirsty?</h1>
+            <article>
+                <p>Explore local breweries with just one click and stirred by starlight across the centuries light years great turbulent clouds circumnavigated paroxysm of global death.</p>
+                <a href="#breweries">Browse Breweries</a>
+            </article>
+        </section>
 
-    <div class="jumbotron">
-        <h1>ASP.NET</h1>
-        <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-        <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-    </div>
-
-    <div class="row">
-        <div class="col-md-4">
-            <h2>Getting started</h2>
-            <p>
-                ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-                enables a clean separation of concerns and gives you full control over markup
-                for enjoyable, agile development.
-            </p>
-
-            <div class="text-center">
-                @Html.ActionLink(linkText: "Start", actionName: "List", controllerName: "Product", routeValues: null, htmlAttributes: new { @class = "btn btn-primary" })
-                @Html.ActionLink(linkText: "Restart", actionName: "Restart", controllerName: "Product", routeValues: null, htmlAttributes: new { @class = "btn btn-primary" })
-            </div>
-
-            <div>
-                <span id="countdownClock"></span>
-            </div>
-
-            <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+        <div class="text-center">
+            @Html.ActionLink(linkText: "Continue", actionName: "List", controllerName: "Product", routeValues: null, htmlAttributes: new { @class = "btn btn-primary continuebtn" })
+            @Html.ActionLink(linkText: "Start", actionName: "Restart", controllerName: "Product", routeValues: null, htmlAttributes: new { @class = "btn btn-primary startbtn" })
         </div>
-        <div class="col-md-4">
-            <h2>Get more libraries</h2>
-            <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-            <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+
+
+        <div>
+            <span id="countdownClock"></span>
         </div>
-        <div class="col-md-4">
-            <h2>Web Hosting</h2>
-            <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-            <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-        </div>
-    </div>
+
+        <!-- #region collpse me -->
+        @*<section class="breweries" id="breweries">
+            <ul>
+                <li>
+                    <figure>
+                        <img src="https://images.unsplash.com/photo-1471421298428-1513ab720a8e" alt="Several hands holding beer glasses">
+                        <figcaption><h3>Billions upon billions</h3></figcaption>
+                    </figure>
+                    <p>
+                        Made in the interiors of collapsing stars star stuff harvesting star light venture billions upon billions Drake Equation brain is the seed of intelligence?
+                    </p>
+                    <a href="#">Visit Website</a>
+                </li>
+                <li>
+                    <figure>
+                        <img src="https://images.unsplash.com/photo-1513309914637-65c20a5962e1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=3450&q=80" alt="Several friends doing a toast">
+                        <figcaption><h3>Drake Equation</h3></figcaption>
+                    </figure>
+                    <p>
+                        Another world citizens of distant epochs from which we spring descended from astronomers Orion's sword shores of the cosmic ocean.
+                    </p>
+                    <a href="#">Visit Website</a>
+                </li>
+                <li>
+                    <figure>
+                        <img src="https://images.unsplash.com/photo-1535359056830-d4badde79747?ixlib=rb-1.2.1&auto=format&fit=crop&w=3402&q=80" alt="Three different glasses of beer">
+                        <figcaption><h3>Vast cosmic arena</h3></figcaption>
+                    </figure>
+                    <p>
+                        Galaxies the ash of stellar alchemy prime number science inconspicuous motes of rock and gas brain is the seed of intelligence.
+                    </p>
+                    <a href="#">Visit Website</a>
+                </li>
+            </ul>
+        </section>*@
+        <!-- #endregion -->
+    </main>
+    <footer>
+        <p>&copy; 2019. Made with ❤ and CSS Grid.</p>
+    </footer>
+
 
     <script>
 
-    var countdownCtrl = document.getElementById("countdownClock");
-    var remaining = @ViewBag.remainingTime; //todo if this has a value, show this in start screen and modify button caption.
-    var countDownDate = new Date(); //.getTime();
-    countDownDate.setMilliseconds(countDownDate.getMilliseconds() + remaining);
+        var countdownCtrl = document.getElementById("countdownClock");
+        var startButton = document.getElementsByClassName("startbtn")[0];
+        var continueButton = document.getElementsByClassName("continuebtn")[0];
 
-    // Update the count down every 1 second
-    var x = setInterval(RunCountdown, 1000);
+        var inGameFlag = @ViewBag.inGame;
 
-    function RunCountdown() {
-        // Get todays date and time
-        var now = new Date().getTime();
-
-        // Find the duration between now and the count down date
-        var duration = countDownDate - now;
-
-        // Time calculations for days, hours, minutes and seconds
-        //var days = Math.floor(duration / (1000 * 60 * 60 * 24));
-        //var hours = Math.floor((duration % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        //var minutes = Math.floor((duration % (1000 * 60 * 60)) / (1000 * 60));
-        var seconds = Math.floor((duration % (1000 * 60)) / 1000);
-        var formattedSeconds = seconds.toString().padStart(2, '0');
-
-
-        // Display the result in the element with id="demo"
-        countdownCtrl.innerHTML = "Checkout1 within " + formattedSeconds + "s";
-
-        // If the count down is finished, write some text
-        if (duration < 0) {
-            clearInterval(x);
-            countdownCtrl.innerHTML = "EXPIRED"; //todo countdown at this point
+        //if still in a game (say browser navigation used to come back here), then allow option to restart or continue.
+        if (inGameFlag == 0) {
+            startButton.innerHTML = "Start";
+            continueButton.style.display = "none";
         }
-    }
+        else {
+            startButton.innerHTML = "Restart";
+            continueButton.style.display = "";
+        }
+
+        var remaining = @ViewBag.remainingTime; //todo if this has a value, show this in start screen.
+
+
+
+        var countDownDate = new Date(); //.getTime();
+        countDownDate.setMilliseconds(countDownDate.getMilliseconds() + remaining);
+
+        // Update the count down every quarter second
+        var x = setInterval(RunCountdown, 250);
+
+        function RunCountdown() {
+            // Get todays date and time
+            var now = new Date().getTime();
+
+            // Find the duration between now and the count down date
+            var duration = countDownDate - now;
+
+            // Time calculations for days, hours, minutes and seconds
+            //var days = Math.floor(duration / (1000 * 60 * 60 * 24));
+            //var hours = Math.floor((duration % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            //var minutes = Math.floor((duration % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((duration % (1000 * 60)) / 1000);
+            var formattedSeconds = seconds.toString().padStart(2, '0');
+
+
+            // Display the result in the element with id="demo"
+            countdownCtrl.innerHTML = "Checkout1 within " + formattedSeconds + "s";
+
+            // If the count down is finished, write some text
+            if (duration < 0) {
+                clearInterval(x);
+                countdownCtrl.innerHTML = "EXPIRED"; //todo countdown at this point
+            }
+        }
 
     </script>
-
-    @*todo number of seconds for game should be using constant.*@
 
 </body>
 </html>

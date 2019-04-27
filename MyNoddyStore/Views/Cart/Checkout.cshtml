@@ -1,6 +1,4 @@
-﻿@*@model MyNoddyStore.Models.CartIndexViewModel*@
-@*@model MyNoddyStore.Entities.Cart*@
-@model List<MyNoddyStore.Entities.MergedCartLine>
+﻿@model List<MyNoddyStore.Entities.MergedCartLine>
 @{
     ViewBag.Title = "MyNoddy Store: Results";
 }
@@ -46,6 +44,6 @@
 </table>
 <div class="text-center">
     @Html.ActionLink(linkText: "Play again", actionName: "Restart", controllerName: "Product", routeValues: null, htmlAttributes: new { @class = "btn btn-primary" })
-    @Html.ActionLink(linkText: "Back to Intro", actionName: "Index", controllerName: "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-primary" })
-    @Html.ActionLink(linkText: "Close", actionName: "Restart", controllerName: "Product", routeValues: null, htmlAttributes: new { @class = "btn btn-primary" })
+    @*todo maybe call a different action that prevents back navigation to checkout screen??*@
+    @Html.ActionLink(linkText: "Home", actionName: "Index", controllerName: "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-primary" })
 </div>

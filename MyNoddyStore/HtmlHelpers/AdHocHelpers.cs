@@ -75,6 +75,17 @@ namespace MyNoddyStore.HtmlHelpers
             session.SetDataToSession<int>("lastItemAdded", value);
         }
 
+        //flag to prevent user from navigating back to checkout screen using browser navigation after starting a new game. todo remove these two funcs?
+        public static bool GetUserJustClickedCheckout(this HttpSessionStateBase session)
+        {
+            return session.GetDataFromSession<bool>("userClickedCheckout");
+        }
+
+        public static void SetUserJustClickedCheckout(this HttpSessionStateBase session, bool value)
+        {
+            session.SetDataToSession<bool>("userClickedCheckout", value);
+        }
+
         public static bool GetGameInProgress(this HttpSessionStateBase session)
         {
             return session.GetDataFromSession<bool>("gameInProgress");

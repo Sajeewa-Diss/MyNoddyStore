@@ -5,7 +5,7 @@
     @*</div>*@
 
     <h3 style="position: relative;">
-        <strong>@Model.Name</strong><span>Stock:@Model.InitialStockCount.ToString() =  @Model.StockCount.ToString() + @Model.MyQuantity.ToString() + @Model.OtherQuantity.ToString()</span>
+        <strong>@Model.Name</strong><span>Stock:@Model.StockCount.ToString()</span>
         <span class="pull-right label label-primary">@Model.Price.ToString("c")</span><span name="statusmsgspan" class="pull-right status-message" style="position: absolute; display:inline"></span>
         <span name="stockmsgspan" class="pull-right stock-message" style="position: absolute; display:inline"></span>
     </h3>

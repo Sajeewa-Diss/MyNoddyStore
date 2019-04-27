@@ -172,6 +172,14 @@ namespace MyNoddyStore.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
+            ////if we are returning to checkout using browser navigation after a game restart, then redirect to home screen.
+            //if (!Session.GetUserJustClickedCheckout())
+            //{
+            //    return RedirectToAction("Index", "Home");
+            //}
+            ////set the variable to prevent user coming back here by browser navigation. //todo how to solve user restarting a game and then going "back" to checkout screen? unless we remove the restart button from there??? https://www.aspsnippets.com/Articles/Disable-Browser-Back-Button-after-LogOut-in-ASPNet-using-JavaScript.aspx
+            //Session.SetUserJustClickedCheckout(true);
+
             //When checking out, always update the cart with simulated activity by the NPC.
             IEnumerable<Product> list = repository.Products.ToList<Product>();
             Session.RunNpcSweep(cart, list, true);                             //shopToEnd indicator set true!
@@ -196,7 +204,7 @@ namespace MyNoddyStore.Controllers
             return View(modelList);
         }
 
-
+        //a private method to merge user and NPC cart lists for results screen.
         private List<MergedCartLine> MergeCartLines(Cart cart)
         {
             List<CartLine> cartLineList = cart.Lines.ToList<CartLine>();
