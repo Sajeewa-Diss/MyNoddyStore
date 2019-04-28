@@ -2,7 +2,7 @@
 @model MyNoddyStore.Entities.Cart
 
 <div class="navbar-right hidden-xs">
-    @Html.ActionLink("Checkout", "Checkout", "Cart",
+    @Html.ActionLink("Checkout", "CheckoutCaller", "Cart",
     new { returnUrl = Request.Url.PathAndQuery },
     new { @class = "btn btn-default navbar-btn" })
 </div>

@@ -50,7 +50,7 @@
 </table>
 <div class="text-center">
     <a class="btn btn-primary" href="@Model.ReturnUrl">Continue shopping</a>
-    @Html.ActionLink("Checkout now", "Checkout", null, new { @class = "btn btn-primary" })
+    @Html.ActionLink("Checkout now", "CheckoutCaller", null, new { @class = "btn btn-primary" })
 </div>
 
 @*//todo make sure this view doesn't oscillate as time changes. todo add flashing buttons*@

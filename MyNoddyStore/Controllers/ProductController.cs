@@ -40,8 +40,9 @@ namespace MyNoddyStore.Controllers
         {
             //clear out any game baggage and then call the default controller entry point..
             Session.Clear();
-            TempData["navDictionary"] = null;
-            TempData["npcCart"] = null;
+            //TempData["navDictionary"] = null;
+            //TempData["npcCart"] = null;
+            TempData.Clear();
 
             //Session.SetUserJustClickedCheckout(false); //todo maybe remove
             Session.SetGameInProgress(true);

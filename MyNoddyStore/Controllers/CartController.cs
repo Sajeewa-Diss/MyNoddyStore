@@ -161,10 +161,20 @@ namespace MyNoddyStore.Controllers
         //    return View(new ShippingDetails());
         //}
         #endregion
+        
+        //We use a wrapper action method for Checkout action in order to prevent any other means to access it (such as browser navigation).
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "None")]
+        public ActionResult CheckoutCaller(Cart cart)
+        {
+            Session.SetUserJustClickedCheckout(true);
+            TempData["checkoutCart"] = cart;
+            return RedirectToAction("Checkout");
+        }
 
         //[HttpPost]
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "None")]
-        public ActionResult Checkout(Cart cart)
+        //public ActionResult Checkout(Cart cart) //legacy code.
+        public ActionResult Checkout()
         {
             //if no game in progress then go back to the intro page.
             if (!Session.GetGameInProgress()) //this variable is always true or null
@@ -172,13 +182,13 @@ namespace MyNoddyStore.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            ////if we are returning to checkout using browser navigation after a game restart, then redirect to home screen.
-            //if (!Session.GetUserJustClickedCheckout())
-            //{
-            //    return RedirectToAction("Index", "Home");
-            //}
-            ////set the variable to prevent user coming back here by browser navigation. //todo how to solve user restarting a game and then going "back" to checkout screen? unless we remove the restart button from there??? https://www.aspsnippets.com/Articles/Disable-Browser-Back-Button-after-LogOut-in-ASPNet-using-JavaScript.aspx
-            //Session.SetUserJustClickedCheckout(true);
+            //if we are returning to checkout using browser navigation after a game restart, then redirect to home screen.
+            if (!Session.GetUserJustClickedCheckout())
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            Cart cart = (Cart)TempData["checkoutCart"]; //collect the temp data cart object.
 
             //When checking out, always update the cart with simulated activity by the NPC.
             IEnumerable<Product> list = repository.Products.ToList<Product>();
@@ -188,7 +198,7 @@ namespace MyNoddyStore.Controllers
             List<MergedCartLine> modelList = MergeCartLines(cart);
             if (modelList.Count() == 0)
             {
-                ModelState.AddModelError("", "Sorry, no items in either cart!");
+                ModelState.AddModelError("", "Sorry, no items in either cart! Game void.");
             }
 
             //Rather than trying some complex calculation in the view, we will pass the totals in a viewbag
@@ -197,8 +207,10 @@ namespace MyNoddyStore.Controllers
 
             //clear out any game baggage.
             Session.Clear();
-            TempData["navDictionary"] = null;
-            TempData["npcCart"] = null;
+            TempData.Clear();
+            //TempData["navDictionary"] = null;
+            //TempData["npcCart"] = null;
+            //TempData["checkoutCart"] = null;
 
             //return View(cart); //legacy code
             return View(modelList);
