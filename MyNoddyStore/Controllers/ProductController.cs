@@ -44,7 +44,6 @@ namespace MyNoddyStore.Controllers
             //TempData["npcCart"] = null;
             TempData.Clear();
 
-            //Session.SetUserJustClickedCheckout(false); //todo maybe remove
             Session.SetGameInProgress(true);
             Session.SetShoppingByNpcCompleted(false);
             int remainingMilliseconds = Session.GetRemainingTimeOrSetDefault(); //reset the timer.

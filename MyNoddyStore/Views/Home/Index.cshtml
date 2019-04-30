@@ -15,10 +15,11 @@
     <script src="~/Scripts/jquery-3.3.1.js"></script>
     <title>@ViewBag.Title</title>
     <link rel="stylesheet" href="~/Content/main.css" />
-    <link rel="icon" href="favicon.ico" type="image/x-icon" />
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="~/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="~/favicon.ico" type="image/x-icon" />
 </head>
 <body>
+    @*<div id="page-container">*@ @* todo testing footer shift to bottom of page.  *@
     <main class="wrapper">
         <section class="hero">
             <h1>You thirsty?</h1>
@@ -29,13 +30,14 @@
         </section>
 
         <div class="text-center">
-            @Html.ActionLink(linkText: "Continue", actionName: "List", controllerName: "Product", routeValues: null, htmlAttributes: new { @class = "btn btn-primary continuebtn" })
             @Html.ActionLink(linkText: "Start", actionName: "Restart", controllerName: "Product", routeValues: null, htmlAttributes: new { @class = "btn btn-primary startbtn" })
+            @Html.ActionLink(linkText: "Continue", actionName: "List", controllerName: "Product", routeValues: null, htmlAttributes: new { @class = "btn btn-primary continuebtn" })
+            <span id="countdownClockWhiteBg">&nbsp;&nbsp;</span>
         </div>
 
 
         <div>
-            <span id="countdownClock"></span>
+            ghjgkjhgkh
         </div>
 
         <!-- #region collpse me -->
@@ -82,58 +84,56 @@
 
     <script>
 
-        var countdownCtrl = document.getElementById("countdownClock");
-        var startButton = document.getElementsByClassName("startbtn")[0];
-        var continueButton = document.getElementsByClassName("continuebtn")[0];
+    var countdownCtrl = document.getElementById("countdownClockWhiteBg");
+    var startButton = document.getElementsByClassName("startbtn")[0];
+    var continueButton = document.getElementsByClassName("continuebtn")[0];
 
-        var inGameFlag = @ViewBag.inGame;
+    var inGameFlag = @ViewBag.inGame;
 
-        //if still in a game (say browser navigation used to come back here), then allow option to restart or continue.
-        if (inGameFlag == 0) {
-            startButton.innerHTML = "Start";
-            continueButton.style.display = "none";
+    //if still in a game (say browser navigation used to come back here), then allow option to restart or continue. Also show countdown timer.
+    if (inGameFlag == 0) {
+        startButton.innerHTML = "Start";
+        continueButton.style.display = "none";
+        countdownCtrl.style.display = "none";
+    }
+    else {
+        startButton.innerHTML = "Restart";
+        continueButton.style.display = "";
+        countdownCtrl.style.display = "";
+    }
+
+    var remaining = @ViewBag.remainingTime; //todo if this has a value, show this in start screen.
+
+    var countDownDate = new Date();
+    countDownDate.setMilliseconds(countDownDate.getMilliseconds() + remaining);
+    // Update the countdown every quarter of a second (otherwise it lags between page refresh and redirects)
+    var xInterval = setInterval(RunCountdown, 250);
+
+    function RunCountdown() { //tbc add this as a central script.
+        // Get todays date and time
+        var now = new Date().getTime();
+
+        // Find the duration between now and the count down date
+        var duration = countDownDate - now;
+
+        // Time calculations for days, hours, minutes and seconds
+        //var days = Math.floor(duration / (1000 * 60 * 60 * 24));
+        //var hours = Math.floor((duration % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        //var minutes = Math.floor((duration % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((duration % (1000 * 60)) / 1000);
+        var formattedSeconds = seconds.toString().padStart(2, '0');
+
+        // Display the result in the element with id="demo"
+        countdownCtrl.innerHTML = formattedSeconds;
+
+        // If the count down is finished, cancel the countdown
+        if (duration < 0) {
+            clearInterval(xInterval);
+            countdownCtrl.innerHTML = "00";
         }
-        else {
-            startButton.innerHTML = "Restart";
-            continueButton.style.display = "";
-        }
-
-        var remaining = @ViewBag.remainingTime; //todo if this has a value, show this in start screen.
-
-
-
-        var countDownDate = new Date(); //.getTime();
-        countDownDate.setMilliseconds(countDownDate.getMilliseconds() + remaining);
-
-        // Update the count down every quarter second
-        var x = setInterval(RunCountdown, 250);
-
-        function RunCountdown() {
-            // Get todays date and time
-            var now = new Date().getTime();
-
-            // Find the duration between now and the count down date
-            var duration = countDownDate - now;
-
-            // Time calculations for days, hours, minutes and seconds
-            //var days = Math.floor(duration / (1000 * 60 * 60 * 24));
-            //var hours = Math.floor((duration % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            //var minutes = Math.floor((duration % (1000 * 60 * 60)) / (1000 * 60));
-            var seconds = Math.floor((duration % (1000 * 60)) / 1000);
-            var formattedSeconds = seconds.toString().padStart(2, '0');
-
-
-            // Display the result in the element with id="demo"
-            countdownCtrl.innerHTML = "Checkout1 within " + formattedSeconds + "s";
-
-            // If the count down is finished, write some text
-            if (duration < 0) {
-                clearInterval(x);
-                countdownCtrl.innerHTML = "EXPIRED"; //todo countdown at this point
-            }
-        }
+    }
 
     </script>
-
+    @*</div>*@
 </body>
 </html>

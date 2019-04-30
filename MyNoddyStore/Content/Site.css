@@ -91,4 +91,20 @@ span.stock-message {
     padding-bottom: 0px;
 }
 
+#countdownClock {
+    color: white;
+    font-size: 3rem;
+    font-family: "Lucida Console", Monaco, monospace;
+    border: 2px solid white;
+    border-radius: 0.25em;
+}
+
+#countdownClockWhiteBg {
+    color: black;
+    font-size: 3rem;
+    font-family: "Lucida Console", Monaco, monospace;
+    border: 2px solid black;
+    border-radius: 0.25em;
+}
+
 

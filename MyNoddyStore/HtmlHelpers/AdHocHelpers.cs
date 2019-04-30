@@ -149,7 +149,7 @@ namespace MyNoddyStore.HtmlHelpers
         #endregion
 
         //Simulate NPC shopping up to this point in time or until the end of the sweep time-period.
-        //This method will add one items to cart at the rate specified by the constants above (currently an item per second).
+        //This method will add one items to cart at the rate specified by the constants above (currently an item per second for 60 seconds).
         public static void RunNpcSweep(this HttpSessionStateBase session, Cart cart, IEnumerable<Product> repoProdList, bool shopToEnd = false)
         {
             //ensure that the NPC sweep hasn't already finished.
@@ -170,8 +170,8 @@ namespace MyNoddyStore.HtmlHelpers
             { //if shopping time has expired, then shop to the end of the time period (NPC always completes a full sweep successfully) and set appropriate flag later.
                 shopToEnd = true;
             } else {
-                //Delay NPC sweep until set time from start.
-                if (delayMilliseconds > totalMilliseconds - remainingMilliseconds)
+                //Delay NPC sweep until set time from start, unless we are shopping to end anyway.
+                if ((delayMilliseconds > totalMilliseconds - remainingMilliseconds) && (!shopToEnd))
                 {
                     return;
                 }

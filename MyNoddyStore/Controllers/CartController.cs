@@ -198,7 +198,7 @@ namespace MyNoddyStore.Controllers
             List<MergedCartLine> modelList = MergeCartLines(cart);
             if (modelList.Count() == 0)
             {
-                ModelState.AddModelError("", "Sorry, no items in either cart! Game void.");
+                ModelState.AddModelError("", "Sorry, no items in either cart!");
             }
 
             //Rather than trying some complex calculation in the view, we will pass the totals in a viewbag

@@ -7,10 +7,6 @@
     new { @class = "btn btn-default navbar-btn" })
 </div>
 
-<div class="navbar-text navbar-left">
-    <span id="countdownClock"></span>
-</div>
-
 <div class="navbar-right visible-xs">
     <a href=@Url.Action("Index", "Cart", new { returnUrl = Request.Url.PathAndQuery })
        class="btn btn-default navbar-btn">
@@ -26,6 +22,10 @@
     <b class="hidden-xs">Your cart:</b>
     @Model.Lines.Sum(x => x.Quantity) item(s),
     @Model.ComputeTotalValue().ToString("c0")
+</div>
+
+<div class="navbar-text navbar-right">
+    <span id="countdownClock">&nbsp;&nbsp;</span>
 </div>
 
 

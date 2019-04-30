@@ -37,7 +37,7 @@ namespace MyNoddyStore.Concrete
                 new Product { ProductID = 8, Name = "Blue Dress", Description = "or is it gold?", ShortDescription = "Cotton", Picture = "dressblue",
                        Categories = new string[] { "Fashion" }, Price = 85M, InitialStockCount = 10, StockCount = 10, MyQuantity = 0, OtherQuantity = 0 },
                 new Product { ProductID = 9, Name = "Red Dress", Description = "Hot from Milan.", ShortDescription = "Cotton", Picture = "dressred",
-                       Categories = new string[] { "Fashion" }, Price = 75M, InitialStockCount = 100, StockCount = 100, MyQuantity = 0, OtherQuantity = 0 },
+                       Categories = new string[] { "Fashion" }, Price = 75M, InitialStockCount = 10, StockCount = 100, MyQuantity = 0, OtherQuantity = 0 },
                 new Product { ProductID = 10, Name = "Goldfish", Description = "From our own aquarium.", ShortDescription = "memory-enhanced", Picture = "goldfish",
                        Categories = new string[] { "Pets" }, Price = 8M, InitialStockCount = 100, StockCount = 100, MyQuantity = 0, OtherQuantity = 0 },
                 new Product { ProductID = 11, Name = "Honey", Description = "Orange Blossom.", ShortDescription = "Egyptian", Picture = "honeyjar",
