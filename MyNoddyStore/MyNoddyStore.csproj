@@ -250,7 +250,6 @@
     <Content Include="Views\Cart\Index.cshtml" />
     <Content Include="Views\Cart\Summary.cshtml" />
     <Content Include="Views\Nav\MenuIntro.cshtml" />
-    <Content Include="Views\Home\_LayoutIntro.cshtml" />
     <Content Include="Views\Cart\Completedold.cshtml" />
   </ItemGroup>
   <ItemGroup>

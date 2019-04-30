@@ -25,10 +25,6 @@
     var modelProducts; // initial products in cart
     //todo make sure this view doesn't oscillate as time changes. todo add flashing buttons
 
-    function preventBack() { window.history.forward(); }
-    setTimeout("preventBack()", 0);
-    window.onunload = function () { null };
-
     $('.plus-btn').on('click', function (e) {
         e.preventDefault();
         var $this = $(this);
@@ -75,8 +71,7 @@
         var currentQuantity = parseInt(localElement.closest('div').find('input').val()); //this is the number of items now selected.
         var thisProdId = GetProductId(localElement);
         var cartQuantity = modelProducts.find(x => x.ProductID == thisProdId).MyQuantity; //this is the number of items in cart model originally.
-
-        var thisUpdateButton = localElement.closest('div').siblings().children().find("input[name='submitUpdate']");
+        var thisUpdateButton = localElement.closest('div').siblings().find("input[name='submitUpdate']");
 
         //if current quantity differs from the original value, then the cart value needs to be updated - otherwise the update button should be disabled.
         if (currentQuantity == cartQuantity) {
@@ -89,7 +84,7 @@
     }
 
     function GetProductId(localElement) {
-        return localElement.closest('div').siblings().children().find("input[name='ProductID']").val();
+        return localElement.closest('div').siblings().find("input[name='ProductID']").val();
     }
 
     function GetCurrentStock(ProductId) {
@@ -105,9 +100,6 @@
         var buttons = document.getElementsByName("submitUpdate");
         var i;
         for (i = 0; i < buttons.length; i++) {
-            //if (x[i].type == "checkbox") {
-            //    x[i].checked = true;
-            //}
             buttons[i].disabled = 'disabled';}
     }
 
@@ -190,8 +182,7 @@
         if (updatedMsg != "" && updatedProductId != 0) { //we can only show a message that exists for a valid product id, so both params are necessary.
             ShowCartUpdateStatusMessage(updatedProductId, updatedMsg);
         }
-
-        //reset any values
+        //clear any values
         updatedMsg = "";
         updatedProductId = 0;
     }
@@ -224,7 +215,6 @@
             how: 'append'
         });
     }
-
 
 
 //#region JQuery flashMessage

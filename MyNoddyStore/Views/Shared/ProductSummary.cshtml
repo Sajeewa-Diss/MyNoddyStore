@@ -1,6 +1,7 @@
 ﻿@model MyNoddyStore.Entities.Product
 
-<form>
+@using (Html.BeginForm("UpdateCart", "Cart"))
+{
     <div class="well well-sm mainchilddiv" name="mainchilddiv">
 
         <div class="myimg">
@@ -10,17 +11,17 @@
             <strong>@Model.Name</strong><span>Stock:@Model.StockCount.ToString()</span>
         </div>
         <div class="mystockmsg">
-            <span name="statusmsgspan" class="stock-message">hello</span>
+            <span name="statusmsgspan" class="stock-message"></span>
         </div>
         <div class="mystatusmsg">
-            <span name="stockmsgspan" class="status-message" style="position: absolute; display:inline">goodbye</span>
+            <span name="stockmsgspan" class="status-message" style="position: absolute; display:inline"></span>
         </div>
         <div class="myprice">
             <span class="label label-primary">@Model.Price.ToString("c")</span>
         </div>
 
         <div class="mydesc">
-            <span class="lead">@Model.Description @* todo add @Model.ShortDescription*@</span>
+            <span class="lead">@Model.ShortDescription @* todo add @Model.Description*@</span>
         </div>
         <div class="quantity">
             <span>Quantity</span>
@@ -40,9 +41,7 @@
             <input type="submit" name="submitUpdate" id="btnUpdate" class="btn btn-success update-btn-class" value="Update" disabled="disabled" />
         </div>
         <div class="myviewbtn">
-            <input type="submit" name="submitCheckout" id="btnCheckout" class="btn btn-success" value="View cart" /> @*todo rename this button*@
+            <input type="submit" name="submitViewCart" id="btnViewCart" class="btn btn-success" value="View cart" />
         </div>
-
     </div>
-</form>
-
+}
