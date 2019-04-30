@@ -16,7 +16,7 @@
     @Html.PageLinks(Model.PagingInfo, x => Url.Action("List", new { category = Model.CurrentCategory, page = x }))
 </div>
 
-@*This script manipulates items on the page. Whereas it may seem more pertinent to add this script per ProductSummary partial-view form, in practice
+@*This script manipulates product items on the page. Whereas it may seem more pertinent to add this script per ProductSummary partial-view form, in practice
     that may cause issues with multiple events being bound to the forms (one for each time a child form is loaded) *@
 <script type="text/javascript">
 
@@ -87,8 +87,6 @@
             //thisUpdateButton.removeAttr('disabled');     //we could call the JQuery method on a Js element directly. This code also works
         }
     }
-
-
 
     function GetProductId(localElement) {
         return localElement.closest('div').siblings().children().find("input[name='ProductID']").val();

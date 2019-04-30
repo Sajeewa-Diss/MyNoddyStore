@@ -107,4 +107,55 @@ span.stock-message {
     border-radius: 0.25em;
 }
 
+.myimg {
+    grid-area: col1;
+}
+
+.myname {
+    grid-area: col2up;
+}
+
+.mystockmsg {
+    grid-area: col3up;
+}
+
+.mystatusmsg {
+    grid-area: col4up;
+}
+
+.myprice {
+    grid-area: col5up;
+}
+
+.mydesc {
+    grid-area: col2down
+}
+
+.quantity {
+    grid-area: col3down;
+}
+
+.myupdbtn {
+    grid-area: col4down;
+}
+
+.myviewbtn {
+    grid-area: col5down;
+}
+
+.mainchilddiv {
+    display: grid;
+    grid-template: 'col1 col2up col3up col4up col5up' 'col1 col2down col3down col4down col5down';
+    grid-gap: 2px;
+    background-color: #2196F3;
+    padding: 2px;
+}
+
+    .mainchilddiv > div {
+        background-color: rgba(255, 255, 255, 0.8);
+        text-align: center;
+        padding: 20px 0;
+        font-size: 30px;
+    }
+
 
