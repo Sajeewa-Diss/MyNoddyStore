@@ -14,7 +14,7 @@ namespace MyNoddyStore.Controllers
             repository = repo;
         }
 
-        public PartialViewResult Menu(string category = null){
+        public PartialViewResult Menu(string category = null, bool horizontalLayout = false){
 
             ViewBag.SelectedCategory = category;
 

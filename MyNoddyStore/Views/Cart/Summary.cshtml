@@ -1,25 +1,28 @@
 ﻿
 @model MyNoddyStore.Entities.Cart
 
-<div class="navbar-right hidden-xs">
+<div class="navbar-text navbar-right hidden-xs">
     @Html.ActionLink("Checkout", "CheckoutCaller", "Cart",
-    new { returnUrl = Request.Url.PathAndQuery },
+    //new { returnUrl = Request.Url.PathAndQuery },
     new { @class = "btn btn-default navbar-btn" })
 </div>
 
-<div class="navbar-right visible-xs">
-    <a href=@Url.Action("Index", "Cart", new { returnUrl = Request.Url.PathAndQuery })
+<div class="navbar-text navbar-right visible-xs">
+    <a href=@Url.Action("CheckoutCaller", "Cart")
        class="btn btn-default navbar-btn">
-        <span class="glyphicon glyphicon-shopping-cart"></span>
+        <span class="fa fa-shopping-cart"></span>
     </a>
 </div>
-<div class="navbar-text navbar-right">
-    <b class="hidden-xs">NPC cart:</b>
+
+<div class="navbar-text navbar-right hidden-xs">
+    <b>NPC cart:</b><br />
     @Model.LinesOther.Sum(x => x.Quantity) item(s),
     @Model.ComputeTotalValueOther().ToString("c0")
 </div>
+@*<div class="navbar-text navbar-right">*@
 <div class="navbar-text navbar-right">
-    <b class="hidden-xs">Your cart:</b>
+    @*<b class="hidden-xs">Your cart:</b>*@
+    <b>Your cart:</b><br />
     @Model.Lines.Sum(x => x.Quantity) item(s),
     @Model.ComputeTotalValue().ToString("c0")
 </div>
@@ -27,41 +30,3 @@
 <div class="navbar-text navbar-right">
     <span id="countdownClock">&nbsp;&nbsp;</span>
 </div>
-
-
-<script>
-    @*var countdownCtrl = document.getElementById("countdownClock");
-    var remaining = @ViewBag.remainingTime; //todo if this has a value, show this in start screen and modify button caption.
-    var countDownDate = new Date(); //.getTime();
-    countDownDate.setMilliseconds(countDownDate.getMilliseconds() + remaining);
-
-        // Update the count down every 1 second
-    var x = setInterval(RunCountdown, 1000);
-
-    function RunCountdown() {
-        // Get todays date and time
-        var now = new Date().getTime();
-
-        // Find the duration between now and the count down date
-        var duration = countDownDate - now;
-
-        // Time calculations for days, hours, minutes and seconds
-        //var days = Math.floor(duration / (1000 * 60 * 60 * 24));
-        //var hours = Math.floor((duration % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        //var minutes = Math.floor((duration % (1000 * 60 * 60)) / (1000 * 60));
-        var seconds = Math.floor((duration % (1000 * 60)) / 1000);
-        var formattedSeconds = seconds.toString().padStart(2, '0');
-
-
-        // Display the result in the element with id="demo"
-        countdownCtrl.innerHTML = "Checkout1 within " + formattedSeconds + "s";
-
-        // If the count down is finished, write some text
-        if (duration < 0) {
-            clearInterval(x);
-            countdownCtrl.innerHTML = "EXPIRED";
-        }
-    }*@
-
-
-</script>
