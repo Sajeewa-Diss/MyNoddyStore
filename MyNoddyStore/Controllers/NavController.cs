@@ -14,7 +14,7 @@ namespace MyNoddyStore.Controllers
             repository = repo;
         }
 
-        public PartialViewResult Menu(string category = null, bool horizontalLayout = false){
+        public PartialViewResult Menu(string category = null){
 
             ViewBag.SelectedCategory = category;
 
@@ -34,12 +34,8 @@ namespace MyNoddyStore.Controllers
 
             categoryEnumerable = categoryEnumerable.Where(s => !string.IsNullOrWhiteSpace(s)); //remove any empty string for category (defensive coding).
 
-            return PartialView("Menu", categoryEnumerable); //todo switch to flexmenu for mobiles
-        }
-
-        public PartialViewResult MenuIntro()
-        {
-            return PartialView("MenuIntro");
+            return PartialView("FlexMenu", categoryEnumerable);
+            //return PartialView("Menu", categoryEnumerable); legacy code pattern
         }
     }
 

@@ -83,9 +83,12 @@ namespace MyNoddyStore.Controllers
             // Check if "navDictionary" key exists
             if (TempData["navDictionary"] != null)
             {
-                // get category and page
+                // get category (but only if null) and page
                 Dictionary<string, object> dict = TempData["navDictionary"] as Dictionary<string, object>;
-                category = ((string)dict["category"] == string.Empty ? null : (string)dict["category"]); //set this to null if empty string
+                if (category == null)
+                {
+                    category = ((string)dict["category"] == string.Empty ? null : (string)dict["category"]);
+                }
                 page = (int)dict["page"];
                 productId = (int)dict["productId"];
                 updateMsg = (string)dict["message"];
