@@ -1,7 +1,7 @@
 ﻿@model MyNoddyStore.Entities.Product
 
 
-<div class="mainchilddiv1" name="hghg">
+@*<div class="mainchilddiv" name="hghg">
 
     <div class="myimg">
         <img class="myimg" src="~/Images/aadvark.png" alt="No Image" />
@@ -38,11 +38,11 @@
     <div class="myviewbtn">
         <input type="submit" name="submitViewCart" id="btnViewCart1" class="btn btn-success" value="View cart1" />
     </div>
-</div>
+</div>*@
 
 @using (Html.BeginForm("UpdateCart", "Cart"))
 {
-    @*<div class="well well-sm mainchilddiv" name="mainchilddiv">
+    <div class="well well-sm mainchilddiv" name="mainchilddiv">
 
         <div class="myimg">
             <img class="myimg" src="@Url.Content(String.Format("~/Images/{0}.png", Model.Picture))" alt="No Image" />
@@ -61,7 +61,7 @@
         </div>
 
         <div class="mydesc">
-            <span class="lead">@Model.ShortDescription*@ @* todo add @Model.Description*@ @*</span>
+            <span class="lead">@Model.ShortDescription @* todo add @Model.Description *@ </span>
                     </div>
                     <div class="quantity">
                         <span>Quantity</span>
@@ -83,6 +83,6 @@
                     <div class="myviewbtn">
                         <input type="submit" name="submitViewCart" id="btnViewCart" class="btn btn-success" value="View cart" />
                     </div>
-                </div>*@
+                </div>
 
         }
