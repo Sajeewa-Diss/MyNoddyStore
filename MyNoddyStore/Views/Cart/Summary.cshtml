@@ -25,11 +25,11 @@
             @Model.ComputeTotalValueOther().ToString("c0")
         </div>
 
-        <div class="navbar-text" visible-xs> @*todo make this cart icon*@
+        <div class="navbar-text visible-xs">
             @Html.ActionLink("View Cart", "Index", "Cart",
             //new { returnUrl = Request.Url.PathAndQuery },
             new { returnUrl = Request.Url.GetLeftPart(UriPartial.Path)},
-            new { @class = "btn btn-default navbar-btn" })
+            new { @class = "btn btn-success navbar-btn" }) 
         </div>
 
         <div class="navbar-text">
