@@ -17,7 +17,6 @@
         <a class="navbar-brand" href="#">
             <span class="hidden-xs">MyNoddy Supermarket Sweep</span>
             <div class="visible-xs">Supermarket<br />Sweep</div>
-            @*<div class="visible-xs">Sweep</div>*@
         </a>
         @Html.Action("Summary", "Cart")
     </div>
@@ -25,14 +24,6 @@
         @Html.Action("Menu", "Nav", new { horizontalLayout = true })
     </div>
 
-    @*<div class="row panel">
-            <div id="categories" class="col-xs-3">
-                @Html.Action("Menu", "Nav")
-            </div>
-            <div class="col-xs-8">
-                @RenderBody()
-            </div>
-        </div>*@
     <div class="row panel">
         <div class="col-sm-3 hidden-xs">
             @Html.Action("Menu", "Nav")
