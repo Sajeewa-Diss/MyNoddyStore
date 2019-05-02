@@ -161,7 +161,26 @@ span.stock-message {
     margin-left: 10px;
 }
 
+
+/*#region responsive grid design*/
+
+
 /* mobile/base */
+
+#shortDesc{
+    display:none;
+}
+#desc {
+    display: none;
+}
+
+
+#summaryCartBtn{
+    display:inline;
+}
+
+
+
 /* hide description and "View Cart" */
 .mydesc {
     display: none;
@@ -184,8 +203,8 @@ span.stock-message {
     /*grid-auto-rows: minmax(100px, auto);*/ /*does this affect */
     background-color: #2196F3;
     padding: 2px;
-    /*width: 100vw;
-    max-height: 10vw*/ /*todo test*/
+    /*width: 100vw;*/
+    /*max-height: 15vh;*/ /*todo test*/
 }
 
     .mainchilddiv > div {
@@ -197,6 +216,19 @@ span.stock-message {
 
 /* mobile landscape */
 @media all and (min-width: 480px) {
+
+    #shortDesc {
+        display: inline;
+    }
+
+    #desc {
+        display: none;
+    }
+
+    #summaryCartBtn {
+        display: none;
+    }
+
     /* show description and "View Cart" */
     .mydesc {
         display: inline-block;
@@ -219,8 +251,8 @@ span.stock-message {
         /*grid-auto-rows: minmax(100px, auto);*/ /*does this affect */
         background-color: #2196F3;
         padding: 2px;
-        /*width: 100vw;
-    max-height: 10vw*/ /*todo test*/
+        /*width: 100vw;*/
+        /*max-height:15vh;*/ /*todo test*/
     }
 
         .mainchilddiv > div {
@@ -236,26 +268,27 @@ span.stock-message {
 /* tablet */
 @media all and (min-width: 768px) {
 
-
-
-
 }
 
 /* desktop */
 @media all and (min-width: 1024px) {
-    .autosized.label {
-        /*font-size: 16px !important;*/
+    #shortDesc {
+        display: none;
+    }
+
+    #desc {
+        display: inline;
     }
 }
 
 /* desktop wide */
 @media all and (min-width: 1200px) {
-    .autosized.label {
+    /*.autosized.label {*/
         /*font-size: 18px !important;*/
-    }
+    /*}*/
 }
 
-
+/* #endregion*/
 
 
 

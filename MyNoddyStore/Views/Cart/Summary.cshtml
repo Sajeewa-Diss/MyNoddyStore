@@ -25,7 +25,7 @@
             @Model.ComputeTotalValueOther().ToString("c0")
         </div>
 
-        <div class="navbar-text visible-xs">
+        <div id="summaryCartBtn" class="navbar-text">
             @Html.ActionLink("View Cart", "Index", "Cart",
             //new { returnUrl = Request.Url.PathAndQuery },
             new { returnUrl = Request.Url.GetLeftPart(UriPartial.Path)},
