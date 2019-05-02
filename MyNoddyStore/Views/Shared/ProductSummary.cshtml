@@ -1,8 +1,48 @@
 ﻿@model MyNoddyStore.Entities.Product
 
+
+<div class="mainchilddiv1" name="hghg">
+
+    <div class="myimg">
+        <img class="myimg" src="~/Images/aadvark.png" alt="No Image" />
+    </div>
+    <div class="myname">
+        <strong>Model.Name</strong><span>Stock:99</span>
+    </div>
+    <div class="mystockmsg">
+        <span name="statusmsgspan" class="stock-message"></span>
+    </div>
+    <div class="mystatusmsg">
+        <span name="stockmsgspan" class="status-message" style="position: absolute; display:inline"></span>
+    </div>
+    <div class="myprice">
+        <span class="label label-primary">1.99</span>
+    </div>
+
+    <div class="mydesc">
+        <span class="lead">Model.ShortDescription</span>
+    </div>
+    <div class="quantity">
+        <span>Quantity</span>
+        <button class="minus-btn" type="button" name="minusbutton">
+            <img src="Images/minus.svg" alt="-" />
+        </button>
+        <input type="text" class="textclass" name="MyQuantity" size="1" width="50" readonly="readonly" value="5">
+        <button class="plus-btn" type="button" name="plusbutton">
+            <img src="Images/plus.svg" alt="+" />
+        </button>
+    </div>
+    <div class="myupdbtn">
+        <input type="submit" name="submitUpdate" id="btnUpdate1" class="btn btn-success update-btn-class" value="Update1" disabled="disabled" />
+    </div>
+    <div class="myviewbtn">
+        <input type="submit" name="submitViewCart" id="btnViewCart1" class="btn btn-success" value="View cart1" />
+    </div>
+</div>
+
 @using (Html.BeginForm("UpdateCart", "Cart"))
 {
-    <div class="well well-sm mainchilddiv" name="mainchilddiv">
+    @*<div class="well well-sm mainchilddiv" name="mainchilddiv">
 
         <div class="myimg">
             <img class="myimg" src="@Url.Content(String.Format("~/Images/{0}.png", Model.Picture))" alt="No Image" />
@@ -21,27 +61,28 @@
         </div>
 
         <div class="mydesc">
-            <span class="lead">@Model.ShortDescription @* todo add @Model.Description*@</span>
-        </div>
-        <div class="quantity">
-            <span>Quantity</span>
-            <button class="minus-btn" type="button" name="minusbutton">
-                <img src="Images/minus.svg" alt="-" />
-            </button>
-            <input type="text" class="textclass" name="MyQuantity" size="1" width="50" readonly="readonly" value="@Model.MyQuantity.ToString()">
-            <button class="plus-btn" type="button" name="plusbutton">
-                <img src="Images/plus.svg" alt="+" />
-            </button>
-        </div>
-        <div class="myupdbtn">
-            @Html.HiddenFor(x => x.ProductID)
-            @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
-            @Html.Hidden("pageNumber", (object)ViewBag.pageNumber)
-            @Html.Hidden("categoryString", (object)ViewBag.categoryString)
-            <input type="submit" name="submitUpdate" id="btnUpdate" class="btn btn-success update-btn-class" value="Update" disabled="disabled" />
-        </div>
-        <div class="myviewbtn">
-            <input type="submit" name="submitViewCart" id="btnViewCart" class="btn btn-success" value="View cart" />
-        </div>
-    </div>
-}
+            <span class="lead">@Model.ShortDescription*@ @* todo add @Model.Description*@ @*</span>
+                    </div>
+                    <div class="quantity">
+                        <span>Quantity</span>
+                        <button class="minus-btn" type="button" name="minusbutton">
+                            <img src="Images/minus.svg" alt="-" />
+                        </button>
+                        <input type="text" class="textclass" name="MyQuantity" size="1" width="50" readonly="readonly" value="@Model.MyQuantity.ToString()">
+                        <button class="plus-btn" type="button" name="plusbutton">
+                            <img src="Images/plus.svg" alt="+" />
+                        </button>
+                    </div>
+                    <div class="myupdbtn">
+                        @Html.HiddenFor(x => x.ProductID)
+                        @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
+                        @Html.Hidden("pageNumber", (object)ViewBag.pageNumber)
+                        @Html.Hidden("categoryString", (object)ViewBag.categoryString)
+                        <input type="submit" name="submitUpdate" id="btnUpdate" class="btn btn-success update-btn-class" value="Update" disabled="disabled" />
+                    </div>
+                    <div class="myviewbtn">
+                        <input type="submit" name="submitViewCart" id="btnViewCart" class="btn btn-success" value="View cart" />
+                    </div>
+                </div>*@
+
+        }

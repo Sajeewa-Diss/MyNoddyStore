@@ -244,11 +244,9 @@
     <Content Include="Views\Product\List.cshtml" />
     <Content Include="Views\Shared\ProductSummary.cshtml" />
     <Content Include="Views\Nav\Menu.cshtml" />
-    <Content Include="Views\Cart\Checkoutold.cshtml" />
     <Content Include="Views\Cart\Checkout.cshtml" />
     <Content Include="Views\Cart\Index.cshtml" />
     <Content Include="Views\Cart\Summary.cshtml" />
-    <Content Include="Views\Cart\Completedold.cshtml" />
     <Content Include="Views\Nav\FlexMenu.cshtml" />
   </ItemGroup>
   <ItemGroup>

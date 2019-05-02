@@ -12,9 +12,9 @@
 /* Override the default bootstrap behavior where horizontal description lists 
    will truncate terms that are too long to fit in the left column 
 */
-.dl-horizontal dt {
+/*.dl-horizontal dt {
     white-space: normal;
-}
+}*/
 
 /* Set width on the form input elements since they're 100% wide by default */
 input,
@@ -36,7 +36,7 @@ textarea {
     padding:1px;
 }*/
 
-.flex-grid {
+/*.flex-grid {
     display: flex;
 }
 
@@ -45,12 +45,12 @@ textarea {
 }
 
 .flexcol3 {
-    /*flex: 3;*/
+    flex: 3;
     flex-direction: row;
     flex-wrap: nowrap;
     max-width: 150px;
     min-width: 120px;
-}
+}*/
 
 /*@media (max-width: 400px) {
     .flex-grid {
@@ -108,6 +108,14 @@ span.stock-message {
 }
 
 .myimg {
+    padding-right: 25px;
+    max-width: 120px;
+    min-width: 120px;
+    max-height: 120px;
+    object-fit: cover;
+}
+
+.myimg {
     grid-area: col1;
 }
 
@@ -145,10 +153,18 @@ span.stock-message {
 
 .mainchilddiv {
     display: grid;
-    grid-template: 'col1 col2up col3up col4up col5up' 'col1 col2down col3down col4down col5down';
+    /*grid-template-rows: 10em minmax(0, 1fr) 10em;*/ /* use these ?? */
+    /*grid-template-columns: 2em 1fr 2em;*/
+    /*grid-template-columns: 2em minmax(0, 1fr) 2em;*/
+    /*grid-column-gap: 1em;*/
+    grid-template-areas: 'col1 col2up   col3up   col4up   col5up' 'col1 col2down col3down col4down col5down';
+    /*grid-template: 'col1 col2up   col3up   col4up   col5up' 'col1 col2down col3down col4down col5down';*/
     grid-gap: 2px;
-    background-color: #2196F3;
+    /*grid-auto-rows: 100px;*/ /*  grid height fixed (minimum set useful in cramped tables) */
+    /*grid-auto-rows: minmax(100px, auto);*/ does this affect background-color: #2196F3;
     padding: 2px;
+    width: 100vw;
+    max-height: 10vw /*todo test*/
 }
 
     .mainchilddiv > div {
@@ -164,5 +180,11 @@ span.stock-message {
     margin-left: 10px;
 }
 
+/*<my original CSS style here >*/
+@media screen and (min-width: 736px) {
+    /*<my original CSS style copied here> // this style kicks in at higher and higher screen widths.*/
+}
 
-
+@media screen and (min-width: 800px) {
+    /*<my original CSS style copied here > // etc.*/
+}

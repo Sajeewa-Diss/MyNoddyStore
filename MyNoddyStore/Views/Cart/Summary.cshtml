@@ -1,37 +1,44 @@
 ﻿
 @model MyNoddyStore.Entities.Cart
 
-    <div class="navbar-right">
-        <div class="navbar-text">
-            <span id="countdownClock">&nbsp;&nbsp;</span>
-        </div>
-
-        <div class="navbar-text">
-            <b>Your cart:</b><br />
-            @Model.Lines.Sum(x => x.Quantity) item(s),
-            @Model.ComputeTotalValue().ToString("c0")
-        </div>
-
-        <div class="navbar-text hidden-xs">
-            <b>NPC cart:</b><br />
-            @Model.LinesOther.Sum(x => x.Quantity) item(s),
-            @Model.ComputeTotalValueOther().ToString("c0")
-        </div>
-
-        <div class="navbar-text hidden-xs">
-            @Html.ActionLink("Checkout", "CheckoutCaller", "Cart",
-            //new { returnUrl = Request.Url.PathAndQuery },
-            new { @class = "btn btn-default navbar-btn" })
-        </div>
-
-        <div class="navbar-text visible-xs">
-            <a href=@Url.Action("CheckoutCaller", "Cart")
-               class="btn btn-default navbar-btn">
-                <span class="fa fa-shopping-cart"></span>
-            </a>
-        </div>
-
+<div class="navbar-right">
+    <div class="navbar-text hidden-xs">
+        <a href=@Url.Action("Index", "Home")
+           class="btn navbar-btn">
+            <span class="fa fa-home"></span>
+        </a>
     </div>
+
+    <div class="navbar-text">
+        <span id="countdownClock">&nbsp;&nbsp;</span>
+    </div>
+
+    <div class="navbar-text">
+        <b>Your cart:</b><br />
+        @Model.Lines.Sum(x => x.Quantity) item(s),
+        @Model.ComputeTotalValue().ToString("c0")
+    </div>
+
+    <div class="navbar-text hidden-xs">
+        <b>NPC cart:</b><br />
+        @Model.LinesOther.Sum(x => x.Quantity) item(s),
+        @Model.ComputeTotalValueOther().ToString("c0")
+    </div>
+
+    <div class="navbar-text hidden-xs">
+        @Html.ActionLink("Checkout", "CheckoutCaller", "Cart",
+        //new { returnUrl = Request.Url.PathAndQuery },
+        new { @class = "btn btn-default navbar-btn" })
+    </div>
+
+    <div class="navbar-text visible-xs">
+        <a href=@Url.Action("CheckoutCaller", "Cart")
+           class="btn btn-default navbar-btn">
+            <span class="fa fa-shopping-cart"></span>
+        </a>
+    </div>
+
+</div>
 
 
 
