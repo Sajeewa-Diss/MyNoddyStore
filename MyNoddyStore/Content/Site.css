@@ -158,4 +158,11 @@ span.stock-message {
         font-size: 30px;
     }
 
+.navbar-right {
+    float: right !important;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+
 
