@@ -89,7 +89,7 @@
 
     var inGameFlag = @ViewBag.inGame;
 
-    //if still in a game (say browser navigation used to come back here), then allow option to restart or continue. Also show countdown timer.
+    //if still in a game (navigated here while within game), then allow option to restart or continue. Also show countdown timer.
     if (inGameFlag == 0) {
         startButton.innerHTML = "Start";
         continueButton.style.display = "none";

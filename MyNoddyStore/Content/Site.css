@@ -23,14 +23,6 @@ textarea {
     max-width: 280px;
 }
 
-.myimg {
-    padding-right: 25px;
-    max-width: 120px;
-    min-width:120px;
-    max-height: 120px;
-    object-fit: cover;
-}
-
 /*div.myimgcontainer {
     min-width: 120px;
     padding:1px;
@@ -115,6 +107,16 @@ span.stock-message {
     object-fit: cover;
 }
 
+.myimgitem {
+    padding-right: 25px;
+    max-width: 120px;
+    min-width: 120px;
+    max-height: 120px;
+    object-fit: fill; /* test with cover*/
+}
+
+/*#region grid areas*/
+
 .myimg {
     grid-area: col1;
 }
@@ -150,6 +152,24 @@ span.stock-message {
 .myviewbtn {
     grid-area: col5down;
 }
+/*#endregion*/
+
+
+.navbar-right {
+    float: right !important;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+/* mobile/base */
+/* hide description and "View Cart" */
+.mydesc {
+    display: none;
+}
+
+.myviewbtn {
+    display: none;
+}
 
 .mainchilddiv {
     display: grid;
@@ -157,7 +177,7 @@ span.stock-message {
     /*grid-template-columns: 2em 1fr 2em;*/
     /*grid-template-columns: 2em minmax(0, 1fr) 2em;*/
     /*grid-column-gap: 1em;*/
-    grid-template-areas: 'col1 col2up   col3up   col4up   col5up' 'col1 col2down col3down col4down col5down';
+    grid-template-areas: 'col1 col2up   col3up   col4up' 'col1 col5up   col3down col4down';
     /*grid-template: 'col1 col2up   col3up   col4up   col5up' 'col1 col2down col3down col4down col5down';*/
     grid-gap: 2px;
     /*grid-auto-rows: 100px;*/ /*  grid height fixed (minimum set useful in cramped tables) */
@@ -172,20 +192,91 @@ span.stock-message {
         background-color: rgba(255, 255, 255, 0.8);
         text-align: center;
         padding: 20px 0;
-        font-size: 30px;
+        /*font-size: 30px;*/
     }
 
-.navbar-right {
-    float: right !important;
-    margin-right: 10px;
-    margin-left: 10px;
+/* mobile landscape */
+@media all and (min-width: 480px) {
+    /* show description and "View Cart" */
+    .mydesc {
+        display: inline-block;
+    }
+
+    .myviewbtn {
+        display: inline-block;
+    }
+
+    .mainchilddiv {
+        display: grid;
+        /*grid-template-rows: 10em minmax(0, 1fr) 10em;*/ /* use these ?? */
+        /*grid-template-columns: 2em 1fr 2em;*/
+        /*grid-template-columns: 2em minmax(0, 1fr) 2em;*/
+        /*grid-column-gap: 1em;*/
+        grid-template-areas: 'col1 col2up   col3up   col4up   col5up' 'col1 col2down col3down col4down col5down';
+        /*grid-template: 'col1 col2up   col3up   col4up   col5up' 'col1 col2down col3down col4down col5down';*/
+        grid-gap: 2px;
+        /*grid-auto-rows: 100px;*/ /*  grid height fixed (minimum set useful in cramped tables) */
+        /*grid-auto-rows: minmax(100px, auto);*/ /*does this affect */
+        background-color: #2196F3;
+        padding: 2px;
+        /*width: 100vw;
+    max-height: 10vw*/ /*todo test*/
+    }
+
+        .mainchilddiv > div {
+            background-color: rgba(255, 255, 255, 0.8);
+            text-align: center;
+            padding: 20px 0;
+            /*font-size: 30px;*/
+        }
+
+
 }
 
-/*<my original CSS style here >*/
-@media screen and (min-width: 736px) {
-    /*<my original CSS style copied here> // this style kicks in at higher and higher screen widths.*/
+/* tablet */
+@media all and (min-width: 768px) {
+
+
+
+
 }
 
-@media screen and (min-width: 800px) {
-    /*<my original CSS style copied here > // etc.*/
+/* desktop */
+@media all and (min-width: 1024px) {
+    .autosized.label {
+        /*font-size: 16px !important;*/
+    }
 }
+
+/* desktop wide */
+@media all and (min-width: 1200px) {
+    .autosized.label {
+        /*font-size: 18px !important;*/
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -45,7 +45,7 @@
     <div class="well well-sm mainchilddiv" name="mainchilddiv">
 
         <div class="myimg">
-            <img class="myimg" src="@Url.Content(String.Format("~/Images/{0}.png", Model.Picture))" alt="No Image" />
+            <img class="myimgitem" src="@Url.Content(String.Format("~/Images/{0}.png", Model.Picture))" alt="No Image" />
         </div>
         <div class="myname">
             <strong>@Model.Name</strong><span>Stock:@Model.StockCount.ToString()</span>
@@ -57,7 +57,7 @@
             <span name="stockmsgspan" class="status-message" style="position: absolute; display:inline"></span>
         </div>
         <div class="myprice">
-            <span class="label label-primary">@Model.Price.ToString("c")</span>
+            <span class="label autosized label-primary">@Model.Price.ToString("c")</span>
         </div>
 
         <div class="mydesc">
