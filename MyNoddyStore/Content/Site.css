@@ -1,12 +1,12 @@
 ﻿body {
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 
@@ -67,7 +67,7 @@ textarea {
 span.status-message {
     font-size: 0.75em;
     color: lime;
-    padding-right: 10px;
+    padding-right: 0px;
     padding-bottom: 0px;
 }
 
@@ -79,7 +79,7 @@ span.status-message.redmessage {
 span.stock-message {
     font-size: 0.75em;
     color: red;
-    padding-right: 80px;
+    padding-right: 0px;
     padding-bottom: 0px;
 }
 
@@ -100,18 +100,25 @@ span.stock-message {
 }
 
 .myimg {
-    padding-right: 25px;
-    max-width: 120px;
-    min-width: 120px;
-    max-height: 120px;
-    object-fit: cover;
+    box-sizing:border-box;
+    padding:0;
+    margin:0;
+    text-align:start;
+    padding-right: 15px;
+    max-width: 90px;
+    max-height: 90px;
+    align-self:flex-start;
+    justify-content:flex-start;
+    /*object-fit: cover;*/
 }
 
 .myimgitem {
-    padding-right: 25px;
-    max-width: 120px;
-    min-width: 120px;
-    max-height: 120px;
+    /*padding-right: 25px;*/
+    padding: 0;
+    margin: 0;
+    max-width: 90px;
+    vertical-align: top;
+    max-height: 90px;
     object-fit: fill; /* test with cover*/
 }
 
@@ -174,7 +181,6 @@ span.stock-message {
     display: none;
 }
 
-
 #summaryCartBtn{
     display:inline;
 }
@@ -192,6 +198,9 @@ span.stock-message {
 
 .mainchilddiv {
     display: grid;
+    box-sizing: border-box;
+    padding: 2px;
+    margin: 0;
     /*grid-template-rows: 10em minmax(0, 1fr) 10em;*/ /* use these ?? */
     /*grid-template-columns: 2em 1fr 2em;*/
     /*grid-template-columns: 2em minmax(0, 1fr) 2em;*/
@@ -202,15 +211,15 @@ span.stock-message {
     /*grid-auto-rows: 100px;*/ /*  grid height fixed (minimum set useful in cramped tables) */
     /*grid-auto-rows: minmax(100px, auto);*/ /*does this affect */
     background-color: #2196F3;
-    padding: 2px;
+    /*padding: 2px;*/
     /*width: 100vw;*/
     /*max-height: 15vh;*/ /*todo test*/
 }
 
     .mainchilddiv > div {
         background-color: rgba(255, 255, 255, 0.8);
-        text-align: center;
-        padding: 20px 0;
+        /*text-align: center;*/
+        /*padding: 20px 0;*/
         /*font-size: 30px;*/
     }
 
@@ -240,6 +249,9 @@ span.stock-message {
 
     .mainchilddiv {
         display: grid;
+        box-sizing: border-box;
+        padding: 2px;
+        margin: 0;
         /*grid-template-rows: 10em minmax(0, 1fr) 10em;*/ /* use these ?? */
         /*grid-template-columns: 2em 1fr 2em;*/
         /*grid-template-columns: 2em minmax(0, 1fr) 2em;*/
@@ -250,19 +262,16 @@ span.stock-message {
         /*grid-auto-rows: 100px;*/ /*  grid height fixed (minimum set useful in cramped tables) */
         /*grid-auto-rows: minmax(100px, auto);*/ /*does this affect */
         background-color: #2196F3;
-        padding: 2px;
+        /*padding: 2px*/;
         /*width: 100vw;*/
         /*max-height:15vh;*/ /*todo test*/
     }
-
         .mainchilddiv > div {
             background-color: rgba(255, 255, 255, 0.8);
-            text-align: center;
-            padding: 20px 0;
+            /*text-align: center;*/
+            /*padding: 20px 0;*/
             /*font-size: 30px;*/
         }
-
-
 }
 
 /* tablet */
@@ -272,13 +281,7 @@ span.stock-message {
 
 /* desktop */
 @media all and (min-width: 1024px) {
-    #shortDesc {
-        display: none;
-    }
 
-    #desc {
-        display: inline;
-    }
 }
 
 /* desktop wide */
@@ -286,6 +289,14 @@ span.stock-message {
     /*.autosized.label {*/
         /*font-size: 18px !important;*/
     /*}*/
+
+    #shortDesc {
+        display: none;
+    }
+
+    #desc {
+        display: inline;
+    }
 }
 
 /* #endregion*/
