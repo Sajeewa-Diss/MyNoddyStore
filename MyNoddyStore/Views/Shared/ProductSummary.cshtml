@@ -9,7 +9,7 @@
             <img class="myimgitem" src="@Url.Content(String.Format("~/Images/{0}.png", Model.Picture))" alt="No Image" />
         </div>
         <div class="myname">
-            <strong>@Model.Name</strong><span>Stock:@Model.StockCount.ToString()</span>
+            <strong>@Model.Name</strong><span id="longStock"> Stock:@Model.StockCount.ToString()</span><span id="shortStock"> (@Model.StockCount.ToString())</span>
         </div>
         <div class="mystockmsg">
             <span name="statusmsgspan" class="stock-message"></span>
@@ -18,7 +18,7 @@
             <span name="stockmsgspan" class="status-message" style="position: absolute; display:inline"></span>
         </div>
         <div class="myprice">
-            <span class="label autosized label-primary">@Model.Price.ToString("c")</span>
+            <span class="label priceClass label-primary">@Model.Price.ToString("c")</span>
         </div>
 
         <div class="mydesc">

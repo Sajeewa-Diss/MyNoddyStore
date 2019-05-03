@@ -168,12 +168,21 @@ span.stock-message {
     margin-left: 10px;
 }
 
+.label.priceClass {
+    /*vertical-align: bottom !important;
+    align-content: center !important;
+    justify-content: flex-end !important;*/
+    /*position:relative;*/
+    float:left;
+    margin:0.25em;
+    font-size: 14px;
+}
 
 /*#region responsive grid design*/
 
 
-/* mobile/base */
-
+/* mobile/base (everything so far) */
+/* hide description grid areas and show universal "View Cart" button */
 #shortDesc{
     display:none;
 }
@@ -185,9 +194,16 @@ span.stock-message {
     display:inline;
 }
 
+#longStock {
+    display: none;
+}
+
+#shortStock {
+    display: inline;
+}
 
 
-/* hide description and "View Cart" */
+/* hide description and "View Cart" button per item */
 .mydesc {
     display: none;
 }
@@ -238,6 +254,12 @@ span.stock-message {
         display: none;
     }
 
+    .label.priceClass {
+        float: right;
+        margin: 0.5em;
+        font-size: 18px;
+    }
+
     /* show description and "View Cart" */
     .mydesc {
         display: inline-block;
@@ -281,14 +303,17 @@ span.stock-message {
 
 /* desktop */
 @media all and (min-width: 1024px) {
+    #longStock {
+        display: inline;
+    }
 
+    #shortStock {
+        display: none;
+    }
 }
 
 /* desktop wide */
 @media all and (min-width: 1200px) {
-    /*.autosized.label {*/
-        /*font-size: 18px !important;*/
-    /*}*/
 
     #shortDesc {
         display: none;
