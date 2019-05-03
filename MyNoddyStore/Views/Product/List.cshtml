@@ -71,7 +71,7 @@
         var currentQuantity = parseInt(localElement.closest('div').find('input').val()); //this is the number of items now selected.
         var thisProdId = GetProductId(localElement);
         var cartQuantity = modelProducts.find(x => x.ProductID == thisProdId).MyQuantity; //this is the number of items in cart model originally.
-        var thisUpdateButton = localElement.closest('div').siblings().find("input[name='submitUpdate']");
+        var thisUpdateButton = localElement.closest('div.quantity').siblings().find("input[name='submitUpdate']");
 
         //if current quantity differs from the original value, then the cart value needs to be updated - otherwise the update button should be disabled.
         if (currentQuantity == cartQuantity) {
@@ -84,7 +84,7 @@
     }
 
     function GetProductId(localElement) {
-        return localElement.closest('div').siblings().find("input[name='ProductID']").val();
+        return localElement.closest('div.quantity').siblings().find("input[name='ProductID']").val();
     }
 
     function GetCurrentStock(ProductId) {

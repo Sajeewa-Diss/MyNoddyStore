@@ -23,42 +23,11 @@ textarea {
     max-width: 280px;
 }
 
-/*div.myimgcontainer {
-    min-width: 120px;
-    padding:1px;
-}*/
-
-/*.flex-grid {
-    display: flex;
-}
-
-.flexcol {
-    flex: 1;
-}
-
-.flexcol3 {
-    flex: 3;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    max-width: 150px;
-    min-width: 120px;
-}*/
-
-/*@media (max-width: 400px) {
-    .flex-grid {
-        display: block;
-    }
-}*/
-
-/*.flexrow {
-    flex-direction: row;
-}*/
-
 .quantity input {
     -webkit-appearance: none;
     border: none;
     text-align: center;
-    width: 32px;
+    width: 28px;
     font-size: 16px;
     color: #43484D;
     font-weight: 300;
@@ -169,19 +138,35 @@ span.stock-message {
 }
 
 .label.priceClass {
-    /*vertical-align: bottom !important;
-    align-content: center !important;
-    justify-content: flex-end !important;*/
-    /*position:relative;*/
     float:left;
     margin:0.25em;
     font-size: 14px;
 }
 
+#btnUpdate, #btnViewCart {
+    float: right;
+    margin: 0;
+    margin-left:0.5em;
+    margin-right:0.25em;
+    bottom:0;
+}
+
+#quantityContainer {
+    position: relative;
+    float: right;
+    top: 0;
+    min-width: 90px;
+    padding:0;
+}
+
+.label-info{
+    background-color:tan;
+}
+
 /*#region responsive grid design*/
 
 
-/* mobile/base (everything so far) */
+/* mobile/base (including everything above) */
 /* hide description grid areas and show universal "View Cart" button */
 #shortDesc{
     display:none;
@@ -256,7 +241,6 @@ span.stock-message {
 
     .label.priceClass {
         float: right;
-        margin: 0.5em;
         font-size: 18px;
     }
 
@@ -308,6 +292,10 @@ span.stock-message {
     }
 
     #shortStock {
+        display: none;
+    }
+
+    #quantityLineBrk {
         display: none;
     }
 }
