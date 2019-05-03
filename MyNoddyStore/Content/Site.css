@@ -205,6 +205,7 @@ span.stock-message {
     /*grid-template-rows: 10em minmax(0, 1fr) 10em;*/ /* use these ?? */
     /*grid-template-columns: 2em 1fr 2em;*/
     /*grid-template-columns: 2em minmax(0, 1fr) 2em;*/
+    grid-template-columns: 95px minmax(auto, 150px) 100px 80px;
     /*grid-column-gap: 1em;*/
     grid-template-areas: 'col1 col2up   col3up   col4up' 'col1 col5up   col3down col4down';
     /*grid-template: 'col1 col2up   col3up   col4up   col5up' 'col1 col2down col3down col4down col5down';*/
@@ -261,6 +262,7 @@ span.stock-message {
         /*grid-template-rows: 10em minmax(0, 1fr) 10em;*/ /* use these ?? */
         /*grid-template-columns: 2em 1fr 2em;*/
         /*grid-template-columns: 2em minmax(0, 1fr) 2em;*/
+        grid-template-columns: 95px auto 100px 80px 110px;
         /*grid-column-gap: 1em;*/
         grid-template-areas: 'col1 col2up   col3up   col4up   col5up' 'col1 col2down col3down col4down col5down';
         /*grid-template: 'col1 col2up   col3up   col4up   col5up' 'col1 col2down col3down col4down col5down';*/
@@ -295,14 +297,6 @@ span.stock-message {
         display: none;
     }
 
-    #quantityLineBrk {
-        display: none;
-    }
-}
-
-/* desktop wide */
-@media all and (min-width: 1200px) {
-
     #shortDesc {
         display: none;
     }
@@ -310,6 +304,21 @@ span.stock-message {
     #desc {
         display: inline;
     }
+
+    #quantityLineBrk {
+        display: none;
+    }
+
+    .mainchilddiv {
+        display: grid;
+        grid-template-columns: 95px auto 145px 80px 110px;
+    }
+}
+
+/* desktop wide */
+@media all and (min-width: 1200px) {
+
+
 }
 
 /* #endregion*/
