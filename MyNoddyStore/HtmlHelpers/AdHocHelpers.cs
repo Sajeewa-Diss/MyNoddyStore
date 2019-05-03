@@ -16,9 +16,10 @@ namespace MyNoddyStore.HtmlHelpers
     public static class AdHocHelpers   // a public static class allows extension method.
     {
         public const int NpcShoppingItemLimit = 60;
-        public const int shoppingTimeMilliseconds = 61000;
+        public const int shoppingTimeMilliseconds = 60500;       //allow half a second for lag, say.
         public const int shoppingStartDelayMilliseconds = 5000;  //sets the head-start given to human-player.
-        public const int maxCartLineItemLimit = 5;               //per-line limit in shopping cart (note this const is also matched in View page Javascript). 
+        public const int maxCartLineItemLimit = 5;               //per-line limit in shopping cart (note this const is also matched in View page Javascript).
+        public const string UpdateSuccessMsg = "Updated";
 
         #region AdHoc Helper Methods
         //Helper methods required for paging.
@@ -229,14 +230,14 @@ namespace MyNoddyStore.HtmlHelpers
             cart.RemoveLine(product);
 
             //re-add new quantity where stock allows.
-            if (newQuantity > 0)
+            if (newQuantity >= 0)
             {
                 if (product.StockCount >= newQuantity) // the update can be done
                 {
                     product.MyQuantity = newQuantity;
                     product.StockCount -= newQuantity;
                     cart.AddItem(product);
-                    messageString = "Updated";
+                    messageString = UpdateSuccessMsg;
                 }
                 else if (product.StockCount != 0)  // there is some stock. The update can be done only partially
                 {
@@ -252,10 +253,13 @@ namespace MyNoddyStore.HtmlHelpers
             }
 
             //User is allowed to continue sweep after time has expired (just because this is a shopping demo). But a warning message is appended.
-            //the NPC cart would have stopped sweep, so only the success message will be updated in practice (all other warning messages above occur because of stock contention).
+            //the NPC cart would have stopped sweep, so only the success message will be updated (to prevent nessage overflow).
             if (remainingTime < 0)
             {
-                messageString += " (game over)";
+                if (messageString == UpdateSuccessMsg)
+                {
+                    messageString += " (game over)";
+                }
             }
             return messageString;
         }

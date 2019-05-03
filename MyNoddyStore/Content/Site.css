@@ -34,22 +34,21 @@ textarea {
 }
 
 span.status-message {
-    font-size: 0.75em;
+    font-size: 0.8em;
     color: lime;
-    padding-right: 0px;
-    padding-bottom: 0px;
+    padding: 0;
+    margin: 0;
 }
 
-span.status-message.redmessage {
-    font-size: 0.75em;
-    color: red;
-}
+    span.status-message.redmessage {
+        color: red;
+    }
 
 span.stock-message {
-    font-size: 0.75em;
+    font-size: 0.8em;
     color: red;
-    padding-right: 0px;
-    padding-bottom: 0px;
+    padding: 0;
+    margin: 0;
 }
 
 #countdownClock {
@@ -82,13 +81,12 @@ span.stock-message {
 }
 
 .myimgitem {
-    /*padding-right: 25px;*/
     padding: 0;
     margin: 0;
     max-width: 90px;
     vertical-align: top;
     max-height: 90px;
-    object-fit: fill; /* test with cover*/
+    object-fit: fill;
 }
 
 /*#region grid areas*/
@@ -103,10 +101,14 @@ span.stock-message {
 
 .mystockmsg {
     grid-area: col3up;
+    text-align:center;
+    align-self:center;
 }
 
 .mystatusmsg {
     grid-area: col4up;
+    text-align: center;
+    align-self: center;
 }
 
 .myprice {
@@ -163,13 +165,19 @@ span.stock-message {
     background-color:tan;
 }
 
+.myname{
+    font-size:1.2em;
+}
+
+.well-sm{
+    border-bottom-color:slategray;
+}
+
 /*#region responsive grid design*/
-
-
 /* mobile/base (including everything above) */
 /* hide description grid areas and show universal "View Cart" button */
-#shortDesc{
-    display:none;
+#shortDesc {
+    display: none;
 }
 #desc {
     display: none;
@@ -202,27 +210,16 @@ span.stock-message {
     box-sizing: border-box;
     padding: 2px;
     margin: 0;
-    /*grid-template-rows: 10em minmax(0, 1fr) 10em;*/ /* use these ?? */
-    /*grid-template-columns: 2em 1fr 2em;*/
-    /*grid-template-columns: 2em minmax(0, 1fr) 2em;*/
+    grid-template-rows: 35px auto;
     grid-template-columns: 95px minmax(auto, 150px) 100px 80px;
-    /*grid-column-gap: 1em;*/
     grid-template-areas: 'col1 col2up   col3up   col4up' 'col1 col5up   col3down col4down';
-    /*grid-template: 'col1 col2up   col3up   col4up   col5up' 'col1 col2down col3down col4down col5down';*/
     grid-gap: 2px;
     /*grid-auto-rows: 100px;*/ /*  grid height fixed (minimum set useful in cramped tables) */
-    /*grid-auto-rows: minmax(100px, auto);*/ /*does this affect */
-    background-color: #2196F3;
-    /*padding: 2px;*/
-    /*width: 100vw;*/
-    /*max-height: 15vh;*/ /*todo test*/
+    /*background-color: #2196F3;*/
 }
 
     .mainchilddiv > div {
-        background-color: rgba(255, 255, 255, 0.8);
-        /*text-align: center;*/
-        /*padding: 20px 0;*/
-        /*font-size: 30px;*/
+        /*background-color: rgba(255, 255, 255, 0.8);*/
     }
 
 /* mobile landscape */
@@ -259,26 +256,16 @@ span.stock-message {
         box-sizing: border-box;
         padding: 2px;
         margin: 0;
-        /*grid-template-rows: 10em minmax(0, 1fr) 10em;*/ /* use these ?? */
-        /*grid-template-columns: 2em 1fr 2em;*/
+        grid-template-rows: 40px auto;
         /*grid-template-columns: 2em minmax(0, 1fr) 2em;*/
         grid-template-columns: 95px auto 100px 80px 110px;
-        /*grid-column-gap: 1em;*/
         grid-template-areas: 'col1 col2up   col3up   col4up   col5up' 'col1 col2down col3down col4down col5down';
-        /*grid-template: 'col1 col2up   col3up   col4up   col5up' 'col1 col2down col3down col4down col5down';*/
         grid-gap: 2px;
         /*grid-auto-rows: 100px;*/ /*  grid height fixed (minimum set useful in cramped tables) */
-        /*grid-auto-rows: minmax(100px, auto);*/ /*does this affect */
-        background-color: #2196F3;
-        /*padding: 2px*/;
-        /*width: 100vw;*/
-        /*max-height:15vh;*/ /*todo test*/
+        /*background-color: #2196F3;*/
     }
         .mainchilddiv > div {
-            background-color: rgba(255, 255, 255, 0.8);
-            /*text-align: center;*/
-            /*padding: 20px 0;*/
-            /*font-size: 30px;*/
+            /*background-color: rgba(255, 255, 255, 0.8);*/
         }
 }
 
@@ -307,6 +294,10 @@ span.stock-message {
 
     #quantityLineBrk {
         display: none;
+    }
+
+    .myname {
+        font-size: 1.5em;
     }
 
     .mainchilddiv {
