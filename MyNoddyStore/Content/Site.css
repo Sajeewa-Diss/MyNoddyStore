@@ -23,33 +23,6 @@ textarea {
     max-width: 280px;
 }
 
-.quantity input {
-    -webkit-appearance: none;
-    border: none;
-    text-align: center;
-    width: 28px;
-    font-size: 16px;
-    color: #43484D;
-    font-weight: 300;
-}
-
-span.status-message {
-    font-size: 0.8em;
-    color: lime;
-    padding: 0;
-    margin: 0;
-}
-
-    span.status-message.redmessage {
-        color: red;
-    }
-
-span.stock-message {
-    font-size: 0.8em;
-    color: red;
-    padding: 0;
-    margin: 0;
-}
 
 #countdownClock {
     color: white;
@@ -65,28 +38,6 @@ span.stock-message {
     font-family: "Lucida Console", Monaco, monospace;
     border: 2px solid black;
     border-radius: 0.25em;
-}
-
-.myimg {
-    box-sizing:border-box;
-    padding:0;
-    margin:0;
-    text-align:start;
-    padding-right: 15px;
-    max-width: 90px;
-    max-height: 90px;
-    align-self:flex-start;
-    justify-content:flex-start;
-    /*object-fit: cover;*/
-}
-
-.myimgitem {
-    padding: 0;
-    margin: 0;
-    max-width: 90px;
-    vertical-align: top;
-    max-height: 90px;
-    object-fit: fill;
 }
 
 /*#region grid areas*/
@@ -133,6 +84,58 @@ span.stock-message {
 /*#endregion*/
 
 
+/*#region ProductSummary content*/
+
+.quantity input {
+    -webkit-appearance: none;
+    border: none;
+    text-align: center;
+    width: 28px;
+    font-size: 16px;
+    color: #43484D;
+    font-weight: 300;
+}
+
+span.status-message {
+    font-size: 0.8em;
+    color: lime;
+    padding: 0;
+    margin: 0;
+}
+
+    span.status-message.redmessage {
+        color: red;
+    }
+
+span.stock-message {
+    font-size: 0.8em;
+    color: red;
+    padding: 0;
+    margin: 0;
+}
+
+.myimg {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    text-align: start;
+    padding-right: 15px;
+    max-width: 90px;
+    max-height: 90px;
+    align-self: flex-start;
+    justify-content: flex-start;
+    /*object-fit: cover;*/
+}
+
+.myimgitem {
+    padding: 0;
+    margin: 0;
+    max-width: 90px;
+    vertical-align: top;
+    max-height: 90px;
+    object-fit: fill;
+}
+
 .navbar-right {
     float: right !important;
     margin-right: 10px;
@@ -172,6 +175,9 @@ span.stock-message {
 .well-sm{
     border-bottom-color:slategray;
 }
+
+/*#endregion*/
+
 
 /*#region responsive grid design*/
 /* mobile/base (including everything above) */
@@ -218,9 +224,9 @@ span.stock-message {
     /*background-color: #2196F3;*/
 }
 
-    .mainchilddiv > div {
-        /*background-color: rgba(255, 255, 255, 0.8);*/
-    }
+    /*.mainchilddiv > div {
+        background-color: rgba(255, 255, 255, 0.8);
+    }*/
 
 /* mobile landscape */
 @media all and (min-width: 480px) {
@@ -261,17 +267,20 @@ span.stock-message {
         grid-template-columns: 95px auto 100px 80px 110px;
         grid-template-areas: 'col1 col2up   col3up   col4up   col5up' 'col1 col2down col3down col4down col5down';
         grid-gap: 2px;
-        /*grid-auto-rows: 100px;*/ /*  grid height fixed (minimum set useful in cramped tables) */
+        /*grid-auto-rows: 100px;*/            /*  grid height fixed (minimum set useful in cramped tables) */
         /*background-color: #2196F3;*/
     }
-        .mainchilddiv > div {
-            /*background-color: rgba(255, 255, 255, 0.8);*/
-        }
+        /*  next section stylle used during grid layout only */
+        /*.mainchilddiv > div {
+            background-color: rgba(255, 255, 255, 0.8);
+        }*/
 }
 
 /* tablet */
 @media all and (min-width: 768px) {
-
+    .mainchilddiv {
+        margin-bottom: 0.5rem;
+    }
 }
 
 /* desktop */
@@ -308,7 +317,6 @@ span.stock-message {
 
 /* desktop wide */
 @media all and (min-width: 1200px) {
-
 
 }
 
