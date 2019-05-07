@@ -1,48 +1,72 @@
 ﻿@model List<MyNoddyStore.Entities.MergedCartLine>
 @{
-    ViewBag.Title = "MyNoddy Store: Results";
+    ViewBag.Title = "MyNoddy Supermarket Sweep: Results";
+    Layout = null;
 }
-<style>
-    #cartTable td {
-        vertical-align: middle;
-    }
-</style>
-@Html.ValidationSummary(false, "Checkout", new { @class = "text-danger" })
-<h2>Cart Totals</h2>
-<table id="cartTable" class="table">
-    <thead>
-        <tr>
-            <th>Item</th>
-            <th class="text-right">Price</th>
-            <th class="text-right">Quantity</th>
-            <th class="text-right">Subtotal</th>
-            <th class="text-right">NPC Quantity</th>
-            <th class="text-right">NPC Subtotal</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (MyNoddyStore.Entities.MergedCartLine line in Model)
-        {
-            <tr>
-                <td class="text-left">@line.Product.Name</td>
-                <td class="text-right">@line.Product.Price.ToString("c0")</td>
-                <td class="text-right">@line.Quantity</td>
-                <td class="text-right">@line.ComputedUserTotal.ToString("c0")</td>
-                <td class="text-right">@line.QuantityOther</td>
-                <td class="text-right">@line.ComputedAITotal.ToString("c0")</td>
-            </tr>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--<meta http-equiv="X-UA-Compatible" content="ie=edge">-->
+    @*<link href="~/Content/bootstrap.css" rel="stylesheet" />*@
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    <link href="~/Content/main.css" rel="stylesheet" /> @*todo amalgamate css??*@
+    @*<link href="~/Content/ErrorStyles.css" rel="stylesheet" />*@
+    @*<script src="~/Scripts/jquery-3.3.1.js"></script>*@
+    <title>@ViewBag.Title</title>
+    @*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">*@
+    <link rel="icon" href="~/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="~/favicon.ico" type="image/x-icon" />
+</head>
+<body>
+
+
+
+    <style>
+        #cartTable td {
+            vertical-align: middle;
         }
-    </tbody>
-    <tfoot>
-        <tr>
-            <td colspan="3" class="text-right">Total:</td>
-            <td class="text-right">
-                @(ViewBag.UserTotal.ToString("c0")) hello @(ViewBag.AITotal.ToString("c0"))
-            </td>
-        </tr>
-    </tfoot>
-</table>
-<div class="text-center">
-    @Html.ActionLink(linkText: "Play again", actionName: "Restart", controllerName: "Product", routeValues: null, htmlAttributes: new { @class = "btn btn-primary" })
-    @Html.ActionLink(linkText: "Home", actionName: "Index", controllerName: "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-primary" })
-</div>
+    </style>
+    @Html.ValidationSummary(false, "Checkout", new { @class = "text-danger" })
+    <h2>Cart Totals</h2>
+    <table id="cartTable" class="table">
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th class="text-right">Price</th>
+                <th class="text-right">Quantity</th>
+                <th class="text-right">Subtotal</th>
+                <th class="text-right">NPC Quantity</th>
+                <th class="text-right">NPC Subtotal</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (MyNoddyStore.Entities.MergedCartLine line in Model)
+            {
+                <tr>
+                    <td class="text-left">@line.Product.Name</td>
+                    <td class="text-right">@line.Product.Price.ToString("c0")</td>
+                    <td class="text-right">@line.Quantity</td>
+                    <td class="text-right">@line.ComputedUserTotal.ToString("c0")</td>
+                    <td class="text-right">@line.QuantityOther</td>
+                    <td class="text-right">@line.ComputedAITotal.ToString("c0")</td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3" class="text-right">Total:</td>
+                <td class="text-right">
+                    @(ViewBag.UserTotal.ToString("c0")) hello @(ViewBag.AITotal.ToString("c0"))
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+    <div class="text-center">
+        @Html.ActionLink(linkText: "Play again", actionName: "Restart", controllerName: "Product", routeValues: null, htmlAttributes: new { @class = "btn btn-primary" })
+        @Html.ActionLink(linkText: "Home", actionName: "Index", controllerName: "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-primary" })
+    </div>
+</body>
+</html>
