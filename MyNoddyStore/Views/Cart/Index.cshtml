@@ -1,6 +1,6 @@
 ﻿@model MyNoddyStore.Models.CartIndexViewModel
 @{
-    ViewBag.Title = "Sports Store: Your Cart";
+    ViewBag.Title = "Supermarket Sweep: Your Cart";
 }
 <style>
     #cartTable td {
@@ -11,8 +11,8 @@
 <table id="cartTable" class="table">
     <thead>
         <tr>
-            <th>Quantity</th>
             <th>Item</th>
+            <th>Quantity</th>
             <th class="text-right">Price</th>
             <th class="text-right">Subtotal</th>
         </tr>
@@ -20,30 +20,30 @@
     <tbody>
         @foreach (var line in Model.Cart.Lines)
         {
-            <tr>
-                <td class="text-center">@line.Quantity</td>
-                <td class="text-left">@line.Product.Name</td>
-                <td class="text-right">@line.Product.Price.ToString("c")</td>
-                <td class="text-right">
-                    @((line.Quantity * line.Product.Price).ToString("c"))
-                </td>
-                <td>
-                    @using (Html.BeginForm("RemoveFromCart", "Cart"))
-                    {
-                        @Html.Hidden("ProductId", line.Product.ProductID)
-                        @Html.HiddenFor(x => x.ReturnUrl)
-                        <input class="btn btn-sm btn-warning"
-                               type="submit" value="Remove" />
-                    }
-                </td>
-            </tr>
+        <tr>
+            <td class="text-left">@line.Product.Name</td>
+            <td class="text-center">@line.Quantity</td>
+            <td class="text-right">@line.Product.Price.ToString("c0")</td>
+            <td class="text-right">
+                @((line.Quantity * line.Product.Price).ToString("c0"))
+            </td>
+            <td>
+                @using (Html.BeginForm("RemoveFromCart", "Cart"))
+                {
+                    @Html.Hidden("ProductId", line.Product.ProductID)
+                    @Html.HiddenFor(x => x.ReturnUrl)
+                    <input class="btn btn-sm btn-warning"
+                           type="submit" value="Remove" />
+                }
+            </td>
+        </tr>
         }
     </tbody>
     <tfoot>
         <tr>
             <td colspan="3" class="text-right">Total:</td>
             <td class="text-right">
-                @Model.Cart.ComputeTotalValue().ToString("c")
+                @Model.Cart.ComputeTotalValue().ToString("c0")
             </td>
         </tr>
     </tfoot>
@@ -93,39 +93,3 @@
     }
 </script>
 
-@*Adding a jQuery AJAX Function for Refreshing Quantity*@
-@*We already know the data passed from the custom attributes: date-id and txt-id.
-    Creating the client–side AJAX function for refreshing the quantity updates is easy. Just copy the click function for RemoveLink and do some modifications.*@
-
-@*$(".RefreshQuantity").click(function () {
-    // Get the id from the link
-    var recordToUpdate = $(this).attr("data-id");
-    var countToUpdate = $("#" + $(this).attr("txt-id")).val();
-    if (recordToUpdate != '') {
-        // Perform the ajax post
-        $.post("/ShoppingCart/UpdateCartCount", { "id": recordToUpdate, "cartCount": countToUpdate },
-            function (data) {
-                // Successful requests get here
-                // Update the page elements
-                if (data.ItemCount == 0) {
-                    $('#row-' + data. DeleteId).fadeOut('slow');
-                }
-                $('#update-message').text(data.Message);
-                $('#cart-total').text(data.CartTotal);
-                $('#cart-status').text('Cart (' + data.CartCount + ')');
-            });
-    }*@
-
-
-@*Add code into the jQuery $(".RefreshQuantity").click(function ()) to set the quantity to zero when input value is empty.*@
-@*$(".RefreshQuantity").click(function () {
-     // Get the id from the link
-     var recordToUpdate = $(this).attr("data-id");
-
-     //Set quantity number to 0 if input value is empty
-     var countToUpdate = 0;
-     if ($("#" + $(this).attr("txt-id")).val() !== '') {
-         countToUpdate = $("#" + $(this).attr("txt-id")).val();
-     }
-
-    if (recordToUpdate != '') { ..etc..*@

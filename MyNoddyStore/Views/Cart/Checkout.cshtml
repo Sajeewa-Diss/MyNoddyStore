@@ -25,11 +25,11 @@
         {
             <tr>
                 <td class="text-left">@line.Product.Name</td>
-                <td class="text-right">@line.Product.Price.ToString("c")</td>
+                <td class="text-right">@line.Product.Price.ToString("c0")</td>
                 <td class="text-right">@line.Quantity</td>
-                <td class="text-right">@line.ComputedUserTotal.ToString("c")</td>
+                <td class="text-right">@line.ComputedUserTotal.ToString("c0")</td>
                 <td class="text-right">@line.QuantityOther</td>
-                <td class="text-right">@line.ComputedAITotal.ToString("c")</td>
+                <td class="text-right">@line.ComputedAITotal.ToString("c0")</td>
             </tr>
         }
     </tbody>
@@ -37,13 +37,12 @@
         <tr>
             <td colspan="3" class="text-right">Total:</td>
             <td class="text-right">
-                @(ViewBag.UserTotal.ToString("c")) hello @(ViewBag.AITotal.ToString("c"))
+                @(ViewBag.UserTotal.ToString("c0")) hello @(ViewBag.AITotal.ToString("c0"))
             </td>
         </tr>
     </tfoot>
 </table>
 <div class="text-center">
     @Html.ActionLink(linkText: "Play again", actionName: "Restart", controllerName: "Product", routeValues: null, htmlAttributes: new { @class = "btn btn-primary" })
-    @*todo maybe call a different action that prevents back navigation to checkout screen??*@
     @Html.ActionLink(linkText: "Home", actionName: "Index", controllerName: "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-primary" })
 </div>
