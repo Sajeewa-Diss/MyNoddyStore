@@ -176,8 +176,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\ErrorStyles.css" />
     <Content Include="Content\main.css" />
     <Content Include="Content\style2.css" />
@@ -215,8 +213,6 @@
     <Content Include="Images\unicorn.png" />
     <Content Include="Images\wristwatch.png" />
     <Content Include="Images\zipwire.png" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\helperScriptJs.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
