@@ -26,10 +26,10 @@
             {
                 <tr>
                     <td class="text-left itemtd">@line.Product.Name</td>
-                    <td class="text-right pricetd">@line.Product.Price.ToString("c0")</td>
+                    <td class="text-right pricetd">@line.Product.Price.ToString()</td>
                     <td class="text-right qntytd">@line.Quantity</td>
                     <td class="text-right subtottd">
-                        @((line.Quantity * line.Product.Price).ToString("c0"))
+                        @((line.Quantity * line.Product.Price).ToString())
                     </td>
                     <td>
                         @using (Html.BeginForm("RemoveFromCart", "Cart"))
