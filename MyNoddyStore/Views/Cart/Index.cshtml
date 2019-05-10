@@ -2,52 +2,60 @@
 @{
     ViewBag.Title = "Supermarket Sweep: Your Cart";
 }
-<style>
+@*<style>
     #cartTable td {
         vertical-align: middle;
     }
-</style>
+</style>*@
 <h2>Your cart</h2>
-<table id="cartTable" class="table">
-    <thead>
-        <tr>
-            <th>Item</th>
-            <th>Quantity</th>
-            <th class="text-right">Price</th>
-            <th class="text-right">Subtotal</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var line in Model.Cart.Lines)
-        {
-        <tr>
-            <td class="text-left">@line.Product.Name</td>
-            <td class="text-center">@line.Quantity</td>
-            <td class="text-right">@line.Product.Price.ToString("c0")</td>
-            <td class="text-right">
-                @((line.Quantity * line.Product.Price).ToString("c0"))
-            </td>
-            <td>
-                @using (Html.BeginForm("RemoveFromCart", "Cart"))
-                {
-                    @Html.Hidden("ProductId", line.Product.ProductID)
-                    @Html.HiddenFor(x => x.ReturnUrl)
-                    <input class="btn btn-sm btn-warning"
-                           type="submit" value="Remove" />
-                }
-            </td>
-        </tr>
-        }
-    </tbody>
-    <tfoot>
-        <tr>
-            <td colspan="3" class="text-right">Total:</td>
-            <td class="text-right">
-                @Model.Cart.ComputeTotalValue().ToString("c0")
-            </td>
-        </tr>
-    </tfoot>
-</table>
+<div class="scrollable-table-todo-remove">
+    <table id="cartTable" class="table fixed_headers">
+        <thead>
+            <tr>
+                <!-- First column header is not rotated -->
+                <th class="itemth"><div><span>Item</span></div></th>
+                <th class="rotate-45 priceth"><div><span><br>Price (£)</span></div></th>
+                <th class="rotate-45 qntyth"><div><span>Quantity</span></div></th>
+                <th class="rotate-45 subtotth"><div><span><br>Subtotal (£)</span></div></th>
+                <!-- Last column header is not rotated -->
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var line in Model.Cart.Lines)
+            {
+                <tr>
+                    <td class="text-left itemtd">@line.Product.Name</td>
+                    <td class="text-right pricetd">@line.Product.Price.ToString("c0")</td>
+                    <td class="text-right qntytd">@line.Quantity</td>
+                    <td class="text-right subtottd">
+                        @((line.Quantity * line.Product.Price).ToString("c0"))
+                    </td>
+                    <td>
+                        @using (Html.BeginForm("RemoveFromCart", "Cart"))
+                        {
+                            @Html.Hidden("ProductId", line.Product.ProductID)
+                            @Html.HiddenFor(x => x.ReturnUrl)
+                            <input class="btn btn-sm btn-warning" type="submit" value="Remove" />
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr class="tablefoot">
+                <td class="text-left itemtd">Total:</td>
+                <td class="text-right pricetd"></td>
+                <td class="text-right qntytd"></td>
+                <td class="text-right subtottd">@Model.Cart.ComputeTotalValue().ToString("c0")
+                </td>
+                <td></td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
+
 <div class="text-center">
     <a class="btn btn-primary" href="@Model.ReturnUrl">Continue shopping</a>
     @Html.ActionLink("Checkout now", "CheckoutCaller", null, new { @class = "btn btn-primary" })
@@ -64,6 +72,9 @@
     var remaining = @Html.Raw(Model.CountDownMilliseconds);
     var countDownDate = new Date();
     countDownDate.setMilliseconds(countDownDate.getMilliseconds() + remaining);
+
+    $( window ).on( "load", SetTableClassFn );    //same as calling this:- $( document ).ready( SetTableClassFn );
+    $( window ).on( "resize", SetTableClassFn );
 
     // Update the countdown every quarter of a second (otherwise it lags between page refresh and redirects)
     var xInterval = setInterval(RunCountdown, 250);
@@ -91,5 +102,17 @@
             countdownCtrl.innerHTML = "00";
         }
     }
+
+    //for anything smaller than 768 px inclusive, switch to mobile view.
+    function SetTableClassFn() {
+        if($(window).width() < 768) {
+            $('#cartTable').addClass('table-header-rotated');
+            $('#cartTable').removeClass('table-header-horiz');
+        }else{
+            $('#cartTable').addClass('table-header-horiz');
+            $('#cartTable').removeClass('table-header-rotated');
+        }
+    }
+
 </script>
 

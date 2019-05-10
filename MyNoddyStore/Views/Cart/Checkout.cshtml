@@ -3,18 +3,18 @@
     ViewBag.Title = "MyNoddy Supermarket Sweep: Results";
     Layout = null;
 }
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-js">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!--<meta http-equiv="X-UA-Compatible" content="ie=edge">-->
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     @*<link href="~/Content/bootstrap.css" rel="stylesheet" />*@
     <link href="~/Content/Site.css" rel="stylesheet" />
     <link href="~/Content/main.css" rel="stylesheet" /> @*todo amalgamate css??*@
-    @*<link href="~/Content/ErrorStyles.css" rel="stylesheet" />*@
-    @*<script src="~/Scripts/jquery-3.3.1.js"></script>*@
+    <link href="~/Content/ErrorStyles.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Scripts/modernizr-2.8.3.js"></script>
     <title>@ViewBag.Title</title>
     @*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">*@
     <link rel="icon" href="~/favicon.ico" type="image/x-icon" />
@@ -22,51 +22,84 @@
 </head>
 <body>
 
-
-
-    <style>
+    @*<style>
         #cartTable td {
             vertical-align: middle;
         }
-    </style>
+    </style>*@
     @Html.ValidationSummary(false, "Checkout", new { @class = "text-danger" })
     <h2>Cart Totals</h2>
     <table id="cartTable" class="table">
-        <thead>
-            <tr>
-                <th>Item</th>
-                <th class="text-right">Price</th>
-                <th class="text-right">Quantity</th>
-                <th class="text-right">Subtotal</th>
-                <th class="text-right">NPC Quantity</th>
-                <th class="text-right">NPC Subtotal</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (MyNoddyStore.Entities.MergedCartLine line in Model)
-            {
-                <tr>
-                    <td class="text-left">@line.Product.Name</td>
-                    <td class="text-right">@line.Product.Price.ToString("c0")</td>
-                    <td class="text-right">@line.Quantity</td>
-                    <td class="text-right">@line.ComputedUserTotal.ToString("c0")</td>
-                    <td class="text-right">@line.QuantityOther</td>
-                    <td class="text-right">@line.ComputedAITotal.ToString("c0")</td>
-                </tr>
-            }
-        </tbody>
-        <tfoot>
-            <tr>
-                <td colspan="3" class="text-right">Total:</td>
-                <td class="text-right">
-                    @(ViewBag.UserTotal.ToString("c0")) hello @(ViewBag.AITotal.ToString("c0"))
-                </td>
-            </tr>
-        </tfoot>
+
     </table>
+
+    @*<div class="text-center"></div>*@
+    <div>
+        <table id="resultsTable" class="table table-header-rotated fixed_headers">
+            <thead>
+                <tr>
+                    <!-- First column header is not rotated -->
+                    <th class="res-itemth"><div><span>Item</span></div></th>
+                    <th class="rotate-45 res-priceth"><div><span><br>Price (£)</span></div></th>
+                    <th class="rotate-45 res-qntyth"><div><span>Your Qty.</span></div></th>
+                    <th class="rotate-45 res-subtotth"><div><span><br>Subtotal (£)</span></div></th>
+                    <th class="rotate-45 res-npc-qntyth"><div><span>NPC Qty.</span></div></th>
+                    <th class="rotate-45 res-npc-subtotth"><div><span><br>Subtotal (£)</span></div></th>
+                    <!-- Last column header is not rotated -->
+                    <th></th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (MyNoddyStore.Entities.MergedCartLine line in Model)
+                {
+                    <tr>
+                        <td class="text-left res-itemtd">@line.Product.Name</td>
+                        <td class="text-right res-pricetd">@line.Product.Price.ToString("c0")</td>
+                        <td class="text-right res-qntytd">@line.Quantity</td>
+                        <td class="text-right res-subtottd">
+                            @line.ComputedUserTotal.ToString("c0")
+                        </td>
+                        <td class="text-right res-npc-qntytd">@line.QuantityOther</td>
+                        <td class="text-right res-npc-subtottd">@line.ComputedAITotal.ToString("c0")</td>
+                        <td></td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr class="tablefoot">
+                    <td class="text-left res-itemtd">Total:</td>
+                    <td class="text-right res-pricetd"></td>
+                    <td class="text-right res-qntytd"></td>
+                    <td class="text-right res-subtottd">@(ViewBag.UserTotal.ToString("c0"))
+                    </td>
+                    <td class="text-right res-npc-qntytd"></td>
+                    <td class="text-right res-npc-subtottd">@(ViewBag.AITotal.ToString("c0"))</td>
+                    <td></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
     <div class="text-center">
         @Html.ActionLink(linkText: "Play again", actionName: "Restart", controllerName: "Product", routeValues: null, htmlAttributes: new { @class = "btn btn-primary" })
         @Html.ActionLink(linkText: "Home", actionName: "Index", controllerName: "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-primary" })
     </div>
+
+    <script>
+        $(window).on("load", SetTableClassFn);    //same as calling this:- $( document ).ready( SetTableClassFn );
+        $(window).on("resize", SetTableClassFn);
+
+        function SetTableClassFn() {
+            if ($(window).width() < 768) {
+                $('#resultsTable').addClass('table-header-rotated');
+                $('#resultsTable').removeClass('table-header-horiz');
+            } else {
+                $('#resultsTable').addClass('table-header-horiz');
+                $('#resultsTable').removeClass('table-header-rotated');
+            }
+        }
+
+    </script>
 </body>
 </html>

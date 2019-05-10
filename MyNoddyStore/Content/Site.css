@@ -1,4 +1,7 @@
-﻿body {
+﻿
+/**, *::before, *::after {box-sizing: border-box;}*/
+
+body {
     padding-top: 5px;
     padding-bottom: 5px;
 }
@@ -326,6 +329,306 @@ span.stock-message {
 
 
 
+/* #region table with fixed headers (incl stripes) */
+
+.fixed_headers {
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+
+    .fixed_headers thead tr {
+        display: block;
+        position: relative;
+    }
+
+    .fixed_headers tbody {
+        display: block;
+        overflow: auto;
+        max-height: 46vh; /*if we set height alone, the footer can appear under a gap!*/
+    }
+
+        .fixed_headers tbody tr:nth-child(even) {
+            background-color: #EEE;
+        }
+
+tfoot {
+    display: inline-block;
+    overflow: auto;
+    position: relative;
+    margin-top: 10px;
+}
+
+.tablefoot {
+    font-weight: bold;
+    text-align: right;
+}
+/* #endregion */
+
+/* #region table body detail  */
+
+.table-header-horiz tbody > tr {
+    vertical-align:central;
+}
+
+
+#cartTable.table-header-horiz tbody > tr {
+    width: 550px;
+}
+
+#resultsTable.table-header-horiz tbody > tr {
+    width: 750px;
+}
+
+
+
+.table-header-rotated td {
+    /* width: 100px; */
+    border-top: 1px solid #dddddd;
+    border-left: 1px solid #dddddd;
+    border-right: 1px solid #dddddd;
+    vertical-align: middle;
+    text-align: right;
+    overflow: hidden;
+}
+
+    .table-header-rotated td.itemtd,
+    .table-header-rotated td.res-itemtd {
+        text-align: left;
+    }
+
+.table-header-horiz .itemtd {
+    width: 150px;
+    /* min-width: 95px;
+    max-width: 95px; */
+    text-align: left;
+}
+
+.table-header-horiz .res-itemtd {
+    width: 150px;
+    /* min-width: 95px;
+   max-width: 95px; */
+    text-align: left;
+}
+
+.table-header-horiz .pricetd,
+.table-header-horiz .res-pricetd,
+.table-header-horiz .qntytd,
+.table-header-horiz .res-qntytd,
+.table-header-horiz .res-npc-qntytd,
+.table-header-horiz .subtottd,
+.table-header-horiz .res-subtottd,
+.table-header-horiz .res-npc-subtottd {
+    width: 100px;
+    /* min-width: 60px;
+    max-width: 60px; */
+}
+
+.table-header-horiz .pricetd,
+.table-header-horiz .res-pricetd,
+.table-header-horiz .qntytd,
+.table-header-horiz .res-qntytd,
+.table-header-horiz .res-npc-qntytd,
+.table-header-horiz .subtottd,
+.table-header-horiz .res-subtottd,
+.table-header-horiz .res-npc-subtottd {
+    padding-right: 2em;
+}
+
+.table-header-rotated .itemtd {
+    width: 120px;
+    min-width: 120px;
+    max-width: 120px;
+}
+
+.table-header-rotated .res-itemtd {
+    width: 105px;
+    min-width: 105px;
+    max-width: 105px;
+}
+
+.table-header-rotated .pricetd,
+.table-header-rotated .res-pricetd {
+    width: 55px;
+    min-width: 55px;
+    max-width: 55px;
+}
+
+.table-header-rotated .qntytd,
+.table-header-rotated .res-qntytd,
+.table-header-rotated .res-npc-qntytd {
+    width: 30px;
+    min-width: 30px;
+    max-width: 30px;
+}
+
+.table-header-rotated .subtottd {
+    width: 60px;
+    min-width: 60px;
+    max-width: 60px;
+}
+
+.table-header-rotated .res-subtottd,
+.table-header-rotated .res-npc-subtottd {
+    width: 58px;
+    min-width: 58px;
+    max-width: 58px;
+}
+
+.table-header-rotated .pricetd,
+.table-header-rotated .res-pricetd,
+.table-header-rotated .qntytd,
+.table-header-rotated .res-qntytd,
+.table-header-rotated .res-npc-qntytd,
+.table-header-rotated .subtottd,
+.table-header-rotated .res-subtottd,
+.table-header-rotated .res-npc-subtottd {
+    padding-right: 0.5em;
+}
+/* #endregion */
+
+
+/* #region table header  */
+.table-header-rotated th.rotate-45 {
+    height: 60px;
+    position: relative;
+    vertical-align: bottom;
+    padding: 0;
+    font-size: 14px;
+    line-height: 0.8;
+}
+
+.table-header-horiz thead > tr {
+    vertical-align: bottom;
+    border-bottom: 1px solid red;
+}
+
+#cartTable.table-header-horiz thead > tr {
+    width: 550px;
+}
+
+#resultsTable.table-header-horiz thead > tr {
+    width: 750px;
+}
+
+.table-header-horiz .itemth,
+.table-header-horiz .res-itemth {
+    width: 150px;
+    /* min-width: 95px;
+    max-width: 95px; */
+    vertical-align: bottom;
+    text-align: left;
+}
+
+.table-header-horiz .priceth,
+.table-header-horiz .res-priceth,
+.table-header-horiz .qntyth,
+.table-header-horiz .res-qntyth,
+.table-header-horiz .res-npc-qntyth,
+.table-header-horiz .subtotth,
+.table-header-horiz .res-subtotth,
+.table-header-horiz .res-npc-subtotth {
+    width: 100px;
+    /* min-width: 60px;
+        max-width: 60px; */
+}
+
+.table-header-rotated .itemth {
+    width: 110px;
+    min-width: 110px;
+    max-width: 110px;
+    vertical-align: bottom;
+    text-align: left;
+}
+
+.table-header-rotated .res-itemth {
+    width: 95px;
+    min-width: 95px;
+    max-width: 95px;
+    vertical-align: bottom;
+    text-align: left;
+}
+
+.table-header-rotated .priceth,
+.table-header-rotated .res-priceth {
+    width: 55px;
+    min-width: 55px;
+    max-width: 55px;
+}
+
+.table-header-rotated .qntyth,
+.table-header-rotated .res-qntyth,
+.table-header-rotated .res-npc-qntyth {
+    width: 30px;
+    min-width: 30px;
+    max-width: 30px;
+}
+
+.table-header-rotated .subtotth,
+.table-header-rotated .res-subtotth,
+.table-header-rotated .res-npc-subtotth {
+    width: 60px;
+    min-width: 60px;
+    max-width: 60px;
+}
+
+/* #endregion */
+
+
+.table-header-rotated th.rotate-45 > div {
+    position: relative;
+    top: 0px;
+    left: 40px; /* 80 * tan(45) / 2 = 40 where 80 is the height on the cell and 45 is the transform angle*/
+    height: 100%;
+    -ms-transform: skew(-45deg,0deg);
+    -moz-transform: skew(-45deg,0deg);
+    -webkit-transform: skew(-45deg,0deg);
+    -o-transform: skew(-45deg,0deg);
+    transform: skew(-45deg,0deg);
+    overflow: hidden;
+    border-left: 1px solid #dddddd;
+    border-right: 1px solid #dddddd;
+    border-top: 1px solid #dddddd;
+}
+
+.table-header-rotated th.rotate-45 span {
+    -ms-transform: skew(45deg,0deg) rotate(315deg);
+    -moz-transform: skew(45deg,0deg) rotate(315deg);
+    -webkit-transform: skew(45deg,0deg) rotate(315deg);
+    -o-transform: skew(45deg,0deg) rotate(315deg);
+    transform: skew(45deg,0deg) rotate(315deg);
+    position: absolute;
+    bottom: 30px; /* 40 cos(45) = 28 with an additional 2px margin*/
+    left: -25px; /*Because it looked good, but there is probably a mathematical link here as well*/
+    display: inline-block;
+    /* width: 100%; */
+    width: 85px; /* 80 / cos(45) - 40 cos (45) = 85 where 80 is the height of the cell, 40 the width of the cell and 45 the transform angle*/
+    text-align: left;
+    white-space: nowrap; /*whether to display in one line or not*/
+}
+
+
+.priceth div, td.pricetd,
+.res-priceth div, td.res-pricetd {
+    background-color: rgba(255, 255, 0, 0.2);
+}
+
+.table-header-horiz .qntyth,
+.table-header-horiz .res-qntyth,
+.table-header-rotated .qntyth div,
+.table-header-rotated .res-qntyth div,
+td.qntytd, td.res-qntytd,
+.subtotth div, td.subtottd,
+.res-subtotth div, td.res-subtottd {
+    /* background-color: rgba(0, 150, 255, 0.25);*/
+    background-color: rgba(0, 255, 150, 0.2);
+}
+
+.table-header-horiz .res-npc-qntyth,
+.table-header-rotated .res-npc-qntyth div,
+td.res-npc-qntytd,
+.res-npc-subtotth div, td.res-npc-subtottd {
+    background-color: rgba(255, 0, 0, 0.2);
+}
 
 
 

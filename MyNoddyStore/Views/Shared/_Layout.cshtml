@@ -1,14 +1,17 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="en" class="no-js">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    @*<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">*@
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
     <link href="~/Content/bootstrap.css" rel="stylesheet" />
     <link href="~/Content/Site.css" rel="stylesheet" />
     <link href="~/Content/ErrorStyles.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <script src="~/Scripts/helperScriptJs.js"></script>
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Scripts/modernizr-2.8.3.js"></script>
     <title>@ViewBag.Title</title>
     <link rel="icon" href="~/favicon.ico" type="image/x-icon" />
     <link rel="shortcut icon" href="~/favicon.ico" type="image/x-icon" />
@@ -22,10 +25,9 @@
         </a>
 
         <span style="color:white;" class="visible-xs">XS</span>
-        <span style="color:white;"  class="visible-sm">SM</span>
-        <span style="color:white;"  class="visible-md">MD</span>
-        <span style="color:white;"  class="visible-lg">LG</span>
-
+        <span style="color:white;" class="visible-sm">SM</span>
+        <span style="color:white;" class="visible-md">MD</span>
+        <span style="color:white;" class="visible-lg">LG</span>
 
         @Html.Action("Summary", "Cart")
     </div>
