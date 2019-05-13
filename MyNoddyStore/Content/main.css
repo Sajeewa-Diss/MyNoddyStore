@@ -1490,7 +1490,7 @@ p, a {
 
 /* Generic styles */
 a {
-  text-decoration: none;
+  text-decoration: none; /*remove underlines on links.*/
 }
 
 

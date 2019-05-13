@@ -39,7 +39,7 @@
             ghjgkjhgkh
         </div>
 
-        <!-- #region collpse me -->
+        <!-- #region collapse me -->
         @*<section class="breweries" id="breweries">
             <ul>
                 <li>
@@ -105,7 +105,9 @@
 
     var countDownDate = new Date();
     countDownDate.setMilliseconds(countDownDate.getMilliseconds() + remaining);
-    // Update the countdown every quarter of a second (otherwise it lags between page refresh and redirects)
+
+    // Update the countdown immediately and then every quarter of a second (otherwise it lags between page refresh and redirects)
+    RunCountdown();
     var xInterval = setInterval(RunCountdown, 250);
 
     function RunCountdown() { //tbc add this as a central script.
@@ -133,6 +135,5 @@
     }
 
     </script>
-    @*</div>*@
 </body>
 </html>

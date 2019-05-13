@@ -61,11 +61,8 @@
     @Html.ActionLink("Checkout now", "CheckoutCaller", null, new { @class = "btn btn-primary" })
 </div>
 
-@*//todo make sure this view doesn't oscillate as time changes. todo add flashing buttons*@
+@*//todo add flashing buttons*@
 
-
-@*But in this case, you need to specify custom attributes in the third parameter of @Html.TextBox() for manually rendering the unobtrusive validation HTML.*@
-@*<a href="#" class="RefreshQuantity" data-id="@item.RecordId" txt-id="CartItems_@(ix)__Count">Refresh quantity</a>        &nbsp;|&nbsp;*@
 
 <script>
     $( window ).on( "load", SetTableClassFn );    //same as calling this:- $( document ).ready( SetTableClassFn );
