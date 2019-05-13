@@ -2,10 +2,10 @@
 @model MyNoddyStore.Entities.Cart
 
     <div class="navbar-right">
-        <div class="navbar-text hidden-xs">
+        <div class="navbar-text hidden-xs my-fa-home-icon">
             <a href=@Url.Action("Index", "Home")
                class="navbar-text btn navbar-btn">
-                <span class="fa fa-home"></span> @*todo size this button*@
+                <span class="fa fa-home" style="font-size:24px"></span> @*todo size this button*@
             </a>
         </div>
 
@@ -14,13 +14,13 @@
             <span id="countdownClock"></span>
         </div>
 
-        <div class="navbar-text">
+        <div class="navbar-text cartsummarytext">
             <b>Your cart:</b><br />
             @Model.Lines.Sum(x => x.Quantity) item(s),
             @Model.ComputeTotalValue().ToString("c0")
         </div>
 
-        <div class="navbar-text hidden-xs">
+        <div class="navbar-text  cartsummarytext hidden-xs">
             <b>NPC cart:</b><br />
             @Model.LinesOther.Sum(x => x.Quantity) item(s),
             @Model.ComputeTotalValueOther().ToString("c0")

@@ -143,8 +143,29 @@ span.stock-message {
 
 .navbar-right {
     float: right !important;
-    margin-right: 10px;
-    margin-left: 10px;
+    margin-right: 0;
+    margin-left: 0;
+    width:95vw;
+    min-width:95vw;
+}
+
+.navbar-text.cartsummarytext{
+    font-size:smaller;
+    width:90px;
+}
+
+@media (min-width: 768px) {
+    .navbar-right {
+        margin-right: 10px;
+        margin-left: 10px;
+        width:initial;
+        min-width:initial;
+    }
+
+    .navbar-text.cartsummarytext {
+        font-size: initial;
+        width:initial;
+    }
 }
 
 .label.priceClass {
@@ -640,10 +661,11 @@ div.clockWrapper {
     margin-bottom: 15px;
 }
 
-.my-navbar-title {
-    color: white;
+.my-fa-home-icon{
+    position:relative;
+    left:30px;
+    top:-10px;
 }
-
 
 
 

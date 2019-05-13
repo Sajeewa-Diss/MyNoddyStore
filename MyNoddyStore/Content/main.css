@@ -606,6 +606,8 @@ input[type="button"].btn-block {
     float: left;
     margin-top: 15px;
     margin-bottom: 15px;
+    margin-right: 5px;
+    margin-left: 5px;
 }
 
 @media (min-width: 768px) {
