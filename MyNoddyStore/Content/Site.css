@@ -344,7 +344,7 @@ span.stock-message {
     .fixed_headers tbody {
         display: block;
         overflow: auto;
-        max-height: 46vh; /*if we set height alone, the footer can appear under a gap!*/
+        max-height: 46vh; /*if we set height alone, the footer may appear under a gap!*/
     }
 
         .fixed_headers tbody tr:nth-child(even) {
@@ -493,6 +493,7 @@ tfoot {
     position: relative;
     vertical-align: bottom;
     padding: 0;
+    font-family: "Times New Roman", Times, sans-serif;
     font-size: 14px;
     line-height: 0.8;
 }
@@ -528,6 +529,8 @@ tfoot {
 .table-header-horiz .res-subtotth,
 .table-header-horiz .res-npc-subtotth {
     width: 100px;
+    padding:0;
+    text-align:center;
     /* min-width: 60px;
         max-width: 60px; */
 }
@@ -628,6 +631,11 @@ td.qntytd, td.res-qntytd,
 td.res-npc-qntytd,
 .res-npc-subtotth div, td.res-npc-subtottd {
     background-color: rgba(255, 0, 0, 0.2);
+}
+
+.table thead>tr>th{
+    border-bottom-style:none;
+    border-bottom-width:thin;
 }
 
 div.clockWrapper {
