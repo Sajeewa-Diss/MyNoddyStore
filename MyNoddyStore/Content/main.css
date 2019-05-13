@@ -16,12 +16,7 @@ body {
     height: auto;
 }
 
-
-
 /* #region Copy of Bootstrap  */
-
-
-
 
 img {
     border: 0;
@@ -1483,91 +1478,8 @@ td.hidden-lg {
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     /* #endregion */
+
     h1, h2, h3, h4, h5, h6 {
   font-family: 'Playfair Display', serif;
 }
@@ -1578,18 +1490,9 @@ p, a {
 
 /* Generic styles */
 a {
-  background-color: goldenrod;
   text-decoration: none;
-  color: white;
-  border-radius: .25rem;
-  text-align: center;
-  display: inline-block;
-  transition: all .3s;
 }
 
-a:hover {
-  opacity: .6;
-}
 
 /* Styles for the hero image */
 .hero {
@@ -1688,10 +1591,6 @@ a:hover {
 /*.wrapper {
     padding-bottom: 3rem; /* Footer height */
 /*}*/
-
-
-
-
 
 
 /* footer */

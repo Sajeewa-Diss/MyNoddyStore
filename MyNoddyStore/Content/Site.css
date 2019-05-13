@@ -183,7 +183,6 @@ span.stock-message {
 
 /*#endregion*/
 
-
 /*#region responsive grid design*/
 /* mobile/base (including everything above) */
 /* hide description grid areas and show universal "View Cart" button */
@@ -326,8 +325,6 @@ span.stock-message {
 }
 
 /* #endregion*/
-
-
 
 /* #region table with fixed headers (incl stripes) */
 
@@ -485,7 +482,6 @@ tfoot {
     padding-right: 0.5em;
 }
 /* #endregion */
-
 
 /* #region table header  */
 .table-header-rotated th.rotate-45 {
