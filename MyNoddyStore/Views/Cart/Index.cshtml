@@ -3,58 +3,60 @@
     ViewBag.Title = "Supermarket Sweep: Your Cart";
 }
 @*<style>
-    #cartTable td {
-        vertical-align: middle;
+    .scrollable-table-container {
+        vertical-align: middle;class="text-center"
     }
 </style>*@
-<h2>Your cart</h2>
-<div class="scrollable-table-todo-remove">
-    <table id="cartTable" class="table fixed_headers">
-        <thead>
-            <tr>
-                <!-- First column header is not rotated -->
-                <th class="itemth"><div><span>Item</span></div></th>
-                <th class="rotate-45 priceth"><div><span><br>Price (£)</span></div></th>
-                <th class="rotate-45 qntyth"><div><span>Quantity</span></div></th>
-                <th class="rotate-45 subtotth"><div><span><br>Subtotal (£)</span></div></th>
-                <!-- Last column header is not rotated -->
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var line in Model.Cart.Lines)
-            {
+<div>
+    <h2>Your cart</h2>
+    <div class="scrollable-table-container">
+        <table id="cartTable" class="table fixed_headers">
+            <thead>
                 <tr>
-                    <td class="text-left itemtd">@line.Product.Name</td>
-                    <td class="text-right pricetd">@line.Product.Price.ToString()</td>
-                    <td class="text-right qntytd">@line.Quantity</td>
-                    <td class="text-right subtottd">
-                        @((line.Quantity * line.Product.Price).ToString())
-                    </td>
-                    <td>
-                        @using (Html.BeginForm("RemoveFromCart", "Cart"))
-                        {
-                            @Html.Hidden("ProductId", line.Product.ProductID)
-                            @Html.HiddenFor(x => x.ReturnUrl)
-                            <input class="btn btn-sm btn-warning" type="submit" value="Remove" />
-                        }
-                    </td>
+                    <!-- First column header is not rotated -->
+                    <th class="itemth"><div><span>Item</span></div></th>
+                    <th class="rotate-45 priceth"><div><span><br>Price (£)</span></div></th>
+                    <th class="rotate-45 qntyth"><div><span>Quantity</span></div></th>
+                    <th class="rotate-45 subtotth"><div><span><br>Subtotal (£)</span></div></th>
+                    <!-- Last column header is not rotated -->
+                    <th></th>
                 </tr>
-            }
-        </tbody>
-        <tfoot>
-            <tr class="tablefoot">
-                <td class="text-left itemtd">Total:</td>
-                <td class="text-right pricetd"></td>
-                <td class="text-right qntytd"></td>
-                <td class="text-right subtottd">@Model.Cart.ComputeTotalValue().ToString("c0")
+            </thead>
+            <tbody>
+                @foreach (var line in Model.Cart.Lines)
+                {
+                    <tr>
+                        <td class="text-left itemtd">@line.Product.Name</td>
+                        <td class="text-right pricetd">@line.Product.Price.ToString()</td>
+                        <td class="text-right qntytd">@line.Quantity</td>
+                        <td class="text-right subtottd">
+                            @((line.Quantity * line.Product.Price).ToString())
+                        </td>
+                        <td>
+                            @using (Html.BeginForm("RemoveFromCart", "Cart"))
+                            {
+                                @Html.Hidden("ProductId", line.Product.ProductID)
+                                @Html.HiddenFor(x => x.ReturnUrl)
+                                <input class="btn btn-sm btn-warning" type="submit" value="Remove" />
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr class="tablefoot">
+                    <td class="text-left itemtd">Total:</td>
+                    <td class="text-right pricetd"></td>
+                    <td class="text-right qntytd"></td>
+                    <td class="text-right subtottd">
+                        @Model.Cart.ComputeTotalValue().ToString("c0")
                 </td>
                 <td></td>
             </tr>
         </tfoot>
     </table>
+    </div>
 </div>
-
 
 <div class="text-center">
     <a class="btn btn-primary" href="@Model.ReturnUrl">Continue shopping</a>

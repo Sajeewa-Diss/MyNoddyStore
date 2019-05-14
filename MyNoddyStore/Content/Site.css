@@ -517,6 +517,16 @@ tfoot {
     line-height: 0.8;
 }
 
+#resultsTable .table-header-rotated th.rotate-45 {
+    height: 60px;
+    position: relative;
+    vertical-align: bottom;
+    padding: 0;
+    font-family: "Times New Roman", Times, sans-serif;
+    font-size: 12px; /*this table needs to be extra small for mobile display*/
+    line-height: 0.8;
+}
+
 .table-header-horiz thead > tr {
     vertical-align: bottom;
     border-bottom: 1px solid red;
