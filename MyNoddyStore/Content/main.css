@@ -509,7 +509,7 @@ input[type="button"].btn-block {
 .navbar {
     position: relative;
     z-index: 1000;
-    min-height: 50px;
+    min-height: 40px;
     margin-bottom: 20px;
     border: 1px solid transparent;
 }
@@ -537,6 +537,9 @@ input[type="button"].btn-block {
 @media (min-width: 768px) {
     .navbar {
         border-radius: 4px;
+        height: initial;
+        min-height: 50px;
+        margin-bottom: 20px;
     }
 }
 
@@ -1606,4 +1609,23 @@ footer {
     /*position: absolute;*/
     /*bottom: 0;*/
     /*height: 3rem;*/ /* Footer height */
+}
+
+.mynavbarheading {
+    margin-left: 1rem;
+    position: absolute;
+}
+.btn {
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+@media (min-width: 768px) {
+    .mynavbarheading {
+        position:relative;
+    }
+    .btn {
+        padding-top: 6px;
+        padding-bottom: 6px;
+    }
 }
