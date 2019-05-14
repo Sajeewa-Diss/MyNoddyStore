@@ -107,6 +107,7 @@
         modelProducts =  @Html.Raw(Json.Encode(Model.Products));
         DisableAllUpdateButtons();
         DisplayUpdateMessage();
+        CheckToEnableViewCartButton();
     });
 
     function DisplayNoStockMessage(localElement) {
@@ -183,6 +184,12 @@
         });
     }
 
+    //On this screen we enable the View Cart button on the main navbar (it is disabled by default using the Bootstrap "disabled" class).
+    function CheckToEnableViewCartButton() {
+        var wrapperElement = document.getElementById('summaryCartBtnWrapper');
+        var anchorElement = wrapperElement.getElementsByTagName('a')[0];
+        anchorElement.classList.remove("disabled");
+    }
 
 //#region JQuery flashMessage
     (function ($) {

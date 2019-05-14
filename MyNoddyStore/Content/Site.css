@@ -216,7 +216,7 @@ span.stock-message {
     display: none;
 }
 
-#summaryCartBtn{
+#summaryCartBtnWrapper{
     display:inline;
 }
 
@@ -266,7 +266,7 @@ span.stock-message {
         display: none;
     }
 
-    #summaryCartBtn {
+    #summaryCartBtnWrapper {
         display: none;
     }
 

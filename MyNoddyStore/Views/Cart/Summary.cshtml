@@ -26,11 +26,11 @@
             @Model.ComputeTotalValueOther().ToString("c0")
         </div>
 
-        <div id="summaryCartBtn" class="navbar-text">
+        <div id="summaryCartBtnWrapper" class="navbar-text">
             @Html.ActionLink("View Cart", "Index", "Cart",
             //new { returnUrl = Request.Url.PathAndQuery },
             new { returnUrl = Request.Url.GetLeftPart(UriPartial.Path)},
-            new { @class = "btn btn-success navbar-btn" }) 
+            new { @class = "btn btn-success navbar-btn disabled"}) 
         </div>
 
         <div class="navbar-text">
