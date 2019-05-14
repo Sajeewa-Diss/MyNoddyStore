@@ -8,8 +8,8 @@
     }
 </style>*@
 <div>
-    <h2>Your cart</h2>
-    <div class="scrollable-table-container">
+    <div id="cartTableWrapper">
+        <h2>Your cart</h2>
         <table id="cartTable" class="table fixed_headers">
             <thead>
                 <tr>
@@ -50,11 +50,11 @@
                     <td class="text-right qntytd"></td>
                     <td class="text-right subtottd">
                         @Model.Cart.ComputeTotalValue().ToString("c0")
-                </td>
-                <td></td>
-            </tr>
-        </tfoot>
-    </table>
+                    </td>
+                    <td></td>
+                </tr>
+            </tfoot>
+        </table>
     </div>
 </div>
 

@@ -21,7 +21,7 @@ namespace MyNoddyStore.Concrete
         {
             List<Product> productList = new List<Product>{
                 new Product { ProductID = 1, Name = "Aadvark", Description = "Customers who ordered this also ordered: Termite mounds.", ShortDescription = "Ant-free zone", Picture = "aadvark",
-                       Categories = new string[] { "Pets" }, Price = 750M, InitialStockCount = 4, StockCount = 4, MyQuantity = 0, OtherQuantity = 0 },
+                       Categories = new string[] { "Pets" }, Price = 600M, InitialStockCount = 4, StockCount = 4, MyQuantity = 0, OtherQuantity = 0 },
                 new Product { ProductID = 2, Name = "Camera", Description = "A single item in stock.", ShortDescription = "Low stock", Picture = "camera",
                        Categories = new string[] { "Gifts" }, Price = 450M, InitialStockCount = 1, StockCount = 1, MyQuantity = 0, OtherQuantity = 0 },
                 new Product { ProductID = 3, Name = "Caviar", Description = "Fishy luxury.", ShortDescription = "Beluga", Picture = "caviar",
@@ -51,7 +51,7 @@ namespace MyNoddyStore.Concrete
                 new Product { ProductID = 15, Name = "Pineapples", Description = "Hawaiian Grade A.", ShortDescription = "Hawaiian", Picture = "pineapple",
                        Categories = new string[] { "Food" }, Price = 3M, InitialStockCount = 100, StockCount = 100, MyQuantity = 0, OtherQuantity = 0 },
                 new Product { ProductID = 16, Name = "Ruby Ring", Description = "Four in stock initially.", ShortDescription = "Last 4", Picture = "ring",
-                       Categories = new string[] { "Fashion", "Gifts" }, Price = 750M, InitialStockCount = 4, StockCount = 4, MyQuantity = 0, OtherQuantity = 0 },
+                       Categories = new string[] { "Fashion", "Gifts" }, Price = 600M, InitialStockCount = 4, StockCount = 4, MyQuantity = 0, OtherQuantity = 0 },
                 new Product { ProductID = 17, Name = "Shoes (blue)", Description = "Blue running-shoes.", ShortDescription = "Going fast", Picture = "shoesblue",
                        Categories = new string[] { "Fashion", "Gifts" }, Price = 60M, InitialStockCount = 100, StockCount = 100, MyQuantity = 0, OtherQuantity = 0 },
                 new Product { ProductID = 18, Name = "Shoes (red)", Description = "Red running-shoes.", ShortDescription = "Going fast", Picture = "shoesred",

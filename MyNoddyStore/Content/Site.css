@@ -532,6 +532,40 @@ tfoot {
     border-bottom: 1px solid red;
 }
 
+#cartTableWrapper {
+    padding:0;
+    margin: 0 auto;
+    width: 360px;
+    min-width: 360px;
+    /*max-width: 555px;*/
+}
+
+#cartTable {
+    padding: 0;
+    margin: 0;
+    width: 360px;
+    min-width: 360px;
+    /*max-width: 555px;*/
+}
+
+@media (min-width: 768px) {
+    #cartTableWrapper {
+        padding:5px;
+        margin: 0 auto;
+        width: 555px;
+        min-width: 555px;
+        max-width: 555px;
+    }
+
+    #cartTable {
+        padding: 2px;
+        margin: 2px;
+        width: 550px;
+        min-width: 550px;
+        /*max-width: 555px;*/
+    }
+}
+
 #cartTable.table-header-horiz thead > tr {
     width: 550px;
 }
