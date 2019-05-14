@@ -28,13 +28,12 @@
         }
     </style>*@
     @Html.ValidationSummary(false, "Checkout", new { @class = "text-danger" })
-    <h2>Cart Totals</h2>
-    <table id="cartTable" class="table">
 
-    </table>
 
     @*<div class="text-center"></div>*@
-    <div>
+    <div id="resultsTableWrapper">
+        <p>Good game, but you lost this time.</p>
+        <h2>Cart Totals</h2>
         <table id="resultsTable" class="table table-header-rotated fixed_headers">
             <thead>
                 <tr>
@@ -71,17 +70,18 @@
                     <td class="text-left res-itemtd">Total:</td>
                     <td class="text-right res-pricetd"></td>
                     <td class="text-right res-qntytd"></td>
-                    <td class="text-right res-subtottd">@(ViewBag.UserTotal.ToString("c0"))
-                    </td>
-                    <td class="text-right res-npc-qntytd"></td>
-                    <td class="text-right res-npc-subtottd">@(ViewBag.AITotal.ToString("c0"))</td>
-                    <td></td>
-                </tr>
-            </tfoot>
-        </table>
+                    <td class="text-right res-subtottd">
+                        @(ViewBag.UserTotal.ToString("c0"))
+                </td>
+                <td class="text-right res-npc-qntytd"></td>
+                <td class="text-right res-npc-subtottd">@(ViewBag.AITotal.ToString("c0"))</td>
+                <td></td>
+            </tr>
+        </tfoot>
+    </table>
     </div>
 
-    <div class="text-center">
+    <div class="text-center pad-above-button-group">
         @Html.ActionLink(linkText: "Play again", actionName: "Restart", controllerName: "Product", routeValues: null, htmlAttributes: new { @class = "btn btn-primary" })
         @Html.ActionLink(linkText: "Home", actionName: "Index", controllerName: "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-primary" })
     </div>
