@@ -9,9 +9,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    @*<link href="~/Content/bootstrap.css" rel="stylesheet" />*@
     <link href="~/Content/Site.css" rel="stylesheet" />
-    <link href="~/Content/main.css" rel="stylesheet" /> @*todo amalgamate css??*@
+    <link href="~/Content/main.css" rel="stylesheet" />
     <link href="~/Content/ErrorStyles.css" rel="stylesheet" />
     <script src="~/Scripts/jquery-3.3.1.min.js"></script>
     <script src="~/Scripts/modernizr-2.8.3.js"></script>
@@ -21,15 +20,8 @@
 </head>
 <body>
 
-    @*<style>
-        #cartTable td {
-            vertical-align: middle;
-        }
-    </style>*@
     @Html.ValidationSummary(false, "Checkout", new { @class = "text-danger" })
 
-
-    @*<div class="text-center"></div>*@
     <div id="resultsTableWrapper">
         <p class="myFriendlyFont myUserFontColor">Good game, but you lost this time.</p>
         <h2>Cart Totals</h2>

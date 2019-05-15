@@ -364,7 +364,7 @@ span.stock-message {
     .fixed_headers tbody {
         display: block;
         overflow: auto;
-        max-height: 46vh; /*if we set height alone, the footer may appear under a gap!*/
+        /*max-height: 36vh;*/ /*if we set height alone, the footer may appear under a gap!*/
     }
 
         .fixed_headers tbody tr:nth-child(even) {
@@ -375,7 +375,7 @@ tfoot {
     display: inline-block;
     overflow: auto;
     position: relative;
-    margin-top: 10px;
+    margin-top: 8px;
 }
 
 .tablefoot {
@@ -543,7 +543,13 @@ tfoot {
         margin: 0;
         width: 360px;
         min-width: 360px;
-        /*max-width: 555px;*/
+        /*height:40vh;*/
+        /*height: 40vh;
+        max-height: 40vh;*/
+    }
+
+    #cartTable tbody {
+        max-height: 35vh; /*if we set height alone, the footer may appear under a gap!*/
     }
 
     #resultsTableWrapper {
@@ -560,6 +566,10 @@ tfoot {
         width: 360px;
         min-width: 360px;
         /*max-width: 555px;*/
+    }
+
+    #resultsTable tbody {
+        max-height: 45vh; /*if we set height alone, the footer may appear under a gap!*/
     }
 
     @media (min-width: 768px) {
@@ -754,7 +764,17 @@ tfoot {
     padding-top:2rem;
 }
 
-
+h2 {
+    margin-top: 5px;
+    margin-bottom: 0;
+    margin-left:0.2em;
+}
+@media (min-width: 768px) {
+    h2 {
+        margin-top: initial;
+        margin-bottom: initial;
+    }
+}
 
 
 
