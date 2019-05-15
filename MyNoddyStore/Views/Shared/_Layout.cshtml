@@ -41,12 +41,14 @@
 
 <script>
     var countdownCtrl = document.getElementById("countdownClock");
+    var checkoutUrl = $('#btnCheckout').attr('href');     // returns the target URL of the checkout button
+    var checkoutUrl2 = $('#btnCheckout2').attr('href');   // ditto for secondary checkout button
     var remaining = @Html.Raw(Model.CountDownMilliseconds);
     var countDownDate = new Date();
     countDownDate.setMilliseconds(countDownDate.getMilliseconds() + remaining);
 
     // Update the countdown immediately and then every quarter of a second (otherwise it lags between page refresh and redirects)
-    RunCountdown();
+    RunCountdown(); //note this function is called on each page refresh, even after the timer has stopped. This is important for adding querystring to checkout.
     var xInterval = setInterval(RunCountdown, 250);
 
     function RunCountdown() {
@@ -69,6 +71,12 @@
         if (duration < 0) {
             clearInterval(xInterval);
             countdownCtrl.textContent = "00";
+
+            //add a querystring to the checkout buttons;
+            $('#btnCheckout').attr('href', checkoutUrl + '?outOfTime=1');
+            if (checkoutUrl2 != null) {
+                $('#btnCheckout2').attr('href', checkoutUrl2 + '?outOfTime=1');
+            }
         }
     }
 

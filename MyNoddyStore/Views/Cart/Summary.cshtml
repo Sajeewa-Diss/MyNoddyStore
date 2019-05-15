@@ -36,8 +36,9 @@
 
         <div class="navbar-text">
             @Html.ActionLink("Checkout", "CheckoutCaller", "Cart",
-            //new { returnUrl = Request.Url.PathAndQuery },
-            new { @class = "btn btn-default navbar-btn" })
+            null, //new { returnUrl = Request.Url.PathAndQuery },
+            //new { @class = "btn btn-default navbar-btn" })
+            new { @class = "btn btn-default navbar-btn", id = "btnCheckout" })
         </div>
 
     </div>

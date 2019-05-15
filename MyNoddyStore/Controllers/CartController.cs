@@ -163,11 +163,13 @@ namespace MyNoddyStore.Controllers
         #endregion
         
         //We use a wrapper action method for Checkout action in order to prevent any other means to access it (such as browser navigation).
+        //Second optional param is a querystring indicator that client-side time has expired.
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "None")]
-        public ActionResult CheckoutCaller(Cart cart)
+        public ActionResult CheckoutCaller(Cart cart, int outOfTime = 0)
         {
             Session.SetUserJustClickedCheckout(true);
             TempData["checkoutCart"] = cart;
+            TempData["outOfTimeFlag"] = outOfTime;
             return RedirectToAction("Checkout");
         }
 
@@ -176,6 +178,9 @@ namespace MyNoddyStore.Controllers
         //public ActionResult Checkout(Cart cart) //legacy code.
         public ActionResult Checkout()
         {
+            string userMessage = "";
+            int outOfTime;
+
             //if no game in progress then go back to the intro page.
             if (!Session.GetGameInProgress()) //this variable is always true or null
             {
@@ -189,6 +194,7 @@ namespace MyNoddyStore.Controllers
             }
 
             Cart cart = (Cart)TempData["checkoutCart"]; //collect the temp data cart object.
+            outOfTime = (int)TempData["outOfTimeFlag"];
 
             //When checking out, always update the cart with simulated activity by the NPC.
             IEnumerable<Product> list = repository.Products.ToList<Product>();
@@ -207,8 +213,19 @@ namespace MyNoddyStore.Controllers
             ViewBag.UserTotal = modelList.Sum(x => x.ComputedUserTotal);
             ViewBag.AITotal = modelList.Sum(x => x.ComputedAITotal);
 
+            if (outOfTime == 1)
+            {
+                userMessage += "Out of time.";
+            }
+            else
+            {
+                userMessage += "within time";
+            }
+
             //Pass the results meta data as viewbag items also.
-            ViewBag.UserMessage = "gg, but you lost this time.";
+            ViewBag.UserMessage = userMessage; //"gg, but you lost this time.";
+
+
 
             //clear out any game baggage.
             Session.Clear();

@@ -56,7 +56,7 @@
             </tfoot>
         </table>
         <br/>
-        <p class="myUserFontColor" style="font-weight:700; padding-left:0.5em;">
+        <p class="myUserFontColor" style="font-size:larger; font-weight:700; padding-left:0.5em;">
             Your cart: @Model.Cart.ComputeTotalQuantities().ToString() item(s), @Model.Cart.ComputeTotalValue().ToString("c0").<br />
             NPC cart: @Model.Cart.ComputeTotalQuantitiesOther().ToString() item(s), @Model.Cart.ComputeTotalValueOther().ToString("c0").
         </p>
@@ -67,7 +67,7 @@
 </div>
 <div class="text-center pad-above-button-group">
     <a class="btn btn-primary" href="@Model.ReturnUrl">Continue shopping</a>
-    @Html.ActionLink("Checkout now", "CheckoutCaller", null, new { @class = "btn btn-primary" })
+    @Html.ActionLink("Checkout now", "CheckoutCaller", null, new { @class = "btn btn-primary", id = "btnCheckout2" })
 </div>
 
 @*//todo add flashing buttons*@
