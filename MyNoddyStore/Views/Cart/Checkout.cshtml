@@ -23,7 +23,7 @@
     @Html.ValidationSummary(false, "Checkout", new { @class = "text-danger" })
 
     <div id="resultsTableWrapper">
-        <p class="myFriendlyFont myUserFontColor">Good game, but you lost this time.</p>
+        <p class="myFriendlyFont myUserFontColor">@(ViewBag.UserMessage)</p>
         <h2>Cart Totals</h2>
         <table id="resultsTable" class="table table-header-rotated fixed_headers">
             <thead>

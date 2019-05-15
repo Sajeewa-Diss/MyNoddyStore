@@ -207,6 +207,9 @@ namespace MyNoddyStore.Controllers
             ViewBag.UserTotal = modelList.Sum(x => x.ComputedUserTotal);
             ViewBag.AITotal = modelList.Sum(x => x.ComputedAITotal);
 
+            //Pass the results meta data as viewbag items also.
+            ViewBag.UserMessage = "gg, but you lost this time.";
+
             //clear out any game baggage.
             Session.Clear();
             TempData.Clear();
