@@ -30,11 +30,26 @@ textarea {
 
 
 #countdownClock {
+    position:relative;
+    color: white;
+    font-size: 2.7rem;
+    font-family: "Lucida Console", Monaco, monospace;
+    top:-0.4rem;
+    /*border: 2px solid white;
+    border-radius: 0.25em;*/
+}
+
+.innerClockWrapper {
+    position:relative;
     color: white;
     font-size: 3rem;
     font-family: "Lucida Console", Monaco, monospace;
     border: 2px solid white;
-    border-radius: 0.25em;
+    border-radius: 0.2em;
+    width: 3.7rem;
+    min-width: 3.7rem;
+    height:3.5rem;
+    top:0.6rem;
 }
 
 #countdownClockWhiteBg {
@@ -149,10 +164,12 @@ span.stock-message {
     min-width:95vw;
 }
 
-.navbar-text.cartsummarytext{
-    font-size:smaller;
-    padding-top:5px;
-    width:90px;
+.navbar-text.cartsummarytext {
+    font-size: smaller;
+    padding-top: 5px;
+    padding-left: 10px;
+    padding-left: 5px;
+    width: 100px;
 }
 
 @media (min-width: 768px) {
@@ -771,7 +788,7 @@ tfoot {
 
     .my-fa-home-icon {
         position: relative;
-        left: 30px;
+        left: 10px;
         top: -10px;
     }
 
