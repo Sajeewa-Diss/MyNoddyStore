@@ -462,13 +462,19 @@ tfoot {
     width: 105px;
     min-width: 105px;
     max-width: 105px;
+    padding-left:0.2em;
 }
 
-.table-header-rotated .pricetd,
-.table-header-rotated .res-pricetd {
+.table-header-rotated .pricetd{
     width: 55px;
     min-width: 55px;
     max-width: 55px;
+}
+
+.table-header-rotated .res-pricetd {
+    width: 50px;
+    min-width: 50px;
+    max-width: 50px;
 }
 
 .table-header-rotated .qntytd,
@@ -487,9 +493,9 @@ tfoot {
 
 .table-header-rotated .res-subtottd,
 .table-header-rotated .res-npc-subtottd {
-    width: 58px;
-    min-width: 58px;
-    max-width: 58px;
+    width: 50px;
+    min-width: 50px;
+    max-width: 50px;
 }
 
 .table-header-rotated .pricetd,
@@ -502,6 +508,7 @@ tfoot {
 .table-header-rotated .res-npc-subtottd {
     padding-right: 0.5em;
 }
+
 /* #endregion */
 
 /* #region table header  */
@@ -656,13 +663,19 @@ tfoot {
         max-width: 95px;
         vertical-align: bottom;
         text-align: left;
+                padding-left:0.2em;
     }
 
-    .table-header-rotated .priceth,
-    .table-header-rotated .res-priceth {
+    .table-header-rotated .priceth{
         width: 55px;
         min-width: 55px;
         max-width: 55px;
+    }
+
+    .table-header-rotated .res-priceth {
+        width: 50px;
+        min-width: 50px;
+        max-width: 50px;
     }
 
     .table-header-rotated .qntyth,
@@ -673,12 +686,17 @@ tfoot {
         max-width: 30px;
     }
 
-    .table-header-rotated .subtotth,
-    .table-header-rotated .res-subtotth,
-    .table-header-rotated .res-npc-subtotth {
+    .table-header-rotated .subtotth {
         width: 60px;
         min-width: 60px;
         max-width: 60px;
+    }
+
+    .table-header-rotated .res-subtotth,
+    .table-header-rotated .res-npc-subtotth {
+        width: 51px;
+        min-width: 51px;
+        max-width: 51px;
     }
 
     /* #endregion */

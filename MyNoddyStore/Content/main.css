@@ -1,7 +1,7 @@
 /* Typography imported from Google Fonts */
 @import url('https://fonts.googleapis.com/css?family=Playfair+Display|Source+Sans+Pro:200,400');
 @import url('https://fonts.googleapis.com/css?family=Leckerli+One');
-
+/*@import url('https://fonts.googleapis.com/css?family=Inconsolata');*/   /* a good monospace font type */
 
 *, *::before, *::after {
     box-sizing: border-box;
