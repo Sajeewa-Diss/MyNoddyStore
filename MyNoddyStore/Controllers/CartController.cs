@@ -202,6 +202,8 @@ namespace MyNoddyStore.Controllers
             }
 
             //Rather than trying some complex calculation in the view, we will pass the totals in a viewbag
+            ViewBag.UserQuanTotal = modelList.Sum(x => x.Quantity);
+            ViewBag.AIQuanTotal = modelList.Sum(x => x.QuantityOther);
             ViewBag.UserTotal = modelList.Sum(x => x.ComputedUserTotal);
             ViewBag.AITotal = modelList.Sum(x => x.ComputedAITotal);
 

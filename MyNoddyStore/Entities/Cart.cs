@@ -111,14 +111,19 @@ namespace MyNoddyStore.Entities
             return lineCollection.Sum(e => e.Product.Price * e.Quantity);
         }
 
-        public int ComputeTotalQuantitiesOther()
-        {
-            return lineCollectionOther.Sum(e => e.Quantity);
-        }
-
         public decimal ComputeTotalValueOther()
         {
             return lineCollectionOther.Sum(e => e.Product.Price * e.Quantity);
+        }
+
+        public int ComputeTotalQuantities()
+        {
+            return lineCollection.Sum(e => e.Quantity);
+        }
+
+        public int ComputeTotalQuantitiesOther()
+        {
+            return lineCollectionOther.Sum(e => e.Quantity);
         }
 
         public void Clear()

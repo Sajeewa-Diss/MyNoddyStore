@@ -69,15 +69,13 @@
                 <tr class="tablefoot">
                     <td class="text-left res-itemtd">Total:</td>
                     <td class="text-right res-pricetd"></td>
-                    <td class="text-right res-qntytd"></td>
-                    <td class="text-right res-subtottd">
-                        @(ViewBag.UserTotal.ToString("c0"))
-                </td>
-                <td class="text-right res-npc-qntytd"></td>
-                <td class="text-right res-npc-subtottd">@(ViewBag.AITotal.ToString("c0"))</td>
-                <td></td>
-            </tr>
-        </tfoot>
+                    <td class="text-right res-qntytd">@(ViewBag.UserQuanTotal.ToString())</td>
+                    <td class="text-right res-subtottd">@(ViewBag.UserTotal.ToString("c0"))</td>
+                    <td class="text-right res-npc-qntytd">@(ViewBag.AIQuanTotal.ToString())</td>
+                    <td class="text-right res-npc-subtottd">@(ViewBag.AITotal.ToString("c0"))</td>
+                    <td></td>
+                </tr>
+            </tfoot>
     </table>
     </div>
 
