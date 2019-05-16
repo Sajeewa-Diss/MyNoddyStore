@@ -590,7 +590,7 @@ tfoot {
     }
 
     #resultsTable tbody {
-        max-height: 55vh; /*if we set height alone, the footer may appear under a gap!*/
+        max-height: 45vh; /*if we set height alone, the footer may appear under a gap!*/
     }
 
     @media (min-width: 768px) {
