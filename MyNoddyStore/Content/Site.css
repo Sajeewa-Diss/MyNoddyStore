@@ -570,7 +570,7 @@ tfoot {
     }
 
     #cartTable tbody {
-        max-height: 35vh; /*if we set height alone, the footer may appear under a gap!*/
+        max-height: 38vh; /*if we set height alone, the footer may appear under a gap!*/
     }
 
     #resultsTableWrapper {
@@ -793,7 +793,7 @@ tfoot {
     }
 
 .pad-above-button-group{
-    padding-top:2rem;
+    padding-top:1rem;
 }
 
 h2 {
