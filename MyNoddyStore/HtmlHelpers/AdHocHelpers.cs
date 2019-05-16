@@ -16,10 +16,12 @@ namespace MyNoddyStore.HtmlHelpers
     public static class AdHocHelpers   // a public static class allows extension method.
     {
         public const int NpcShoppingItemLimit = 60;
-        public const int shoppingTimeMilliseconds = 60500;       //allow half a second for lag, say.
-        public const int shoppingStartDelayMilliseconds = 5000;  //sets the head-start given to human-player.
-        public const int maxCartLineItemLimit = 5;               //per-line limit in shopping cart (note this const is also matched in View page Javascript).
-        public const string UpdateSuccessMsg = "Updated";
+        public const int shoppingTimeMilliseconds = 60500;            //allow 500 ms for lag at game start, say.
+        public const int shoppingStartDelayMilliseconds = 5000;       //sets the head-start given to human-player.
+        public const int checkoutConnToleranceMilliseconds = 2000;    //sets the http request time delay allowed to human player on submitting checkout.
+        public const int maxCartLineItemLimit = 5;                    //per-line limit in shopping cart (note this const is also matched in View page Javascript).
+        public const string UpdateSuccessMsg = "Updated";                            //this const will be checked against a client-side JS const.
+        public const string GameResultSuccessMsg = "Congratulations, you win! gg";   //this const will be checked against a client-side JS const.
 
         #region AdHoc Helper Methods
         //Helper methods required for paging.
@@ -143,6 +145,26 @@ namespace MyNoddyStore.HtmlHelpers
             {
                 TimeSpan tsRemaining = countdownTime - DateTime.Now;
                 remainingMilliseconds = (int)tsRemaining.TotalMilliseconds;  //convert to integer for passing to view.
+                remainingMilliseconds = Math.Max(remainingMilliseconds, -1);  //if time expired just return -1.
+            }
+            return remainingMilliseconds;
+        }
+
+        //return countdown value, but also accounting for the allowed connection delay at checkout. If not extant, return int.Minvalue.
+        public static int GetRemainingTimeAtCheckout(this HttpSessionStateBase session)
+        {
+            int remainingMilliseconds; // countdown time variable
+            DateTime countdownTime = session.GetDataFromSession<DateTime>("countdownTimeCsKey");
+
+            if (countdownTime == DateTime.MinValue)
+            {
+                remainingMilliseconds = int.MinValue;
+            }
+            else
+            {
+                TimeSpan tsRemaining = countdownTime - DateTime.Now;
+                remainingMilliseconds = (int)tsRemaining.TotalMilliseconds;  //convert to integer
+                remainingMilliseconds += checkoutConnToleranceMilliseconds;  //any expired time value may be within the allowed tolerance, which we can add as an increment.
                 remainingMilliseconds = Math.Max(remainingMilliseconds, -1);  //if time expired just return -1.
             }
             return remainingMilliseconds;
@@ -345,8 +367,8 @@ namespace MyNoddyStore.HtmlHelpers
 
         //Add max possible items to each new NPC cartline until the required number is reached.
         //Returns the last prod id successfully added to NPC cart.
-        //This code is only called when NPC has run out of high value items to add to cart and also can't add any items of the user cartlines (slow user activity, say).
-        //The next product to add is chosen randomly (gives the user player a chance to catch up on adding high value items of their own). 
+        //This code is only called when NPC has run out of high value items to add to cart and also can't add any items of the user cartlines (slow user activity or low stock, say).
+        //The next product to add is the next in the order of the repository list (i.e. random; gives the user player a chance to catch up on adding high value items of their own). 
         private static int AddItemsToNpcCartlinesInBlocks(Cart cart, IEnumerable<Product> prodlist, int numItemsToAdd, int lastProdIdAdded)
         {
             int numItemsRemaining = numItemsToAdd;

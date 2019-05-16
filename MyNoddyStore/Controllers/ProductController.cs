@@ -59,7 +59,7 @@ namespace MyNoddyStore.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            int remainingMilliseconds = Session.GetRemainingTime(); // countdown time variable. todo set this to get only? probably not.
+            int remainingMilliseconds = Session.GetRemainingTime(); // countdown time variable.
             Cart cart;
             int productId = 0;
             string updateMsg = string.Empty;

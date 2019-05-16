@@ -74,7 +74,7 @@ namespace MyNoddyStore.Controllers
 
 
         //This method can be called in two ways. If user simply wants to view the cart we construct a simple redirect. If user wants to add to cart, we reload the same page with the items updated.
-        //Although this second option is a candidate for an Ajax upload of the partial view, we in fact relaod the whole screen to refresh any updates to the stock of all displayed items.
+        //Although this second option is a candidate for an Ajax upload of the partial view, we in fact reload the whole screen to refresh any updates to the stock of all displayed items.
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "None")]
         public RedirectToRouteResult UpdateCart(Cart cart, int productId, int MyQuantity, string returnUrl, int pageNumber, string categoryString, string submitUpdate) //, string submitCheckout)
         {
@@ -163,22 +163,20 @@ namespace MyNoddyStore.Controllers
         #endregion
         
         //We use a wrapper action method for Checkout action in order to prevent any other means to access it (such as browser navigation).
-        //Second optional param is a querystring indicator that client-side time has expired.
+        //This is a GET method call so cart param is reconstructed from the model binder. 2nd optional param is a querystring indicator that client-side time has expired.
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "None")]
         public ActionResult CheckoutCaller(Cart cart, int outOfTime = 0)
         {
             Session.SetUserJustClickedCheckout(true);
-            TempData["checkoutCart"] = cart;
+            TempData["checkoutCart"] = cart;       //pass method data to redirect action using tempdata.
             TempData["outOfTimeFlag"] = outOfTime;
             return RedirectToAction("Checkout");
         }
 
-        //[HttpPost]
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "None")]
         //public ActionResult Checkout(Cart cart) //legacy code.
         public ActionResult Checkout()
         {
-            string userMessage = "";
             int outOfTime;
 
             //if no game in progress then go back to the intro page.
@@ -207,32 +205,20 @@ namespace MyNoddyStore.Controllers
                 ModelState.AddModelError("", "Sorry, no items in either cart!");
             }
 
-            //Rather than trying some complex calculation in the view, we will pass the totals in a viewbag
+            decimal userTotal = modelList.Sum(x => x.ComputedUserTotal);
+            decimal aiTotal = modelList.Sum(x => x.ComputedAITotal);
+
+            //Pass the results meta data as viewbag item.
+            ViewBag.UserMessage = (string)CalculateCheckoutResult(userTotal, aiTotal, outOfTime);
+            //Rather than trying some complex calculation in the view, we will pass the results totals in viewbag
             ViewBag.UserQuanTotal = modelList.Sum(x => x.Quantity);
             ViewBag.AIQuanTotal = modelList.Sum(x => x.QuantityOther);
-            ViewBag.UserTotal = modelList.Sum(x => x.ComputedUserTotal);
-            ViewBag.AITotal = modelList.Sum(x => x.ComputedAITotal);
-
-            if (outOfTime == 1)
-            {
-                userMessage += "Out of time.";
-            }
-            else
-            {
-                userMessage += "within time";
-            }
-
-            //Pass the results meta data as viewbag items also.
-            ViewBag.UserMessage = userMessage; //"gg, but you lost this time.";
-
-
+            ViewBag.UserTotal = userTotal; // modelList.Sum(x => x.ComputedUserTotal);
+            ViewBag.AITotal = aiTotal; // modelList.Sum(x => x.ComputedAITotal);
 
             //clear out any game baggage.
             Session.Clear();
             TempData.Clear();
-            //TempData["navDictionary"] = null;
-            //TempData["npcCart"] = null;
-            //TempData["checkoutCart"] = null;
 
             //return View(cart); //legacy code
             return View(modelList);
@@ -281,5 +267,25 @@ namespace MyNoddyStore.Controllers
             return mergedList.OrderBy(x => x.Product.ProductID).ToList(); //order by the product id.
         }
 
+        //generates the string message of the game result.
+        private string CalculateCheckoutResult(decimal userTotal, decimal aiTotal, int outOfTimeFlag)
+        {
+            //If clientside outOfTimeFlag expired, or serverside time-limit exceeded, then show out of time message.
+            int remainingMilliseconds = Session.GetRemainingTimeAtCheckout(); // countdown time variable.
+
+            if ((outOfTimeFlag == 1) || (remainingMilliseconds < 0) || (remainingMilliseconds == int.MinValue))
+            {
+                return "Sorry. Out of time.";
+            }
+            if (userTotal < aiTotal)
+            {
+                return "gg, but you lost this time.";
+            }
+            if (userTotal == aiTotal)
+            {
+                return "gg, but the game was drawn.";
+            }
+            return AdHocHelpers.GameResultSuccessMsg; //if we reach this code, the user has won the game.
+        }
     }
 }
