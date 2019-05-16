@@ -21,7 +21,7 @@ namespace MyNoddyStore.HtmlHelpers
         public const int checkoutConnToleranceMilliseconds = 2000;    //sets the http request time delay allowed to human player on submitting checkout.
         public const int maxCartLineItemLimit = 5;                    //per-line limit in shopping cart (note this const is also matched in View page Javascript).
         public const string UpdateSuccessMsg = "Updated";                            //this const will be checked against a client-side JS const.
-        public const string gameResultSuccessMsg = "Congratulations, you win! gg";   //this const will be checked against a client-side JS const.
+        public const string gameResultSuccessMsg = "Congratulations, you have won! gg";   //this const will be checked against a client-side JS const.
 
         #region AdHoc Helper Methods
         //Helper methods required for paging.

@@ -836,9 +836,12 @@ h2 {
 }
 
 #splashmsg {
-    /*align-self: center;*/
-    top:auto;
-    left:auto;
+    font-size:1.5rem;
+    margin: 0;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 

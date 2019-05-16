@@ -88,10 +88,7 @@
     </div>
 
     <script>
-    const gameResultSuccessMsg = "Congratulations, you win! gg";
-    //var gameWon;
-
-
+    const gameResultSuccessMsg = "Congratulations, you have won! gg";
 
         $(window).on("load", SetTableClassFn);    //same as calling this:- $( document ).ready( SetTableClassFn );
         $(window).on("resize", SetTableClassFn);
@@ -107,16 +104,16 @@
         }
 
         function ShowSplash(){
+            $('#splashmsg').fadeOut(1800);
 
-            $('#splashmsg').fadeOut(1500);
+            //show an animation if the game was won.
             var resultsMsg = $("#msgContainer").text();
-
             if (resultsMsg == gameResultSuccessMsg) {
                setTimeout(() => {
                     $('#splashscreen').fadeOut(1500); }, 4500);
             } else {
                setTimeout(() => {
-                    $('#splashscreen').fadeOut(1500); }, 1000);
+                    $('#splashscreen').fadeOut(1800); }, 1800);
             }
         }
 
@@ -184,7 +181,8 @@
 	    container: document.getElementById( 'container' )
     });
 
-    demo.setup = function() {
+    demo.setup = function () {
+        //only show the animation if the game was won.
         var resultsMsg = $("#msgContainer").text();
         if (resultsMsg == gameResultSuccessMsg) {
             myArray = GetTimerArray();
@@ -277,16 +275,16 @@
 	    }
     };
 
-    demo.mousemove = function() {
+    //demo.mousemove = function() {
 
-	    var particle, theta, force, touch, max, i, j, n;
+	   // var particle, theta, force, touch, max, i, j, n;
 
-	    for ( i = 0, n = demo.touches.length; i < n; i++ ) {
+	   // for ( i = 0, n = demo.touches.length; i < n; i++ ) {
 
-		    touch = demo.touches[i], max = random( 1, 4 );
-		    for ( j = 0; j < max; j++ ) demo.spawn( touch.x, touch.y );
-	    }
-    };
+		  //  touch = demo.touches[i], max = random( 1, 4 );
+		  //  for ( j = 0; j < max; j++ ) demo.spawn( touch.x, touch.y );
+	   // }
+    //};
 
 // #endregion
 
