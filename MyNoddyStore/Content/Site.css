@@ -462,7 +462,7 @@ tfoot {
 .table-header-horiz .res-npc-qntytd,
 .table-header-horiz .res-subtottd,
 .table-header-horiz .res-npc-subtottd {
-    width: 120px;
+    width: 116px;
     padding-right: 3em;
     /* min-width: 60px;
     max-width: 60px; */
@@ -574,6 +574,7 @@ tfoot {
     }
 
     #resultsTableWrapper {
+        z-index: 1;
         padding: 0;
         margin: 0 auto;
         width: 360px;
@@ -659,7 +660,7 @@ tfoot {
     .table-header-horiz .res-npc-qntyth,
     .table-header-horiz .res-subtotth,
     .table-header-horiz .res-npc-subtotth {
-        width: 120px;
+        width: 116px;
         padding: 0;
         text-align: center;
         /* min-width: 60px;
@@ -808,6 +809,37 @@ h2 {
     }
 }
 
+#splashscreen {
+    /* display:none; */
+    position: absolute;
+    z-index:3;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    height:100%;
+    width: 100%;
+    background-color: black;
+    margin: 0;
+}
+
+#container {
+    /* display:none; */
+    position: absolute;
+    z-index: 3;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    height: 100%;
+    width: 100%;
+    background-color: white;
+    margin: 0;
+}
+
+#splashmsg {
+    /*align-self: center;*/
+    top:auto;
+    left:auto;
+}
 
 
 
