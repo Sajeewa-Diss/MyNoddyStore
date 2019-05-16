@@ -89,7 +89,7 @@
 
     <script>
     const gameResultSuccessMsg = "Congratulations, you win! gg";
-
+    //var gameWon;
 
 
 
@@ -109,13 +109,15 @@
         function ShowSplash(){
 
             $('#splashmsg').fadeOut(1500);
+            var resultsMsg = $("#msgContainer").text();
 
-                var resultsMsg = $("#msgContainer").text();
-
-                if (resultsMsg == gameResultSuccessMsg) {
-                    setTimeout(() => {
-                        $('#splashscreen').fadeOut(1500); }, 4500);
-                }
+            if (resultsMsg == gameResultSuccessMsg) {
+               setTimeout(() => {
+                    $('#splashscreen').fadeOut(1500); }, 4500);
+            } else {
+               setTimeout(() => {
+                    $('#splashscreen').fadeOut(1500); }, 1000);
+            }
         }
 
 // #region particle code lift
@@ -183,12 +185,13 @@
     });
 
     demo.setup = function() {
-
-        myArray = GetTimerArray();
-
-        for (var i = 0; i < myArray.length; i++) { 
-            setTimeout(RunSpawn, myArray[i]);
-        }
+        var resultsMsg = $("#msgContainer").text();
+        if (resultsMsg == gameResultSuccessMsg) {
+            myArray = GetTimerArray();
+            for (var i = 0; i < myArray.length; i++) { 
+                setTimeout(RunSpawn, myArray[i]);
+            }
+         }
     };
 
     //generate array with random numbers representing milliseconds
