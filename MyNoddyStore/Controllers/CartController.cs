@@ -285,7 +285,7 @@ namespace MyNoddyStore.Controllers
             {
                 return "gg, but the game was drawn.";
             }
-            return AdHocHelpers.GameResultSuccessMsg; //if we reach this code, the user has won the game.
+            return AdHocHelpers.gameResultSuccessMsg; //if we reach this code, the user has won the game.
         }
     }
 }

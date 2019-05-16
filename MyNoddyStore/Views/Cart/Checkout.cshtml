@@ -30,7 +30,7 @@
     @Html.ValidationSummary(false, "Checkout", new { @class = "text-danger" })
 
     <div id="resultsTableWrapper">
-        <p class="myFriendlyFont myUserFontColor">@(ViewBag.UserMessage)</p>
+        <p id="msgContainer" class="myFriendlyFont myUserFontColor">@(ViewBag.UserMessage)</p>
         <h2>Cart Totals</h2>
         <table id="resultsTable" class="table table-header-rotated fixed_headers">
             <thead>
@@ -88,6 +88,11 @@
     </div>
 
     <script>
+    const gameResultSuccessMsg = "Congratulations, you win! gg";
+
+
+
+
         $(window).on("load", SetTableClassFn);    //same as calling this:- $( document ).ready( SetTableClassFn );
         $(window).on("resize", SetTableClassFn);
 
@@ -103,12 +108,15 @@
 
         function ShowSplash(){
 
-        $('#splashmsg').fadeOut(1500);
+            $('#splashmsg').fadeOut(1500);
 
-        setTimeout(() => {
-            $('#splashscreen').fadeOut(3000);
-        }, 4500);
-    }
+                var resultsMsg = $("#msgContainer").text();
+
+                if (resultsMsg == gameResultSuccessMsg) {
+                    setTimeout(() => {
+                        $('#splashscreen').fadeOut(1500); }, 4500);
+                }
+        }
 
 // #region particle code lift
 
