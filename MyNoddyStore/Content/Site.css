@@ -613,7 +613,6 @@ tfoot {
 
         #resultsTableWrapper {
             padding: 5px;
-            margin: 0 auto;
             width: 755px;
             min-width: 755px;
             max-width: 755px;
@@ -621,7 +620,6 @@ tfoot {
 
         #resultsTable {
             padding: 2px;
-            margin: 2px;
             width: 750px;
             min-width: 750px;
             /*max-width: 555px;*/
@@ -845,6 +843,10 @@ h2 {
 }
 
 
+/* solves probelm of content jump with scrollbars apppearing (this works when placed at end of css??) */
+html {
+    margin-left: calc(100vw - 100%);
+}
 
 
 
