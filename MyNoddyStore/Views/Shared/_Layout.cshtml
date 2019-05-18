@@ -67,10 +67,21 @@
 
         // Display the result"
         countdownCtrl.textContent = formattedSeconds;
+
+        // If the count down is within 5000 milliseconds, make the chekout buttons glow using css class.
+        if (duration < 5000) {
+            $('#btnCheckout').addClass("glowing");
+            $('#btnCheckout2').addClass("glowing");
+        }
+
         // If the count down is finished, cancel the countdown
         if (duration < 0) {
             clearInterval(xInterval);
             countdownCtrl.textContent = "00";
+
+            //stop checkout buttons glowing any longer
+            $('#btnCheckout').removeClass("glowing");
+            $('#btnCheckout2').removeClass("glowing");
 
             //add a querystring to the checkout buttons;
             $('#btnCheckout').attr('href', checkoutUrl + '?outOfTime=1');

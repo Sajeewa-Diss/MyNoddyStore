@@ -28,6 +28,39 @@ textarea {
     max-width: 280px;
 }
 
+@keyframes glowing1 {
+    0% {
+        background-color: #333333;
+        box-shadow: 0 0 3px #333333;
+    }
+
+    50% {
+        background-color: #eeeeee;
+        box-shadow: 0 0 10px #eeeeee;
+    }
+
+    100% {
+        background-color: #333333;
+        box-shadow: 0 0 3px #333333;
+    }
+}
+
+@keyframes glowing2 {
+    0% {
+        background-color: #428bca;
+        box-shadow: 0 0 3px #428bca;
+    }
+
+    50% {
+        background-color: #ffe4e1;
+        box-shadow: 0 0 10px #ffe4e1;
+    }
+
+    100% {
+        background-color: #428bca;
+        box-shadow: 0 0 3px #428bca;
+    }
+}
 
 #countdownClock {
     position:relative;
@@ -117,13 +150,14 @@ textarea {
 }
 
 span.status-message {
-    font-size: 0.8em;
+    font-size: 1em;
     color: lime;
     padding: 0;
     margin: 0;
 }
 
     span.status-message.redmessage {
+        font-size: 0.8em;
         color: red;
     }
 
@@ -848,6 +882,16 @@ html {
     margin-left: calc(100vw - 100%);
 }
 
+
+
+#btnCheckout.glowing {
+    animation: glowing1 1500ms infinite;
+}
+
+
+#btnCheckout2.glowing {
+    animation: glowing2 1500ms infinite;
+}
 
 
 
