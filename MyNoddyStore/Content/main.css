@@ -19,7 +19,7 @@ body {
     height: auto;
 }
 
-/* #region Ripped from Bootstrap v3x. */
+/* #region Ripped from Bootstrap v3. */
 
 img {
     border: 0;
@@ -1488,7 +1488,11 @@ td.hidden-lg {
 
     /* #endregion */
 
-    h1, h2, h3, h4, h5, h6 {
+h1 {
+    font-family: 'Leckerli One';
+}
+
+    h2, h3, h4, h5, h6 {
   font-family: 'Playfair Display', serif;
 }
 
@@ -1501,24 +1505,65 @@ a {
   text-decoration: none; /*remove underlines on links.*/
 }
 
+div.heading > h1{
+    margin:1rem 0.25rem auto;
+    padding:0.4rem;
+    text-align:center;
+}
 
-/* Styles for the hero image */
+div.heading > h2 {
+    margin: 0.25rem 1rem auto;
+    padding: 0.2rem;
+    text-align: center;
+}
+
+.logo {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top:1rem;
+    /*width: 100%;*/
+}
+
+.game-intro {
+    padding: 1rem;
+}
+
+
+@media screen and (min-width: 768px) {
+
+    div.heading > h1 {
+        margin: 1rem 0.25rem auto;
+        padding: 1rem;
+        text-align: center;
+    }
+
+    .logo {
+        float: left;
+        margin: 0 0 0 2rem;
+    }
+
+    .logo::after{
+        clear:both;
+    }
+
+    .game-intro {
+        padding: 2rem;
+    }
+
+}
+
+
+
+
+/* Styles for the hero */
 .hero {
- /* background: url('../images/bg.jpg') center; */
- /* background-image: linear-gradient(0deg, rgba(255,255,255,0), rgba(0,0,0,.99)); */
- /* background-image: url("../images/bg.jpg"), linear-gradient(0deg, rgba(255,255,255,0), rgba(0,0,0,0.9)); */
- background: linear-gradient(0deg, rgba(255,255,255,0), rgba(255,255,255, 0.5)), url(../images/bg.jpg) center;
-
-  background-size: cover;
-  padding: 4rem 2rem;
-  /* grid styles */
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  padding: 2rem 2rem;
   align-items: center;
 }
 
 .hero > * {
-  color: white;
+  color: darkmagenta;
 }
 
 .hero > h1 {
@@ -1528,77 +1573,40 @@ a {
 
 .hero > article > p {
   font-size: 1.5rem;
-  font-weight: 200;
+  font-weight: 400;
 }
 
-.hero > article > a {
-  padding: 1rem;
-  margin-top: .75rem;
+.row-main > .column-left {
+    width: 25%;
+    background-color:lightgray;
 }
 
-/* breweries styles */
-.breweries {
-  padding: 2rem;
+.row-main > .column-right {
+    width: 75%;
+    background-color:lightblue;
 }
 
-.breweries > ul {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  grid-gap: 1rem;
-}
 
-.breweries > ul > li {
-  border: 1px solid #E2E2E2;
-  border-radius: .5rem;
-}
-
-.breweries > ul > li > figure {
-  max-height: 220px;
-  overflow: hidden;
-  border-top-left-radius: .5rem;
-  border-top-right-radius: .5rem;
-  position: relative;
-}
-
-.breweries > ul > li > figure > img {
-  width: 100%;
-}
-
-.breweries > ul > li > figure > figcaption {
-  position: absolute;
-  bottom: 0;
-  background-color: rgba(0,0,0,.7);
-  width: 100%;
-}
-
-.breweries > ul > li > figure > figcaption > h3 {
-  color: white;
-  padding: .75rem;
-  font-size: 1.25rem;
-}
-
-.breweries > ul > li > p {
-  font-size: 1rem;
-  line-height: 1.5;
-  padding: 1rem .75rem;
-  color: #666666;
-}
-
-.breweries > ul > li > a {
-  padding: .5rem 1rem;
-  margin: .5rem;
+@media screen and (min-width: 768px) {
+    .row-main > .column {
+        width: 100%;
+    }
 }
 
 
 
-/*#page-container {
-    position: relative;
-    min-height: 100vh;
-}*/
+.supermarket {
+    padding: 2rem;
+}
 
-/*.wrapper {
-    padding-bottom: 3rem; /* Footer height */
-/*}*/
+
+
+
+
+
+
+
+
 
 
 /* footer */
@@ -1608,10 +1616,6 @@ footer {
     color: white;
     text-align: center;
     /*font-size: .75rem;*/
-
-    /*position: absolute;*/
-    /*bottom: 0;*/
-    /*height: 3rem;*/ /* Footer height */
 }
 
 .mynavbarheading {

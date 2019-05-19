@@ -876,18 +876,14 @@ h2 {
     transform: translate(-50%, -50%);
 }
 
-
 /* solves probelm of content jump with scrollbars apppearing (this works when placed at end of css??) */
 html {
     margin-left: calc(100vw - 100%);
 }
 
-
-
 #btnCheckout.glowing {
     animation: glowing1 1500ms infinite;
 }
-
 
 #btnCheckout2.glowing {
     animation: glowing2 1500ms infinite;

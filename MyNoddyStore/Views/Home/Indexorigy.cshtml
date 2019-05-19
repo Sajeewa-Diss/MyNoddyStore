@@ -19,30 +19,20 @@
     <link rel="shortcut icon" href="~/favicon.ico" type="image/x-icon" />
 </head>
 <body>
-    <main class="wrapper123">
-        <div class="heading myUserFontColor">
-            <img src="~/images/logo.png" alt="logo" class="logo">
-            <h1>MyNoddy MVC Supermarket Sweep</h1>
-            <h2>A single-player shopping game.</h2>
-        </div>
-
-        <section class="game-intro">
-            @*<a href="#" class="logo image"><img src="~/images/logo.png" alt="" /></a>*@
-            @*<h1>MyNoddy Supermarket Sweep</h1>*@
-            <p>A simple game to showcase an online supermarket using MVC architecture. Fill your cart in the time available and checkout before the time expires.
-            If the value of your cart exceeds the value of the NPC shopping-bot's cart, you win a visual prize.</p>
-
+    @*<div id="page-container">*@ @* todo testing footer shift to bottom of page.  *@
+    <main class="wrapper">
+        <section class="hero">
+            <a href="#" class="logo image"><img src="~/images/logo.png" alt="" /></a>
+            <h1>MyNoddy Supermarket Sweep</h1>
+            <article>
+                <p>A simple game to blah blah blah.</p>
+                <ul>
+                    <li>gdrej fjsdgf jkdg jsdgfjdsgf dsfsf kdshgf h sdg</li>
+                    <li>gdj fjsdgf jkdg jsdgf jzxchg fsdfsd h sdfsdfsdfsdg</li>
+                    <li>re fjsdgf jkdg jsdgfjds sdfdsf gfkdshgfsdfsdff h sdg</li>
+                </ul>
+            </article>
         </section>
-        <div class="row-main">
-            <div class="column-left">left col text</div>
-            <div class="column-right">right col text</div>
-        </div>
-
-        <ul>
-            <li>gdrej fjsdgf jkdg jsdgfjdsgf dsfsf kdshgf h sdg</li>
-            <li>gdj fjsdgf jkdg jsdgf jzxchg fsdfsd h sdfsdfsdfsdg</li>
-            <li>re fjsdgf jkdg jsdgfjds sdfdsf gfkdshgfsdfsdff h sdg</li>
-        </ul>
 
         <div class="text-center">
             @Html.ActionLink(linkText: "Start", actionName: "Restart", controllerName: "Product", routeValues: null, htmlAttributes: new { @class = "btn btn-primary startbtn" })
@@ -88,7 +78,7 @@
         <!-- #endregion -->
     </main>
     <footer>
-        <p>&copy; Sajeewa Dissanayake 2019. Made with ❤ and Visual Studio.</p>
+        <p>&copy; Sajeewa Dissanayake 2019. Made with ❤ and VS Code.</p>
         @*<p>&copy; Sajeewa Dissanayake 2019. Made with ❤ and CSS Grid.</p>*@
     </footer>
 
