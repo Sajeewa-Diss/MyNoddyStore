@@ -29,10 +29,32 @@
         <section class="game-intro">
             <p>
                 A simple game to showcase an online supermarket created using MVC architecture. Fill your cart in the time available and checkout before the time expires.
-                There is a limited stock of some items and you will be competing against the resident NPC shopping-bot.
-                If the value of your cart exceeds the value of the shopping-bot's cart when checkoout has completed, you will win a visual prize!
+                There is a limited stock of some items and you will be competing against the house NPC shopping-bot.
+                If the value of your cart exceeds the value of the shopping-bot's cart, you win a visual prize!
             </p>
         </section>
+
+        <div class="container-row">
+            <img src="~/images/cartoon1.jpg" alt="cartoon" class="cartoon">
+            <div class="btn-grp-test">
+                <div class="whiteClockWrapper1">
+                    <div class="innerWhiteClockWrapper">
+                        <span id="countdownClockWhiteBg"></span>
+                    </div>
+                </div>
+                @Html.ActionLink(linkText: "Continue", actionName: "List", controllerName: "Product", routeValues: null, htmlAttributes: new { @class = "btn btn-primary continuebtn" })
+                @Html.ActionLink(linkText: "Start", actionName: "Restart", controllerName: "Product", routeValues: null, htmlAttributes: new { @class = "btn btn-primary startbtn" })
+                @*<span id="countdownClockWhiteBg">&nbsp;&nbsp;</span>*@
+
+
+            </div>
+        </div>
+
+        <div class="container">
+            <img src="img_snow.jpg" alt="Snow">
+            <button class="btn">Button</button>
+        </div>
+
         <div class="row-main">
             <div class="column-left">left col text</div>
             <div class="column-right">right col text</div>
@@ -44,11 +66,22 @@
             <li>re fjsdgf jkdg jsdgfjds sdfdsf gfkdshgfsdfsdff h sdg</li>
         </ul>
 
-        <div class="text-center">
-            @Html.ActionLink(linkText: "Start", actionName: "Restart", controllerName: "Product", routeValues: null, htmlAttributes: new { @class = "btn btn-primary startbtn" })
-            @Html.ActionLink(linkText: "Continue", actionName: "List", controllerName: "Product", routeValues: null, htmlAttributes: new { @class = "btn btn-primary continuebtn" })
-            <span id="countdownClockWhiteBg">&nbsp;&nbsp;</span>
+        @*<div class="text-center">*@
+        <div id="home-btn-grp-container">
+            <div class="whiteClockWrapper">
+                @*<div class="innerWhiteClockWrapper">
+                    <span id="countdownClockWhiteBg"></span>
+                </div>*@
+            </div>
+            @*@Html.ActionLink(linkText: "Continue", actionName: "List", controllerName: "Product", routeValues: null, htmlAttributes: new { @class = "btn btn-primary continuebtn" })*@
+            @*@Html.ActionLink(linkText: "Start", actionName: "Restart", controllerName: "Product", routeValues: null, htmlAttributes: new { @class = "btn btn-primary startbtn" })*@
+            @*<span id="countdownClockWhiteBg">&nbsp;&nbsp;</span>*@
         </div>
+
+        @*<div class="container">
+            <img src="img_snow.jpg" alt="Snow">
+            <button class="btn">Button</button>
+        </div>*@
 
         <div class="text-left">
             Lorem, ipsum dolor sit amet consectetur adipisicing elit. Similique aut quae nemo, dicta dolorum impedit ab tempora accusantium sunt officia at voluptatibus doloribus ducimus asperiores ipsa neque? Culpa nam iure eius aut vero est fugit obcaecati sed provident rerum sit odit asperiores accusantium consectetur sapiente, totam doloribus repellendus nesciunt error!

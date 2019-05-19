@@ -85,13 +85,7 @@ textarea {
     top:0.6rem;
 }
 
-#countdownClockWhiteBg {
-    color: black;
-    font-size: 3rem;
-    font-family: "Lucida Console", Monaco, monospace;
-    border: 2px solid black;
-    border-radius: 0.25em;
-}
+
 
 /*#region grid areas*/
 

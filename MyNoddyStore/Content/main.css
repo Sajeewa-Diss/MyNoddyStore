@@ -1525,6 +1525,13 @@ div.heading > h2 {
     /*width: 100%;*/
 }
 
+/*.cartoon {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 0.25rem;
+}*/
+
 .game-intro {
     padding: 1rem;
 }
@@ -1551,29 +1558,78 @@ div.heading > h2 {
         padding: 2rem;
     }
 
+    /*.cartoon {
+        float: left;
+        margin: 0 0 0 2rem;
+    }*/
+
+    /*.cartoon::after {
+        clear: both;
+    }*/
+
 }
 
 
-
-
-/* Styles for the hero */
-.hero {
-  padding: 2rem 2rem;
-  align-items: center;
+.container-row {
+    position: relative;
+    width: 340px;
+    height:250px;
+    background-color:red;
 }
 
-.hero > * {
-  color: darkmagenta;
+    /* Make the image responsive */
+    .container-row img {
+        width: 100%;
+        height: auto;
+    }
+
+    /* Style the button and place it in the middle of the container/image */
+    .container-row .btn-grp-test {
+        float: right !important;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 200px;
+        min-width: 200px;
+    }
+
+div.whiteClockWrapper1 {
+    display: inline;
+    position:relative;
+    /* margin-top: 15px;
+    margin-bottom: 15px;*/
+    /*position: relative;*/
+    /*background-color: lightblue;*/
 }
 
-.hero > h1 {
-  font-size: 4rem;
-  padding-bottom: 1rem;
+#home-btn-grp-container {
+    /*position: relative;*/
+    background-color: red;
+    height: 40px;
+    width: 400px;
 }
 
-.hero > article > p {
-  font-size: 1.5rem;
-  font-weight: 400;
+.innerWhiteClockWrapper {
+    position: relative;
+    border: 2px solid red;
+    border-radius: 0.25em;
+    width: 1.5rem;
+    min-width: 1.5rem;
+    height: 1.8rem;
+    /*top: 0.6rem;*/
+}
+
+/* Styles for the landing page */
+#countdownClockWhiteBg {
+    /*position: absolute;*/
+    color: blue;
+    font-size: 1.5rem;
+    font-family: "Lucida Console", Monaco, monospace;
+    /*top: -0.4rem;*/
+    /*font-size: 3rem;
+    font-family: "Lucida Console", Monaco, monospace;
+    border: 2px solid black;
+    border-radius: 0.2em;*/
 }
 
 .row-main > .column-left {
