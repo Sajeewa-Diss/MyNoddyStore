@@ -1488,6 +1488,8 @@ td.hidden-lg {
 
     /* #endregion */
 
+
+/* Styles for the landing page */
 h1 {
     font-family: 'Leckerli One';
 }
@@ -1569,7 +1571,6 @@ div.heading > h2 {
 
 }
 
-
 .container-row {
     position: relative;
     width: 340px;
@@ -1584,23 +1585,16 @@ div.heading > h2 {
     }
 
     /* Style the button and place it in the middle of the container/image */
-    .container-row .btn-grp-test {
+    .container-row img-btn-grp {
         float: right !important;
-        top: 50%;
+        top: 30%;
         left: 50%;
         transform: translate(-50%, -50%);
         width: 200px;
         min-width: 200px;
     }
 
-div.whiteClockWrapper1 {
-    display: inline;
-    position:relative;
-    /* margin-top: 15px;
-    margin-bottom: 15px;*/
-    /*position: relative;*/
-    /*background-color: lightblue;*/
-}
+
 
 #home-btn-grp-container {
     /*position: relative;*/
@@ -1609,28 +1603,50 @@ div.whiteClockWrapper1 {
     width: 400px;
 }
 
-.innerWhiteClockWrapper {
-    position: relative;
-    border: 2px solid red;
-    border-radius: 0.25em;
-    width: 1.5rem;
-    min-width: 1.5rem;
-    height: 1.8rem;
-    /*top: 0.6rem;*/
-}
-
-/* Styles for the landing page */
 #countdownClockWhiteBg {
-    /*position: absolute;*/
+    position: relative;
     color: blue;
     font-size: 1.5rem;
     font-family: "Lucida Console", Monaco, monospace;
-    /*top: -0.4rem;*/
+    top: -0.4rem;
     /*font-size: 3rem;
     font-family: "Lucida Console", Monaco, monospace;
     border: 2px solid black;
     border-radius: 0.2em;*/
 }
+
+.innerWhiteClockWrapper {
+    position: relative;
+    color: lime;
+    font-size: 2rem;
+    font-family: "Lucida Console", Monaco, monospace;
+    border: 2px solid green;
+    border-radius: 0.2em;
+    width: 2.5rem;
+    min-width: 2.5rem;
+    height: 2.5rem;
+    top: 0.6rem;
+}
+
+
+div.whiteClockWrapper {
+    /*display: inline;
+    position: relative;*/
+    float: left;
+    /* margin-top: 15px;
+    margin-bottom: 15px;*/
+    /*position: relative;*/
+    /*background-color: lightblue;*/
+}
+
+.btn-grp {
+    float: left;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    margin-right: 4px;
+    margin-left: 4px;
+}
+
 
 .row-main > .column-left {
     width: 25%;

@@ -36,7 +36,7 @@
 
         <div class="container-row">
             <img src="~/images/cartoon1.jpg" alt="cartoon" class="cartoon">
-            <div class="btn-grp-test">
+            @*<div class="btn-grp-test">
                 <div class="whiteClockWrapper1">
                     <div class="innerWhiteClockWrapper">
                         <span id="countdownClockWhiteBg"></span>
@@ -44,15 +44,26 @@
                 </div>
                 @Html.ActionLink(linkText: "Continue", actionName: "List", controllerName: "Product", routeValues: null, htmlAttributes: new { @class = "btn btn-primary continuebtn" })
                 @Html.ActionLink(linkText: "Start", actionName: "Restart", controllerName: "Product", routeValues: null, htmlAttributes: new { @class = "btn btn-primary startbtn" })
-                @*<span id="countdownClockWhiteBg">&nbsp;&nbsp;</span>*@
+            </div>*@
 
+            <div class="img-btn-grp">
+                <div class="whiteClockWrapper btn-grp">
+                    <div class="innerWhiteClockWrapper">
+                        <span id="countdownClockWhiteBg"></span>
+                    </div>
+                </div>
+
+                @*<div id="summaryCartBtnWrapper" class="navbar-text">*@
+                <div class="btn-grp">
+                    @Html.ActionLink(linkText: "Continue", actionName: "List", controllerName: "Product", routeValues: null, htmlAttributes: new { @class = "btn btn-primary continuebtn" })
+                </div>
+
+                @*<div class="navbar-text">*@
+                <div class="btn-grp">
+                    @Html.ActionLink(linkText: "Start", actionName: "Restart", controllerName: "Product", routeValues: null, htmlAttributes: new { @class = "btn btn-primary startbtn" })
+                </div>
 
             </div>
-        </div>
-
-        <div class="container">
-            <img src="img_snow.jpg" alt="Snow">
-            <button class="btn">Button</button>
         </div>
 
         <div class="row-main">
@@ -66,22 +77,6 @@
             <li>re fjsdgf jkdg jsdgfjds sdfdsf gfkdshgfsdfsdff h sdg</li>
         </ul>
 
-        @*<div class="text-center">*@
-        <div id="home-btn-grp-container">
-            <div class="whiteClockWrapper">
-                @*<div class="innerWhiteClockWrapper">
-                    <span id="countdownClockWhiteBg"></span>
-                </div>*@
-            </div>
-            @*@Html.ActionLink(linkText: "Continue", actionName: "List", controllerName: "Product", routeValues: null, htmlAttributes: new { @class = "btn btn-primary continuebtn" })*@
-            @*@Html.ActionLink(linkText: "Start", actionName: "Restart", controllerName: "Product", routeValues: null, htmlAttributes: new { @class = "btn btn-primary startbtn" })*@
-            @*<span id="countdownClockWhiteBg">&nbsp;&nbsp;</span>*@
-        </div>
-
-        @*<div class="container">
-            <img src="img_snow.jpg" alt="Snow">
-            <button class="btn">Button</button>
-        </div>*@
 
         <div class="text-left">
             Lorem, ipsum dolor sit amet consectetur adipisicing elit. Similique aut quae nemo, dicta dolorum impedit ab tempora accusantium sunt officia at voluptatibus doloribus ducimus asperiores ipsa neque? Culpa nam iure eius aut vero est fugit obcaecati sed provident rerum sit odit asperiores accusantium consectetur sapiente, totam doloribus repellendus nesciunt error!
