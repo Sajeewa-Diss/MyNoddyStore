@@ -43,6 +43,7 @@
             }
 
         } else {
+            DisplayMaxLimitMessage($this);
             value = maxCartLineItemLimit;
         }
         $input.val(value);
@@ -110,18 +111,29 @@
         CheckToEnableViewCartButton();
     });
 
-    function DisplayNoStockMessage(localElement) {
+    function DisplayMaxLimitMessage(localElement) {
 
         var targetProductId = $(localElement.closest("div[name='mainchilddiv']")).find("input[name='ProductID']").val();
 
         if (targetProductId != 0) {
-            ShowNoStockMessage(targetProductId);
+            ShowMessage(targetProductId, "Maximum limit");
         }
         //reset any values
         targetProductId = 0;
     }
 
-    function ShowNoStockMessage(targetProductId) {
+    function DisplayNoStockMessage(localElement) {
+
+        var targetProductId = $(localElement.closest("div[name='mainchilddiv']")).find("input[name='ProductID']").val();
+
+        if (targetProductId != 0) {
+            ShowMessage(targetProductId, "No more stock");
+        }
+        //reset any values
+        targetProductId = 0;
+    }
+
+    function ShowMessage(targetProductId, msg) {
         //disable all other status message controls and enable the local one corresponding to this update button.
         var elements = document.getElementsByClassName("stock-message");
         var i;
@@ -137,7 +149,7 @@
         }
         //Call the JQuery function that flashes our message.
         $('.stock-message').flash_fast_message({
-            text: "No more stock",
+            text: msg,
             how: 'append'
         });
     }
