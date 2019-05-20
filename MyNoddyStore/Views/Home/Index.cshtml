@@ -45,24 +45,24 @@
                 @Html.ActionLink(linkText: "Continue", actionName: "List", controllerName: "Product", routeValues: null, htmlAttributes: new { @class = "btn btn-primary continuebtn" })
                 @Html.ActionLink(linkText: "Start", actionName: "Restart", controllerName: "Product", routeValues: null, htmlAttributes: new { @class = "btn btn-primary startbtn" })
             </div>*@
+            <div id="btn-grp-wrapper">
+                <div class="btn-grp">
+                    <div class="whiteClockWrapper btn-grp-item">
+                        <div class="innerWhiteClockWrapper">
+                            <span id="countdownClockWhiteBg"></span>
+                        </div>
+                    </div>
 
-            <div class="img-btn-grp">
-                <div class="whiteClockWrapper btn-grp">
-                    <div class="innerWhiteClockWrapper">
-                        <span id="countdownClockWhiteBg"></span>
+                    @*<div id="summaryCartBtnWrapper" class="navbar-text">*@
+                    <div class="btn-grp-item">
+                        @Html.ActionLink(linkText: "Continue", actionName: "List", controllerName: "Product", routeValues: null, htmlAttributes: new { @class = "btn btn-primary continuebtn" })
+                    </div>
+
+                    @*<div class="navbar-text">*@
+                    <div class="btn-grp-item">
+                        @Html.ActionLink(linkText: "Start", actionName: "Restart", controllerName: "Product", routeValues: null, htmlAttributes: new { @class = "btn btn-primary startbtn" })
                     </div>
                 </div>
-
-                @*<div id="summaryCartBtnWrapper" class="navbar-text">*@
-                <div class="btn-grp">
-                    @Html.ActionLink(linkText: "Continue", actionName: "List", controllerName: "Product", routeValues: null, htmlAttributes: new { @class = "btn btn-primary continuebtn" })
-                </div>
-
-                @*<div class="navbar-text">*@
-                <div class="btn-grp">
-                    @Html.ActionLink(linkText: "Start", actionName: "Restart", controllerName: "Product", routeValues: null, htmlAttributes: new { @class = "btn btn-primary startbtn" })
-                </div>
-
             </div>
         </div>
 
