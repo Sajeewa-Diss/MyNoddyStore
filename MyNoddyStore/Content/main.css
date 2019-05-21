@@ -1647,9 +1647,9 @@ footer {
             margin: initial;
         }
 
-    .landing-content {
+    /*.landing-content {
         padding: 2rem;
-    }
+    }*/
 
     .mynavbarheading {
         position: relative;
@@ -1669,4 +1669,14 @@ footer {
 
 .myUserFontColor {
     color:darkmagenta;
+}
+
+div.toggle-button-container{
+    text-align:center;
+}
+
+div.toggle-button-container input {
+    display: inline-block;
+    width: 200px;
+    margin: 0.5rem auto;
 }

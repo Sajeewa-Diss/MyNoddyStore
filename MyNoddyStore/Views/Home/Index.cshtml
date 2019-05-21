@@ -62,26 +62,43 @@
                 <li>Use the Plus (+) and Update buttons in combination to add items to your cart.</li>
                 <li>Only items in stock can be added, and there is a limit per item line.</li>
                 <li>Click Checkout before the time expires.</li>
-                <li>If you checkout early, the game will simulate the shopping-bot completing their turn.</li>
             </ul>
 
             <h3>Hints and Tips</h3>
             <ul>
-                <li>Add high-value items as soon as you see them (the shopping-bot competes for these items).</li>
+                <li>Add high-value items as soon as you see them (the NPC shopping-bot competes for these items).</li>
                 <li>The ability to remove items from your cart is available for demo, but has no purpose in the game.</li>
-                <li>You can continue shopping after the time expires, but then the game is lost.</li>
-                <li>So long as you checkout before the time expires, the game allows for a (short) delay in connecting to the game server.</li>
+                <li>You can inspect your cart at any time. A summary of the shopping-bot's cart value is also shown.</li>
+                <li>If you checkout early, the game will simulate the shopping-bot completing their turn.</li>
+                <li>You can continue shopping after the time expires, but then the game is lost on checkout.</li>
+                <li>So long as you checkout within the available time, the game allows for a (short) delay in connecting to the game server.</li>
             </ul>
 
-
-            <div style="text-align:left;" class="text-left">
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Similique aut quae nemo, dicta dolorum impedit ab tempora accusantium sunt officia at voluptatibus doloribus ducimus asperiores ipsa neque? Culpa nam iure eius aut vero est fugit obcaecati sed provident rerum sit odit asperiores accusantium consectetur sapiente, totam doloribus repellendus nesciunt error!
+            <!-- #region discussion and credits -->
+            <div class="toggle-button-container">
+                <input type="button" id="toggleDiscBut" class="btn btn-info" value="Show Game Discussion" onclick="ShowHideDiscussion()" />
             </div>
-        </section>
+            <section class="game-discussion" style="display:none;">
+                <h3>Game Discussion</h3>
+                <p>fjsdh sdhfj dsksjdh fkhs dfksdkh</p>
 
-        <!-- #region discussion and credits -->
-        <!-- #endregion -->
-    </main>
+                <h4>Sub-heading</h4>
+                <p>fjsdh sdhfj dsksjdh fkhs dfksdkh</p>
+            </section>
+
+            <div class="toggle-button-container">
+                <input type="button" id="toggleCredBut" class="btn btn-info" value="Show Game Credits" onclick="ShowHideCredits()" />
+            </div>
+            <section class="game-credits" style="display:none;">
+                <h3>Game Credits</h3>
+                <p>fjsdh sdhfj dsksjdh fkhs dfksdkh</p>
+
+                <h4>Sub-heading</h4>
+                <p>fjsdh sdhfj dsksjdh fkhs dfksdkh</p>
+            </section>
+
+            <!-- #endregion -->
+</main>
     <footer>
         <p>&copy; Sajeewa Dissanayake 2019. Made with ❤ and Visual Studio.</p>
     </footer>
@@ -92,6 +109,11 @@
     var countdownCtrlBorder = document.getElementsByClassName("innerWhiteClockWrapper")[0];
     var startButton = document.getElementsByClassName("startbtn")[0];
     var continueButton = document.getElementsByClassName("continuebtn")[0];
+
+    var toggleDiscButton = document.getElementById("toggleDiscBut");
+    var discSection = document.getElementsByClassName("game-discussion")[0];
+    var toggleCredButton = document.getElementById("toggleCredBut");
+    var credSection = document.getElementsByClassName("game-credits")[0];
 
     var inGameFlag = @ViewBag.inGame;
 
@@ -139,6 +161,30 @@
         if (duration < 0) {
             clearInterval(xInterval);
             countdownCtrl.innerHTML = "00";
+        }
+            }
+
+    function ShowHideDiscussion() {
+
+        if (toggleDiscButton.value == "Show Game Discussion") {
+            toggleDiscButton.value = "Hide Game Discussion";
+            discSection.style.display = "";
+        }
+        else {
+            toggleDiscButton.value = "Show Game Discussion";
+            discSection.style.display = "none";
+        }
+    }
+
+    function ShowHideCredits() {
+
+        if (toggleCredButton.value == "Show Game Credits") {
+            toggleCredButton.value = "Hide Game Credits";
+            credSection.style.display = "";
+        }
+        else {
+            toggleCredButton.value = "Show Game Credits";
+            credSection.style.display = "none";
         }
     }
 
