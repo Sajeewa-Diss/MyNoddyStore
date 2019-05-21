@@ -50,7 +50,7 @@ namespace MyNoddyStore.Concrete
                        Categories = new string[] { "Food" }, Price = 2M, InitialStockCount = 100, StockCount = 100, MyQuantity = 0, OtherQuantity = 0 },
                 new Product { ProductID = 15, Name = "Pineapples", Description = "Hawaiian Grade A.", ShortDescription = "Hawaiian", Picture = "pineapple",
                        Categories = new string[] { "Food" }, Price = 3M, InitialStockCount = 100, StockCount = 100, MyQuantity = 0, OtherQuantity = 0 },
-                new Product { ProductID = 16, Name = "Ruby Ring", Description = "Four in stock initially.", ShortDescription = "Last 4", Picture = "ring",
+                new Product { ProductID = 16, Name = "Ruby Ring", Description = "Four in stock initially.", ShortDescription = "My precious", Picture = "ring",
                        Categories = new string[] { "Fashion", "Gifts" }, Price = 550M, InitialStockCount = 4, StockCount = 4, MyQuantity = 0, OtherQuantity = 0 },
                 new Product { ProductID = 17, Name = "Shoes (blue)", Description = "Blue running-shoes.", ShortDescription = "Going fast", Picture = "shoesblue",
                        Categories = new string[] { "Fashion", "Gifts" }, Price = 60M, InitialStockCount = 100, StockCount = 100, MyQuantity = 0, OtherQuantity = 0 },
