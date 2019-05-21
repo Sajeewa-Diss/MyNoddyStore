@@ -1486,8 +1486,12 @@ td.hidden-lg {
     }
 }
 
-    /* #endregion */
+/* #endregion */
 
+/* Generic styles */
+a {
+    text-decoration: none; /*remove underlines on links.*/
+}
 
 /* Styles for the landing page */
 h1 {
@@ -1500,11 +1504,6 @@ h1 {
 
 p, a {
   font-family: 'Source Sans Pro', sans-serif;
-}
-
-/* Generic styles */
-a {
-  text-decoration: none; /*remove underlines on links.*/
 }
 
 div.heading > h1{
@@ -1531,36 +1530,20 @@ div.heading > h2 {
     padding: 1rem;
 }
 
-
-@media screen and (min-width: 768px) {
-
-    div.heading > h1 {
-        margin: 1rem 0.25rem auto;
-        padding: 1rem;
-        text-align: center;
+    .game-intro p {
+        margin: 0;
     }
-
-    .logo {
-        float: left;
-        margin: 0 0 0 2rem;
-    }
-
-    .logo::after{
-        clear:both;
-    }
-
-    .game-intro {
-        padding: 2rem;
-    }
-}
 
 .container-row {
     position: relative;
     width: 340px;
-    height:175px;
+    height: 175px;
+
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-    /* Make the image responsive */
     .container-row img {
         width: 100%;
         height: auto;
@@ -1578,7 +1561,7 @@ div.heading > h2 {
     text-align: center;
 }
 
-    /* Style the button and place it in the middle of the container/image */
+/* place button in the middle of the container image */
 .btn-grp {
     display: inline-block;
     margin: 0 auto;
@@ -1615,43 +1598,16 @@ div.whiteClockWrapper {
     margin-left: 4px;
 }
 
-.row-main > .column-left {
-    width: 25%;
-    background-color:lightgray;
+.landing-content {
+    padding: 1rem;
 }
-
-.row-main > .column-right {
-    width: 75%;
-    background-color:lightblue;
-}
-
-@media screen and (min-width: 768px) {
-    .row-main > .column {
-        width: 100%;
-    }
-}
-
-.supermarket {
-    padding: 2rem;
-}
-
-
-
-
-
-
-
-
-
-
 
 /* footer */
 footer {
     background-color: #333;
-    /*padding: .75rem;*/
     color: white;
     text-align: center;
-    /*font-size: .75rem;*/
+    font-size: .75rem;
 }
 
 .mynavbarheading {
@@ -1664,9 +1620,37 @@ footer {
 }
 
 @media (min-width: 768px) {
-    .mynavbarheading {
-        position:relative;
+    div.heading > h1 {
+        margin: 1rem 0.25rem auto;
+        padding: 1rem;
+        text-align: center;
     }
+
+    .logo {
+        float: left;
+        margin: 0 0 0 2rem;
+    }
+
+        .logo::after {
+            clear: both;
+        }
+
+    .game-intro {
+        padding: 2rem;
+    }
+
+        .game-intro p {
+            margin: initial;
+        }
+
+    .landing-content {
+        padding: 2rem;
+    }
+
+    .mynavbarheading {
+        position: relative;
+    }
+
     .btn {
         padding-top: 6px;
         padding-bottom: 6px;

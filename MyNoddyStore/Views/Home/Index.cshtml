@@ -19,7 +19,7 @@
     <link rel="shortcut icon" href="~/favicon.ico" type="image/x-icon" />
 </head>
 <body>
-    <main class="wrapper123">
+    <main class="wrapper">
         <div class="heading myUserFontColor">
             <img src="~/images/logo.png" alt="logo" class="logo">
             <h1>MyNoddy MVC Supermarket Sweep</h1>
@@ -36,15 +36,6 @@
 
         <div class="container-row">
             <img src="~/images/cartoon1.jpg" alt="cartoon" class="cartoon">
-            @*<div class="btn-grp-test">
-                <div class="whiteClockWrapper1">
-                    <div class="innerWhiteClockWrapper">
-                        <span id="countdownClockWhiteBg"></span>
-                    </div>
-                </div>
-                @Html.ActionLink(linkText: "Continue", actionName: "List", controllerName: "Product", routeValues: null, htmlAttributes: new { @class = "btn btn-primary continuebtn" })
-                @Html.ActionLink(linkText: "Start", actionName: "Restart", controllerName: "Product", routeValues: null, htmlAttributes: new { @class = "btn btn-primary startbtn" })
-            </div>*@
             <div id="btn-grp-wrapper">
                 <div class="btn-grp">
                     <div id="whiteClockWrapperId" class="whiteClockWrapper btn-grp-item">
@@ -53,12 +44,10 @@
                         </div>
                     </div>
 
-                    @*<div id="summaryCartBtnWrapper" class="navbar-text">*@
                     <div class="btn-grp-item">
                         @Html.ActionLink(linkText: "Continue", actionName: "List", controllerName: "Product", routeValues: null, htmlAttributes: new { @class = "btn btn-primary continuebtn" })
                     </div>
 
-                    @*<div class="navbar-text">*@
                     <div class="btn-grp-item">
                         @Html.ActionLink(linkText: "Start", actionName: "Restart", controllerName: "Product", routeValues: null, htmlAttributes: new { @class = "btn btn-primary startbtn" })
                     </div>
@@ -66,25 +55,24 @@
             </div>
         </div>
 
-        <div class="row-main">
-            <div class="column-left">left col text</div>
-            <div class="column-right">right col text</div>
-        </div>
 
-        <ul>
-            <li>gdrej fjsdgf jkdg jsdgfjdsgf dsfsf kdshgf h sdg</li>
-            <li>gdj fjsdgf jkdg jsdgf jzxchg fsdfsd h sdfsdfsdfsdg</li>
-            <li>re fjsdgf jkdg jsdgfjds sdfdsf gfkdshgfsdfsdff h sdg</li>
-        </ul>
-
-
-        <div class="text-left">
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Similique aut quae nemo, dicta dolorum impedit ab tempora accusantium sunt officia at voluptatibus doloribus ducimus asperiores ipsa neque? Culpa nam iure eius aut vero est fugit obcaecati sed provident rerum sit odit asperiores accusantium consectetur sapiente, totam doloribus repellendus nesciunt error!
-        </div>
 
         <!-- #region blah -->
-        <section class="supermarket" id="supermarket">
-            <div style="text-align:left;">
+        <section class="landing-content">
+
+
+            <div>
+                <h2></h2>
+                <ul>
+                    <li>gdrej fjsdgf jkdg jsdgfjdsgf dsfsf kdshgf h sdg</li>
+                    <li>gdj fjsdgf jkdg jsdgf jzxchg fsdfsd h sdfsdfsdfsdg</li>
+                    <li>re fjsdgf jkdg jsdgfjds sdfdsf gfkdshgfsdfsdff h sdg</li>
+                </ul>
+
+
+            </div>
+
+            <div style="text-align:left;" class="text-left">
                 Lorem, ipsum dolor sit amet consectetur adipisicing elit. Similique aut quae nemo, dicta dolorum impedit ab tempora accusantium sunt officia at voluptatibus doloribus ducimus asperiores ipsa neque? Culpa nam iure eius aut vero est fugit obcaecati sed provident rerum sit odit asperiores accusantium consectetur sapiente, totam doloribus repellendus nesciunt error!
 
 
@@ -132,7 +120,7 @@
 
     //if still in a game (navigated here while within game), then allow option to restart or continue. Also show countdown timer.
     if (inGameFlag == 0) {
-        startButton.innerHTML = "Start";
+        startButton.innerHTML = "Start Game";
         continueButton.style.display = "none";
         countdownCtrl.style.display = "none";
         countdownCtrlBorder.style.display = "none";
