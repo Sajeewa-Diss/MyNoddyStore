@@ -1589,7 +1589,6 @@ div.heading > h2 {
     left: 50%;
     transform: translate(-50%, -50%);
     -ms-transform: translate(-50%, -50%);
-    background-color: lightgreen;
     width: 220px;
     min-width: 220px;
     align-content: center;
@@ -1597,22 +1596,9 @@ div.heading > h2 {
 }
 
     /* Style the button and place it in the middle of the container/image */
-    .container-row .img-btn-grp {
-        float: right !important;
-        top: 20%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 230px;
-        min-width: 230px;
-    }
-
-
-
-#home-btn-grp-container {
-    /*position: relative;*/
-    background-color: red;
-    height: 40px;
-    width: 400px;
+.btn-grp {
+    display: inline-block;
+    margin: 0 auto;
 }
 
 #countdownClockWhiteBg {
@@ -1639,15 +1625,8 @@ div.heading > h2 {
     top: 0.05rem;
 }
 
-
 div.whiteClockWrapper {
-    /*display: inline;
-    position: relative;*/
     float: left;
-    /* margin-top: 15px;
-    margin-bottom: 15px;*/
-    /*position: relative;*/
-    /*background-color: lightblue;*/
 }
 
 .btn-grp-item {
