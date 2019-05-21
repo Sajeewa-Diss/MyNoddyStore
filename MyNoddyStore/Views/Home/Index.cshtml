@@ -47,7 +47,7 @@
             </div>*@
             <div id="btn-grp-wrapper">
                 <div class="btn-grp">
-                    <div class="whiteClockWrapper btn-grp-item">
+                    <div id="whiteClockWrapperId" class="whiteClockWrapper btn-grp-item">
                         <div class="innerWhiteClockWrapper">
                             <span id="countdownClockWhiteBg"></span>
                         </div>
@@ -124,6 +124,7 @@
     <script>
 
     var countdownCtrl = document.getElementById("countdownClockWhiteBg");
+    var countdownCtrlBorder = document.getElementsByClassName("innerWhiteClockWrapper")[0];
     var startButton = document.getElementsByClassName("startbtn")[0];
     var continueButton = document.getElementsByClassName("continuebtn")[0];
 
@@ -134,11 +135,13 @@
         startButton.innerHTML = "Start";
         continueButton.style.display = "none";
         countdownCtrl.style.display = "none";
+        countdownCtrlBorder.style.display = "none";
     }
     else {
         startButton.innerHTML = "Restart";
         continueButton.style.display = "";
         countdownCtrl.style.display = "";
+        countdownCtrlBorder.style.display = "";
     }
 
     var remaining = @ViewBag.remainingTime; //todo if this has a value, show this in start screen.
