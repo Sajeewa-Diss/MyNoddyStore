@@ -1602,6 +1602,10 @@ div.whiteClockWrapper {
     padding: 1rem;
 }
 
+.landing-content li{
+    margin-bottom:0.5em;
+}
+
 /* footer */
 footer {
     background-color: #333;
