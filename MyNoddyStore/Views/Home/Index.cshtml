@@ -56,7 +56,7 @@
         </div>
 
 
-        <section class="landing-content">
+        <div class="landing-content">
             <h3>Game Instructions</h3>
             <ul>
                 <li>Use the Plus (+) and Update buttons in combination to add items to your cart.</li>
@@ -71,33 +71,66 @@
                 <li>You can inspect your cart at any time. A summary of the shopping-bot's cart value is also shown.</li>
                 <li>If you checkout early, the game will simulate the shopping-bot completing their turn.</li>
                 <li>You can continue shopping after the time expires, but then the game is lost on checkout.</li>
-                <li>So long as you checkout within the available time, the game allows for a (short) delay in connecting to the game server.</li>
+                <li>So long as you checkout within the available time on your browser, the game allows for a (short) delay in connecting to the game server.</li>
             </ul>
 
             <!-- #region discussion and credits -->
             <div class="toggle-button-container">
-                <input type="button" id="toggleDiscBut" class="btn btn-info" value="Show Game Discussion" onclick="ShowHideDiscussion()" />
+                <input type="button" id="toggleDiscBut" class="btn btn-info" value="Show Tech Discussion" onclick="ShowHideDiscussion()" />
             </div>
-            <section class="game-discussion" style="display:none;">
+            <section class="tech-discussion" style="display:none;">
                 <h3>Game Discussion</h3>
+                <p>This shopping game consists of this landing page, two in-game pages created using the MVC architecture and a simple results page.</p>
+                <p>
+                    The online store created here is based on an example in <cite>Pro ASP.NET MVC 5</cite> by Adam Freeman 2013. This is an example of a simple Repository pattern to add items to a cart in an online store.
+                    It uses Bootstrap v3 classes to style elements for display as well as showing some output as pure HTML tables. The original example also made extensive use of the Bootstrap classes for responsive layout and also for creating
+                    flexbox layouts with the Bootstrap page structure. Those extra features have been removed from this website.
+                </p>
+                <p>
+                    Also removed from this example is the use of a database context, for the reasons detailed below.
+                    This example has also replaced Ninject with MS Unity as the Dependency Injector (DI) utility.
+                </p>
+                <p>
+                    The code makes use of the fundementals of C# MVC; the use of Entity Framework context objects, object-model binding for persisting data across HTTP calls, paging classes to aid in navigation and routing,
+                    utility classes for the numerous helper-methods required and a number of view-models to be sent to pages and partial pages.
+                </p>
+
+                <h4>Limitations of the original design</h4>
                 <p>fjsdh sdhfj dsksjdh fkhs dfksdkh</p>
 
-                <h4>Sub-heading</h4>
+
+                AJAX
+
                 <p>fjsdh sdhfj dsksjdh fkhs dfksdkh</p>
+
+
+
+                <h4>Creating an In-Proc thread to </h4>
+
+                <h4>Extending the game to multi-player</h4>
+                <p>fjsdh sdhfj dsksjdh fkhs dfksdkh</p>
+
+
+                <h4>Coding an AI behaviour</h4>
+                <p>fjsdh sdhfj dsksjdh fkhs dfksdkh</p>
+
+
+
+
+
             </section>
-
             <div class="toggle-button-container">
                 <input type="button" id="toggleCredBut" class="btn btn-info" value="Show Game Credits" onclick="ShowHideCredits()" />
             </div>
             <section class="game-credits" style="display:none;">
                 <h3>Game Credits</h3>
-                <p>fjsdh sdhfj dsksjdh fkhs dfksdkh</p>
+                <p>The online store created by the game is based on an example in <cite>Pro ASP.NET MVC 5</cite> by Adam Freeman 2013, published by <a href="https://www.apress.com/gp/book/9781430265290">APRESS</a>.</p>
 
-                <h4>Sub-heading</h4>
-                <p>fjsdh sdhfj dsksjdh fkhs dfksdkh</p>
-            </section>
-
+                <p>The win-condition animation on the results screen is based on <cite>sketch.js</cite> and its associated worked-example by Justin Windle. The Codepen is linked <a href="https://codepen.io/soulwire/pen/foktm">here</a>.</p>
+             </section>
             <!-- #endregion -->
+        </div>
+
 </main>
     <footer>
         <p>&copy; Sajeewa Dissanayake 2019. Made with ❤ and Visual Studio.</p>
@@ -111,7 +144,7 @@
     var continueButton = document.getElementsByClassName("continuebtn")[0];
 
     var toggleDiscButton = document.getElementById("toggleDiscBut");
-    var discSection = document.getElementsByClassName("game-discussion")[0];
+    var discSection = document.getElementsByClassName("tech-discussion")[0];
     var toggleCredButton = document.getElementById("toggleCredBut");
     var credSection = document.getElementsByClassName("game-credits")[0];
 
@@ -166,12 +199,12 @@
 
     function ShowHideDiscussion() {
 
-        if (toggleDiscButton.value == "Show Game Discussion") {
-            toggleDiscButton.value = "Hide Game Discussion";
+        if (toggleDiscButton.value == "Show Tech Discussion") {
+            toggleDiscButton.value = "Hide Tech Discussion";
             discSection.style.display = "";
         }
         else {
-            toggleDiscButton.value = "Show Game Discussion";
+            toggleDiscButton.value = "Show Tech Discussion";
             discSection.style.display = "none";
         }
     }
