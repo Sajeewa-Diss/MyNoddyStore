@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Text;
-//using System.Web.SessionState;
-//using Microsoft.AspNet.Session;
 using System.Web;
 using System.Web.Mvc;
 using System.Linq;
 using System.Collections.Generic;
-//using Newtonsoft.Json;
 using MyNoddyStore.Abstract;
 using MyNoddyStore.Models;
 using MyNoddyStore.Entities;
@@ -78,7 +75,7 @@ namespace MyNoddyStore.HtmlHelpers
             session.SetDataToSession<int>("lastItemAdded", value);
         }
 
-        //flag to prevent user from navigating back to checkout screen using browser navigation after starting a new game. todo remove these two funcs?
+        //flag to prevent user from navigating back to checkout screen using browser navigation after starting a new game.
         public static bool GetUserJustClickedCheckout(this HttpSessionStateBase session)
         {
             return session.GetDataFromSession<bool>("userClickedCheckout");
@@ -176,7 +173,7 @@ namespace MyNoddyStore.HtmlHelpers
         public static void RunNpcSweep(this HttpSessionStateBase session, Cart cart, IEnumerable<Product> repoProdList, bool shopToEnd = false)
         {
             //ensure that the NPC sweep hasn't already finished.
-            bool sweepCompleted = session.GetShoppingByNpcCompleted(); //todo set this somewhere else to remove null reference exception  - check for all other such objects.
+            bool sweepCompleted = session.GetShoppingByNpcCompleted();
             if (sweepCompleted)
             {
                 return;          //Operation has completed. No need to run cart sweep simulation.
@@ -218,12 +215,7 @@ namespace MyNoddyStore.HtmlHelpers
             lastProdId = session.GetLastItemAddedByNpcPlayer();    //ditto
 
             //call the sweep DO method. An updated last prod id will be returned upon completion.
-            TimeSpan ts1 = new TimeSpan(DateTime.UtcNow.Ticks);
-            double ms1 = ts1.TotalMilliseconds;
             lastProdId = DoSweep(cart, repoProdList, numItemsToAdd, lastProdId, rendom1or2);
-            TimeSpan ts2 = new TimeSpan(DateTime.UtcNow.Ticks);
-            double ms2 = ts2.TotalMilliseconds;
-            System.Diagnostics.Debug.WriteLine("timespan milliseconds: " + (ms2 - ms1).ToString());  //todo remove perf query
 
             //set session properties where req'd.
             session.SetLastItemAddedByAIPlayer(lastProdId);
@@ -354,11 +346,9 @@ namespace MyNoddyStore.HtmlHelpers
                     //check if previousProdId is zero (then we have cycled all the way through the cart line without finding a line to incremenet).
                     if (previousProdId == 0)
                     {
-                        System.Diagnostics.Debug.WriteLine("break out of loop"); //todo remove all debug.writeline statements.
                         break;
                     }
                     previousProdId = 0; //go back to start of list
-                    System.Diagnostics.Debug.WriteLine("back to top of list");
                 }
             }
             numItemsToAdd = numItemsRemaining - numItemsAdded; //this value is passed back by ref.
@@ -409,14 +399,12 @@ namespace MyNoddyStore.HtmlHelpers
                     //check if previousProdId is zero (then we have cycled all the way through the cart line without finding a line to incremenet).
                     if (previousProdId == 0)
                     {
-                        System.Diagnostics.Debug.WriteLine("break out of loop (block)"); //todo remove all debug.writeline statements.
                         break;
                     }
                     previousProdId = 0; //go back to start of product list
-                    System.Diagnostics.Debug.WriteLine("back to top of list (block)");
                 }
             }
-            return lastProdIdAdded;                             //this value is passed back as a rtn value.
+            return lastProdIdAdded;   //this value is passed back as a rtn value.
         }
 
         //Increment NPC cart with a product and additional quantity and then return the actual additional quantity successfully added.

@@ -9,7 +9,7 @@ namespace MyNoddyStore.Entities
     //this object represents two carts, the user cart and the NPC cart.
     public class Cart
     {
-        private List<CartLine> lineCollection = new List<CartLine>(); //todo keep this private??
+        private List<CartLine> lineCollection = new List<CartLine>();
         private List<CartLine> lineCollectionOther = new List<CartLine>();
 
         #region legacy pattern code
@@ -134,13 +134,13 @@ namespace MyNoddyStore.Entities
         public IEnumerable<CartLine> Lines
         {
             get { return lineCollection; }
-            set { lineCollection = value.ToList(); } //todo maybe not req'd
+            set { lineCollection = value.ToList(); }
         }
 
         public IEnumerable<CartLine> LinesOther
         {
             get { return lineCollectionOther; }
-            set { lineCollectionOther = value.ToList(); } //todo maybe not req'd
+            set { lineCollectionOther = value.ToList(); }
         }
 
         public int LinesCount

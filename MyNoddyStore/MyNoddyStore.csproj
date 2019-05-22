@@ -178,9 +178,7 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\ErrorStyles.css" />
     <Content Include="Content\fonts.css" />
-    <Content Include="Content\main.css" />
     <Content Include="Content\style2.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -216,6 +214,7 @@
     <Content Include="Images\unicorn.png" />
     <Content Include="Images\wristwatch.png" />
     <Content Include="Images\zipwire.png" />
+    <None Include="Properties\PublishProfiles\MyNoddySupermarketSweep - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\helperScriptJs.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
@@ -248,7 +247,6 @@
     <Content Include="Views\Cart\Index.cshtml" />
     <Content Include="Views\Cart\Summary.cshtml" />
     <Content Include="Views\Nav\FlexMenu.cshtml" />
-    <Content Include="Views\Home\Indexorigy.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

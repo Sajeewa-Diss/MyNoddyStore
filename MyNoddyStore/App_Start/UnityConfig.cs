@@ -52,14 +52,14 @@ namespace MyNoddyStore
 
             EFProductRepository newRepo = new EFProductRepository();
 
-            // TODO: Register your type's mappings here.
+            // Register your type's mappings here.
             #region mock construct
             //var mock = new Mock<IProductRepository>();
             //mock.Setup(m => m.Products).Returns(GetProductsList());
             //container.RegisterInstance<IProductRepository>(mock.Object); //note this repository object is shared by all browser sessions.
             #endregion
 
-            //TODO use Hangfire somewhere.
+            //use Hangfire somewhere??.
             container.RegisterInstance<IProductRepository>(newRepo); //note this is a singleton shared by all controllers, and by all borwser requests.
 
             #region container examples
