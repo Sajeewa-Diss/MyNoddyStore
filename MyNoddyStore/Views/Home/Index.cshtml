@@ -60,7 +60,7 @@
             <h3>Game Instructions</h3>
             <ul>
                 <li>
-                    Use the Plus (<span class="fa fa-plus" style="font-size:14px"></span>) and Update buttons in combination to add items to your cart.
+                    Use the Plus (<span class="fa fa-plus" style="font-size:12px"></span>) and Update buttons in combination to add items to your cart.
                 </li>
                 <li>Only items in stock can be added, and there is a limit per item line.</li>
                 <li>Click Checkout before the time expires.</li>
@@ -83,64 +83,92 @@
             <section class="tech-discussion" style="display:none;">
                 <h3>Game Discussion</h3>
                 <p>
-                    View source on <a href="https://github.com/Sajeewa-Dissa/mynoddy-supermarket-sweep">Github <span class="fa fa-github" style="font-size:24px"></span></a>.
+                    View source code on <a href="https://github.com/Sajeewa-Dissa/mynoddy-supermarket-sweep">Github <span class="fa fa-github" style="font-size:24px"></span></a>.
                 </p>
-
-                <p>This shopping game consists of this landing page, two in-game pages created using the MVC architecture and a simple results page.</p>
                 <p>
-                    The online store created here is based on an example in <cite>Pro ASP.NET MVC 5</cite> by Adam Freeman 2013. This is an example of a simple Repository pattern to add items to a cart in an online store.
+                    This shopping game is an MVC 5 web application built using C# in Asp.Net Framework 4.6. It consists of this Home page, two in-game pages created using the MVC architecture and a results page.
+                    The MVC pages themselves combine various layout pages and partial views and their client-side content changes via media queries to create a fully responsive website.
+                </p>
+                <p>
+                    The online store is based on an example in <cite>Pro ASP.NET MVC 5</cite> by Adam Freeman 2013. This uses a simple Repository pattern to add items to a cart in an online store.
                     It uses Bootstrap v3 classes to style elements for display as well as showing some output as pure HTML tables. The original example also made extensive use of the Bootstrap classes for responsive layout and also for creating
-                    flexbox layouts with the Bootstrap page structure. Those extra features have been removed from this website.
+                    flexbox layouts with the standard Bootstrap page structure. Those extra features have been removed and replaced here.
                 </p>
                 <p>
-                    Also removed from this example is the use of a database context, for the reasons detailed below.
-                    This example has also replaced Ninject with MS Unity as the Dependency Injector (DI) package.
+                    Also removed from this example is the use of a database context, for reasons detailed below.
+                    This example has also replaced Ninject with MS Unity as the Dependency Injector (DI) package for creating the Entity Framework context object.
                 </p>
                 <p>
-                    The code makes use of the fundementals of C# MVC; the use of Entity Framework context objects, object-model binding for persisting data across HTTP calls, paging classes to aid in navigation and routing,
+                    The code makes use of the fundamentals of MVC; Entity Framework and DI, object-model binding for persisting data across HTTP calls, paging classes to aid in navigation and routing,
                     utility classes for the numerous helper-methods required and a number of view-models to be sent to pages and partial pages.
                 </p>
 
-                <h4>Our changes to the original design</h4>
+                <h4>Changes to the original design</h4>
                 <p>
-                    The original design used a simple Repository pattern that adds one item at a time, unsuitable for our needs.
-                    The design also used a SQL Server Database context in which the products for sale were listed in a simple table.
+                    The original design used a simple Repository pattern that adds only one item to a cart at a time, unsuitable for our needs.
+                    The design also used a SQL Server Database context in which the products for sale were listed in a table.
                     However, it lacked any concept of a stock-count from which items could be subtracted.
                 </p>
                 <p>
-                    Hosting a database would imply a cost, so for this game, we have a context object which creates an in-memory list of products with extra properties on demand. The new properties added allow the management of stock-counts.
-                    The repository pattern has been updated to add multiple items  to the shopping cart per request, via new plus/minus buttons to complement the Update button on-screen. A number of client-side messages also display via Javascript fade-in and fade-out to 
-                    give the user a richer interactive experience when they are using these controls.
+                    Hosting a database online would imply a cost, and adding a stock table would require a reset of data at the start of each game,
+                    so for this game, we have replaced the DB with a context object which creates an in-memory list of products on demand.
+                    This object has new classes and properties to allow the simulated management of stock-counts.
+                </p>
+                <p>
+                    The repository pattern has also been updated to add multiple items to the shopping cart per request, via new plus/minus buttons to complement the Update button.
+                    A number of client-side messages also display via JavaScript fade-in and fade-out to give a richer UX. This game also adds images to the products on sale.
+                </p>
+                <p>
+                    The Bootstrap version 3 used by the original website in pretty old now, and rather than upgrading it, the float layout and responsive features have been supplanted with grid displays
+                    and direct styling with CSS media queries respectively. The Bootstrap classes are used for styling basic elements. The game also introduces results tables with rotating headings
+                    to allow for full info display on mobile devices.
                 </p>
 
-
-                todo AJAX comment
-                todo spell check this page.
-
-                <p>fjsdh sdhfj dsksjdh fkhs dfksdkh</p>
-
-
-
-                <h4>Creating an In-Proc thread to </h4>
-
-                <h4>Extending the game to multi-player</h4>
-                <p>fjsdh sdhfj dsksjdh fkhs dfksdkh</p>
-
+                <h4>Changing a shopping website into a shopping game</h4>
+                <p>
+                    The simple online shop example was turned into a game as a technical exercise, and the game's name reflects the ambition of this effort.
+                    However, it caused a number of interesting technical challenges. The concept of a shopping-bot introduces questions about AI and thread-management:
+                    an actual shopping bot would live on its own thread and act as an independent entity, but for a single-player game, this extra work is unnecessary.
+                </p>
+                <p>
+                    Instead, the controller uses in-proc methods to simulate how much shopping the "bot" is required to do based on the time
+                    elapsed since the last user request. In order to make the shopping game competitive and interactive, the game <i>interrupts</i> each user request to buy items for the robot as well.
+                    This is reflected in a simple page refresh, which would show the product stock count diminishing slowly as the bot buys up items across the product pages. This also means that AJAX is not required,
+                    a user request to buy an item on the page will update all products on the page according to both the user and bot activity. Automatic page refresh was considered unnecessary
+                    because the user is expected to make requests every few seconds in normal game-play.
+                </p>
+                <p>
+                    Finally, the MVC pages were separated out from the home page and results page because these don't follow the natural layout and navigation patterns that MVC uses.
+                    As such, these two pages don't have a master layout and have their own dedicated stylesheets devoid of Bootstrap.
+                </p>
 
                 <h4>Coding an AI behaviour</h4>
-                <p>fjsdh sdhfj dsksjdh fkhs dfksdkh</p>
+                <p>
+                    For a trivial game, it is unnecessary to spend time coding a complex shopping-bot AI. However, a set of rules have been added to simulate some intelligent behaviour,
+                    to make the gameplay challenging (but not too difficult). Here are a few details (all numbers specified are configurable):
+                    <ul>
+                        <li>The user is given a 5 second head start before the bot commences shopping</li>
+                        <li>The bot buys one item per second, and only one item per line at a time</li>
+                        <li>The bot begins by selecting the ten most expensive items in stock and only ever selects from half of these (odd or even) randomly</li>
+                        <li>In addition, the bot will look at what the user has added to their cart and copy that selection, if stock is available</li>
+                        <li>If the bot has nothing available to buy because the limits per item have been reached or stock is exhausted, it will start buying items randomly and in bulk (these may turn out to be high or low value items)</li>
+                        <li>The bot will always complete the game in time and buy their full allocation of items.</li>
+                    </ul>
+                </p>
 
-
-
-
-
+                <h4>Extending the game further</h4>
+                <p>
+                    All the gameplay shown in this game could be coded on client-side alone; we only use MVC architecture as an exercise. However, the server-side code can form the basis of a multiplayer game
+                    where users compete against each other and the clock. Again, an MVC controller (remember this is an MVC singleton) would run this code. Or we could also replace the context
+                    with an actual DB and shop for real, although this would require the addition of actual stock tables and a complete checkout mechanism.
+                </p>
             </section>
             <div class="toggle-button-container">
                 <input type="button" id="toggleCredBut" class="btn btn-info" value="Show Game Credits" onclick="ShowHideCredits()" />
             </div>
             <section class="game-credits" style="display:none;">
                 <h3>Game Credits</h3>
-                <p>The online store created by the game is based on an example in <cite>Pro ASP.NET MVC 5</cite> by Adam Freeman 2013, published by <a href="https://www.apress.com/gp/book/9781430265290">APRESS</a>.</p>
+                <p>The online store is based on an example in <cite>Pro ASP.NET MVC 5</cite> by Adam Freeman 2013, published by <a href="https://www.apress.com/gp/book/9781430265290">APRESS</a>.</p>
 
                 <p>The win-condition animation on the results screen is based on <cite>sketch.js</cite> and its associated worked-example by Justin Windle. The Codepen is linked <a href="https://codepen.io/soulwire/pen/foktm">here</a>.</p>
              </section>
