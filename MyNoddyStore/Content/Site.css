@@ -2285,7 +2285,7 @@ tfoot {
     }
 
     #cartTable tbody {
-        max-height: 38vh; /*if we set height alone, the footer may appear under a gap!*/
+        max-height: 32vh; /*if we set height alone, the footer may appear under a gap!*/
     }
 
     #resultsTableWrapper {
@@ -2306,7 +2306,7 @@ tfoot {
     }
 
     #resultsTable tbody {
-        max-height: 45vh; /*if we set height alone, the footer may appear under a gap!*/
+        max-height: 42vh; /*if we set height alone, the footer may appear under a gap!*/
     }
 
     @media (min-width: 768px) {
@@ -2338,6 +2338,14 @@ tfoot {
             width: 750px;
             min-width: 750px;
             /*max-width: 555px;*/
+        }
+
+        #cartTable tbody {
+            max-height: 38vh; /*if we set height alone, the footer may appear under a gap!*/
+        }
+
+        #resultsTable tbody {
+            max-height: 55vh; /*if we set height alone, the footer may appear under a gap!*/
         }
     }
 
@@ -2515,9 +2523,30 @@ h2 {
     margin-bottom: 0;
     margin-left:0.2em;
 }
+
+.msgSummaryContainer {
+    font-weight: 700;
+    padding-left: 0.5em;
+    margin-top:0;
+    margin-bottom:0;
+}
+
+#msgResultContainer{
+    margin-bottom:2px;
+}
+
 @media (min-width: 768px) {
     h2 {
         margin-top: initial;
+        margin-bottom: initial;
+    }
+
+    .msgSummaryContainer {
+        margin-top: initial;
+        margin-bottom: initial;
+    }
+
+    #msgResultContainer {
         margin-bottom: initial;
     }
 }
