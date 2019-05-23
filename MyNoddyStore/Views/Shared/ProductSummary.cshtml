@@ -27,13 +27,15 @@
         <div class="quantity">
             <div id="quantityContainer">
                 <span>Quantity</span><span id="quantityLineBrk"><br /></span>
-                <button class="minus-btn" type="button" name="minusbutton">
-                    <img src="~/Images/minus.svg" alt="-" />
-                </button>
-                <input type="text" class="textclass" name="MyQuantity" size="1" width="50" readonly="readonly" value="@Model.MyQuantity.ToString()">
-                <button class="plus-btn" type="button" name="plusbutton">
-                    <img src="~/Images/plus.svg" alt="+" />
-                </button>
+                    <div id="plusminuswrapper">
+                        <button class="minus-btn" type="button" name="minusbutton">
+                            <img src="~/Images/minus.svg" alt="-" />
+                        </button>
+                        <input type="text" class="textclass" name="MyQuantity" size="1" width="50" readonly="readonly" value="@Model.MyQuantity.ToString()">
+                        <button class="plus-btn" type="button" name="plusbutton">
+                            <img src="~/Images/plus.svg" alt="+" />
+                        </button>
+                    </div>
             </div>
         </div>
         <div class="myupdbtn">
