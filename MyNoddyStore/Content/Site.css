@@ -525,8 +525,8 @@ input[type="button"].btn-block {
 .navbar {
     position: relative;
     z-index: 1000;
-    min-height: 40px;
-    margin-bottom: 10px;
+    min-height: 58px;
+    margin-bottom: 0;
     border: 1px solid transparent;
 }
 
@@ -554,7 +554,7 @@ input[type="button"].btn-block {
     .navbar {
         border-radius: 4px;
         height: initial;
-        min-height: 50px;
+        min-height: 58px;
         margin-bottom: 20px;
     }
 }
@@ -624,13 +624,14 @@ input[type="button"].btn-block {
 .navbar-text {
     float: left;
     margin-top: 15px;
-    margin-bottom: 15px;
+    margin-bottom: 2px;
     margin-right: 5px;
     margin-left: 5px;
 }
 
 @media (min-width: 768px) {
     .navbar-text {
+        margin-bottom: 15px;
         margin-right: 15px;
         margin-left: 15px;
     }
@@ -1526,14 +1527,23 @@ div.heading > h1 {
 }
 
 div.heading > h2 {
-    margin: 0.25rem 1rem auto;
-    padding: 0.2rem;
+    margin: 0.25rem 0.5rem auto;
+    padding: 0 0.2rem 0.2rem;
     text-align: center;
     font-size: 20px;
 }
 
+div.heading > h2 {
+    margin: 0.25rem 1rem auto;
+    padding: 0.2rem;
+}
+
 .logo {
     display: block;
+    height: auto;
+    width: auto;
+    max-width: 50px;
+    max-height: 50px;
     margin-left: auto;
     margin-right: auto;
     margin-top: 1rem;
@@ -1643,7 +1653,16 @@ footer {
         text-align: center;
     }
 
+    div.heading > h2 {
+        margin: 0.25rem 1rem auto;
+        padding: 0.2rem;
+    }
+
     .logo {
+        height: initial;
+        width: initial;
+        max-width: initial;
+        max-height: initial;
         float: left;
         margin: 0 0 0 2rem;
     }
@@ -1837,8 +1856,8 @@ span.stock-message {
     margin: 0;
     text-align: start;
     padding-right: 15px;
-    max-width: 90px;
-    max-height: 90px;
+    max-width: 80px;
+    max-height: 80px;
     align-self: flex-start;
     justify-content: flex-start;
     /*object-fit: cover;*/
@@ -1847,11 +1866,13 @@ span.stock-message {
 .myimgitem {
     padding: 0;
     margin: 0;
-    max-width: 90px;
+    max-width: 80px;
     vertical-align: top;
-    max-height: 90px;
+    max-height: 80px;
     object-fit: fill;
 }
+
+
 
 .navbar-right {
     float: right !important;
@@ -1881,6 +1902,17 @@ span.stock-message {
         font-size: initial;
         padding-top: 0;
         width: initial;
+    }
+
+    .myimg {
+        max-width: 90px;
+        max-height: 90px;
+        /*object-fit: cover;*/
+    }
+
+    .myimgitem {
+        max-width: 90px;
+        max-height: 90px;
     }
 }
 
@@ -2267,7 +2299,7 @@ tfoot {
     }
 
     #cartTable tbody {
-        max-height: 38vh; /*if we set height alone, the footer may appear under a gap!*/
+        max-height: 32vh; /*if we set height alone, the footer may appear under a gap!*/
     }
 
     #resultsTableWrapper {
@@ -2288,7 +2320,7 @@ tfoot {
     }
 
     #resultsTable tbody {
-        max-height: 45vh; /*if we set height alone, the footer may appear under a gap!*/
+        max-height: 42vh; /*if we set height alone, the footer may appear under a gap!*/
     }
 
     @media (min-width: 768px) {
@@ -2320,6 +2352,14 @@ tfoot {
             width: 750px;
             min-width: 750px;
             /*max-width: 555px;*/
+        }
+
+        #cartTable tbody {
+            max-height: 38vh; /*if we set height alone, the footer may appear under a gap!*/
+        }
+
+        #resultsTable tbody {
+            max-height: 55vh; /*if we set height alone, the footer may appear under a gap!*/
         }
     }
 
@@ -2497,9 +2537,30 @@ h2 {
     margin-bottom: 0;
     margin-left:0.2em;
 }
+
+.msgSummaryContainer {
+    font-weight: 700;
+    padding-left: 0.5em;
+    margin-top:0;
+    margin-bottom:0;
+}
+
+#msgResultContainer{
+    margin-bottom:2px;
+}
+
 @media (min-width: 768px) {
     h2 {
         margin-top: initial;
+        margin-bottom: initial;
+    }
+
+    .msgSummaryContainer {
+        margin-top: initial;
+        margin-bottom: initial;
+    }
+
+    #msgResultContainer {
         margin-bottom: initial;
     }
 }

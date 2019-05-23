@@ -28,7 +28,7 @@
     @Html.ValidationSummary(false, "Checkout", new { @class = "text-danger" })
 
     <div id="resultsTableWrapper">
-        <p id="msgContainer" class="myFriendlyFont myUserFontColor">@(ViewBag.UserMessage)</p>
+        <p id="msgResultContainer" class="myFriendlyFont myUserFontColor">@(ViewBag.UserMessage)</p>
         <h2>Cart Totals</h2>
         <table id="resultsTable" class="table table-header-rotated fixed_headers">
             <thead>
@@ -74,7 +74,7 @@
             </tfoot>
         </table>
         <br />
-        <p class="myUserFontColor" style="font-weight:700; padding-left:0.5em;">
+        <p class="myUserFontColor msgSummaryContainer" style="font-weight:700; padding-left:0.5em;">
             Your cart: @(ViewBag.UserQuanTotal.ToString()) item(s), @(ViewBag.UserTotal.ToString("c0")).<br />
             NPC cart: @(ViewBag.AIQuanTotal.ToString()) item(s), @(ViewBag.AITotal.ToString("c0")).
         </p>
@@ -105,7 +105,7 @@
             $('#splashmsg').fadeOut(1800);
 
             //show an animation if the game was won.
-            var resultsMsg = $("#msgContainer").text();
+            var resultsMsg = $("#msgResultContainer").text();
             if (resultsMsg == gameResultSuccessMsg) {
                setTimeout(() => {
                     $('#splashscreen').fadeOut(1500); }, 4500);
@@ -181,7 +181,7 @@
 
     demo.setup = function () {
         //only show the animation if the game was won.
-        var resultsMsg = $("#msgContainer").text();
+        var resultsMsg = $("#msgResultContainer").text();
         if (resultsMsg == gameResultSuccessMsg) {
             myArray = GetTimerArray();
             for (var i = 0; i < myArray.length; i++) { 
