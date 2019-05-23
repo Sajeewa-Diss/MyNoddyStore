@@ -1855,8 +1855,8 @@ span.stock-message {
     margin: 0;
     text-align: start;
     padding-right: 15px;
-    max-width: 90px;
-    max-height: 90px;
+    max-width: 80px;
+    max-height: 80px;
     align-self: flex-start;
     justify-content: flex-start;
     /*object-fit: cover;*/
@@ -1865,11 +1865,13 @@ span.stock-message {
 .myimgitem {
     padding: 0;
     margin: 0;
-    max-width: 90px;
+    max-width: 80px;
     vertical-align: top;
-    max-height: 90px;
+    max-height: 80px;
     object-fit: fill;
 }
+
+
 
 .navbar-right {
     float: right !important;
@@ -1899,6 +1901,17 @@ span.stock-message {
         font-size: initial;
         padding-top: 0;
         width: initial;
+    }
+
+    .myimg {
+        max-width: 90px;
+        max-height: 90px;
+        /*object-fit: cover;*/
+    }
+
+    .myimgitem {
+        max-width: 90px;
+        max-height: 90px;
     }
 }
 
