@@ -1896,12 +1896,29 @@ span.stock-message {
     width: 100px;
 }
 
+/* mobile landscape */
+@media all and (min-width: 480px) {
+    .btn{
+        margin-right:4px;
+    }
+    
+    .navbar-right {
+        width: 244px;
+        min-width: 244px;
+    }
+}
+
+
 @media (min-width: 768px) {
+    .btn {
+        margin-right: initial;
+    }
+
     .navbar-right {
         margin-right: 10px;
         margin-left: 10px;
-        width:initial;
-        min-width:initial;
+        width: initial;
+        min-width: initial;
     }
 
     .navbar-text.cartsummarytext {
