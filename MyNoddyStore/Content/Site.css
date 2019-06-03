@@ -1825,7 +1825,7 @@ textarea {
     -webkit-appearance: none;
     border: none;
     text-align: center;
-    width: 22px;
+    width: 25px;
     font-size: 16px;
     color: #43484D;
     font-weight: 300;
@@ -1851,9 +1851,10 @@ span.stock-message {
 }
 
 #plusminuswrapper{
-    width:84px;
-    min-width:84px;
-    max-width:84px;
+    display:flex;
+    width:87px;
+    min-width:87px;
+    max-width:87px;
 }
 
 .myimg {
